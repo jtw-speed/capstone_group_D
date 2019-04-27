@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <algorithm>
-#include <fstream>											// write 용. file 출력
+#include <fstream>
 #include <chrono>
 #include <string>
 #include <signal.h>
@@ -27,11 +27,17 @@
 
 #include "opencv2/opencv.hpp"
 
+#include <climits>
+#include <algorithm>
 
 #define RAD2DEG(x) ((x)*180./M_PI)
 
 #define PORT 4000
 #define IPADDR "127.0.0.1" // myRIO ipadress
+
+
+
+using namespace std;
 
 boost::mutex map_mutex;
 
@@ -41,14 +47,20 @@ float lidar_distance[400];
 float lidar_obs;
 
 int ball_number;
-float ball_X[20];
-float ball_Y[20];
+
+float web1_ball_X[20];
+float web1_ball_Y[20];
+
+float web2_ball_X[20];
+float web2_ball_Y[20];
+
 float ball_distance[20];
+
 int near_ball;
 
 int action;
 
-int c_socket, s_socket;												// client, server 인듯
+int c_socket, s_socket;
 struct sockaddr_in c_addr;
 int len;
 int n;
@@ -56,7 +68,7 @@ float data[24];
 
 #define RAD2DEG(x) ((x)*180./M_PI)
 
-void dataInit()													// data 초기화
+void dataInit()
 {
 	data[0] = 0; //lx*data[3];
 	data[1] = 0; //ly*data[3];
@@ -99,21 +111,69 @@ void lidar_Callback(const sensor_msgs::LaserScan::ConstPtr& scan)
 		map_mutex.unlock();
 
 }
-void camera_Callback(const core_msgs::ball_position::ConstPtr& position)
+void camera1_Callback(const core_msgs::ball_position::ConstPtr& position1)
 {
+    map_mutex.lock();
+    ball_number = position1->b_size;
 
-    int count = position->size;
-    ball_number=count;
-    for(int i = 0; i < count; i++)
+    c_socket = socket(PF_INET, SOCK_STREAM, 0);
+    c_addr.sin_addr.s_addr = inet_addr(IPADDR);
+    c_addr.sin_family = AF_INET;
+    c_addr.sin_port = htons(PORT);
+
+    write(c_socket, data, sizeof(data));
+
+    cout<<"number of web1 balls:"<<ball_number<<endl;
+    for(int i = 0; i < ball_number; i++)
     {
-        ball_X[i] = position->img_x[i];
-        ball_Y[i] = position->img_y[i];
+        web1_ball_X[i] = position1->b_img_x[i];
+        web1_ball_Y[i] = position1->b_img_y[i];
         // std::cout << "degree : "<< ball_degree[i];
         // std::cout << "   distance : "<< ball_distance[i]<<std::endl;
-		ball_distance[i] = ball_X[i]*ball_X[i]+ball_Y[i]*ball_X[i];
-    }
+		//ball_distance[i] = ball_X[i]*ball_X[i]+ball_Y[i]*ball_X[i];
 
+    cout<<"webcam1 ball("<<i<<"):x="<<web1_ball_X[i]<<", y="<<web1_ball_Y[i]<<endl;
+    //cout<<"ball I will follow: x="<<max(ball_X[i])<<endl;
+    }
+    map_mutex.unlock();
+	//std::pair<float*, float*> minmax = std::minmax_element(std::begin(ball_X), std::end(ball_X));
+
+	//cout << "The min element is " << *(minmax.first) << '\n';
+	//cout << "The max element is " << *(minmax.second) << '\n';
 }
+
+void camera2_Callback(const core_msgs::ball_position::ConstPtr& position2)
+{
+    map_mutex.lock();
+    ball_number = position2->b_size;
+
+    c_socket = socket(PF_INET, SOCK_STREAM, 0);
+    c_addr.sin_addr.s_addr = inet_addr(IPADDR);
+    c_addr.sin_family = AF_INET;
+    c_addr.sin_port = htons(PORT);
+
+    write(c_socket, data, sizeof(data));
+
+    cout<<"number of web2 balls:"<<ball_number<<endl;
+    for(int i = 0; i < ball_number; i++)
+    {
+        web2_ball_X[i] = position2->b_img_x[i];
+        web2_ball_Y[i] = position2->b_img_y[i];
+        // std::cout << "degree : "<< ball_degree[i];
+        // std::cout << "   distance : "<< ball_distance[i]<<std::endl;
+		//ball_distance[i] = ball_X[i]*ball_X[i]+ball_Y[i]*ball_X[i];
+
+    cout<<"webcam2 ball("<<i<<"):x="<<web2_ball_X[i]<<", y="<<web2_ball_Y[i]<<endl;
+    //cout<<"ball I will follow: x="<<max(ball_X[i])<<endl;
+    }
+    map_mutex.unlock();
+	//std::pair<float*, float*> minmax = std::minmax_element(std::begin(ball_X), std::end(ball_X));
+
+	//cout << "The min element is " << *(minmax.first) << '\n';
+	//cout << "The max element is " << *(minmax.second) << '\n';
+}
+
+
 void find_ball()
 {
 	data[20]=1;
@@ -122,18 +182,16 @@ void find_ball()
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "data_integation");
+    ros::init(argc, argv, "data_integration");
     ros::NodeHandle n;
 
     ros::Subscriber sub = n.subscribe<sensor_msgs::LaserScan>("/scan", 1000, lidar_Callback);
-    ros::Subscriber sub1 = n.subscribe<core_msgs::ball_position>("/position", 1000, camera_Callback);
+    ros::Subscriber sub1 = n.subscribe<core_msgs::ball_position>("/position1", 1000, camera1_Callback);
+    ros::Subscriber sub2 = n.subscribe<core_msgs::ball_position>("/position2", 1000, camera2_Callback);
 
 		dataInit();
 
-    c_socket = socket(PF_INET, SOCK_STREAM, 0);
-    c_addr.sin_addr.s_addr = inet_addr(IPADDR);
-    c_addr.sin_family = AF_INET;
-    c_addr.sin_port = htons(PORT);
+
 
 		///////////////////////////////////////////////////////////////////////
 		//	렙뷰와 통신이 되었는지 확인하는 코드 아래 코드를 활성화 후 노드를 실행 시켰을때///
@@ -203,7 +261,7 @@ int main(int argc, char **argv)
 	      // }
 	      // printf("\n");
 			// printf("%d\n",action);
-	    write(c_socket, data, sizeof(data));
+
 	    ros::Duration(0.025).sleep();
 	    ros::spinOnce();
     }
