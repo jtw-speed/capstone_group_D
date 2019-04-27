@@ -36,9 +36,15 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   #include
 )
-add_executable(ball_detect_node src/ball_detect.cpp)
-add_dependencies(ball_detect_node core_msgs_generate_messages_cpp)
+add_executable(ball_detect_node1 src/ball_detect1.cpp)
+add_dependencies(ball_detect_node1 core_msgs_generate_messages_cpp)
 
-target_link_libraries(ball_detect_node
+add_executable(ball_detect_node2 src/ball_detect2.cpp)
+add_dependencies(ball_detect_node2 core_msgs_generate_messages_cpp)
+
+target_link_libraries(ball_detect_node1
+  ${catkin_LIBRARIES} ${OpenCV_LIBS} ${cv_bridge_LIBRARIES}
+)
+target_link_libraries(ball_detect_node2
   ${catkin_LIBRARIES} ${OpenCV_LIBS} ${cv_bridge_LIBRARIES}
 )
