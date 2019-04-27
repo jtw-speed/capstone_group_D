@@ -49,15 +49,15 @@ bool check_point_range(int cx, int cy)
 
 
 
-void camera_Callback(const core_msgs::ball_position::ConstPtr& position)
+void camera_Callback(const core_msgs::ball_position::ConstPtr& position1)
 {
     map_mutex.lock();
-    int count = position->size;
+    int count = position1->b_size;
     ball_number=count;
     for(int i = 0; i < count; i++)
     {
-        ball_X[i] = position->img_x[i];
-        ball_Y[i]=position->img_y[i];
+        ball_X[i] = position1->b_img_x[i];
+        ball_Y[i]=position1->b_img_y[i];
     }
     map_mutex.unlock();
 }
