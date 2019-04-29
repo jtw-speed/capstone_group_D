@@ -31,7 +31,7 @@
 #define RAD2DEG(x) ((x)*180./M_PI)
 
 #define PORT 4000
-#define IPADDR "127.0.0.1" // myRIO ipadress
+#define IPADDR "172.16.0.1" // myRIO ipadress
 
 using namespace std;
 
@@ -68,7 +68,6 @@ float web2_blue_X_array[20];		// not necessary
 float web2_blue_X;
 // number of collected blue balls
 int collection=0;
-int old
 
 int action;
 
@@ -129,7 +128,7 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
     web1_blue_number=count1;
 		int count2 = position_modify1->g_size;
 		web1_green_number=count2;
-		ROS_INFO("recieved number = %f", web1_blue_number);
+		//ROS_INFO("recieved number = %f", web1_blue_number);
     cout<<"total number of blue balls from webcam1:"<<web1_blue_number<<endl;
     cout<<"total number of green balls from webcam1:"<<web1_green_number<<endl;
 
@@ -209,28 +208,28 @@ void find_ball()
 
 void pick_up(int size2, float ball_X_2){
 data[14]=1;
-if(ball_X_2<-0.4){
+if(ball_X_2<-0.05){
  // go left
  data[2] = 180;
  data[3] = 20000;
  data[6] = 1;
  data[7] = 1;
 }
-if(ball_X_2>0.4){
+if(ball_X_2>0.05){
  // go right
  data[2] = 0;
  data[3] = 20000;
  data[6] = 1;
  data[7] = 1;
 }
-if(-0.4<ball_X_2<0.4){
+if(-0.4<ball_X_2<0.05){
  // go forward
  data[2] = 90;
  data[3] = 20000;
  data[6] = 1;
  data[7] = 1;
 }
-old = web2_blue_number;
+int old = web2_blue_number;
 }
 
 
@@ -322,6 +321,7 @@ int main(int argc, char **argv)
 			// printf("%d\n",action);
 
 			// [groupD]
+      ros::spinOnce();
 			if(collection==3){
 			// release
 			//release(ball_position->midpoint, ball_position->distance4)
@@ -333,14 +333,14 @@ int main(int argc, char **argv)
 				// pick_up(web2_blue_number, web2_blue_X);
 				// kcollection++
 				if(old-web2_blue_number==1){
-				// stop suction
+				// stop suction inf loop
 				data[14]=0;
 				collection++;
 				old = 0;
 				}
 			 }
 			 else{
-				if(web1_blue_X<-0.1 || web1_blue_X>0.1){
+				if(web1_blue_X<-0.05 || web1_blue_X>0.05){
 				 // turn
 				 data[2] = 1;
 				 data[3] = 1;
@@ -348,7 +348,7 @@ int main(int argc, char **argv)
 				 data[7] = 20000;
 				}
 				else{
-				 if(web2_red_number!=0){
+				 if(web1_red_number!=0){
 					// avoid(go right)
 					data[2] = 0;
 					data[3] = 20000;
@@ -356,7 +356,7 @@ int main(int argc, char **argv)
 					data[7] = 1;
 				 }
 				 else{
-					if(web1_blue_Z>0.1){
+					if(web1_blue_Z>0.5){
 					 // go forward
 					 data[2] = 90;
 					 data[3] = 20000;
@@ -364,14 +364,14 @@ int main(int argc, char **argv)
 					 data[7] = 1;
 					}
 					else{
-					 if(web1_blue_X<-0.01){
+					 if(web1_blue_X<-0.02){
 						// go left
 						data[2] = 180;
 						data[3] = 20000;
 						data[6] = 1;
 						data[7] = 1;
 					 }
-					 if(web1_blue_X>0.01){
+					 if(web1_blue_X>0.02){
 						// go right
 						data[2] = 0;
 						data[3] = 20000;
@@ -392,9 +392,8 @@ int main(int argc, char **argv)
 			}
 		 ROS_INFO("%f, %f, %f, %f", data[2], data[3], data[6], data[7]);  // for exp
      write(c_socket, data, sizeof(data));
-
 		 ros::Duration(1).sleep();
-     ros::spinOnce();
+
     }
 
     return 0;
