@@ -20,9 +20,18 @@ class ball_position {
     if (initObj === null) {
       // initObj === null is a special case for deserialization where we don't initialize fields
       this.header = null;
-      this.size = null;
-      this.img_x = null;
-      this.img_y = null;
+      this.r_size = null;
+      this.b_size = null;
+      this.g_size = null;
+      this.b_img_x = null;
+      this.b_img_y = null;
+      this.b_img_z = null;
+      this.r_img_x = null;
+      this.r_img_y = null;
+      this.r_img_z = null;
+      this.g_img_x = null;
+      this.g_img_y = null;
+      this.g_img_z = null;
     }
     else {
       if (initObj.hasOwnProperty('header')) {
@@ -31,23 +40,77 @@ class ball_position {
       else {
         this.header = new std_msgs.msg.Header();
       }
-      if (initObj.hasOwnProperty('size')) {
-        this.size = initObj.size
+      if (initObj.hasOwnProperty('r_size')) {
+        this.r_size = initObj.r_size
       }
       else {
-        this.size = 0;
+        this.r_size = 0;
       }
-      if (initObj.hasOwnProperty('img_x')) {
-        this.img_x = initObj.img_x
-      }
-      else {
-        this.img_x = [];
-      }
-      if (initObj.hasOwnProperty('img_y')) {
-        this.img_y = initObj.img_y
+      if (initObj.hasOwnProperty('b_size')) {
+        this.b_size = initObj.b_size
       }
       else {
-        this.img_y = [];
+        this.b_size = 0;
+      }
+      if (initObj.hasOwnProperty('g_size')) {
+        this.g_size = initObj.g_size
+      }
+      else {
+        this.g_size = 0;
+      }
+      if (initObj.hasOwnProperty('b_img_x')) {
+        this.b_img_x = initObj.b_img_x
+      }
+      else {
+        this.b_img_x = [];
+      }
+      if (initObj.hasOwnProperty('b_img_y')) {
+        this.b_img_y = initObj.b_img_y
+      }
+      else {
+        this.b_img_y = [];
+      }
+      if (initObj.hasOwnProperty('b_img_z')) {
+        this.b_img_z = initObj.b_img_z
+      }
+      else {
+        this.b_img_z = [];
+      }
+      if (initObj.hasOwnProperty('r_img_x')) {
+        this.r_img_x = initObj.r_img_x
+      }
+      else {
+        this.r_img_x = [];
+      }
+      if (initObj.hasOwnProperty('r_img_y')) {
+        this.r_img_y = initObj.r_img_y
+      }
+      else {
+        this.r_img_y = [];
+      }
+      if (initObj.hasOwnProperty('r_img_z')) {
+        this.r_img_z = initObj.r_img_z
+      }
+      else {
+        this.r_img_z = [];
+      }
+      if (initObj.hasOwnProperty('g_img_x')) {
+        this.g_img_x = initObj.g_img_x
+      }
+      else {
+        this.g_img_x = [];
+      }
+      if (initObj.hasOwnProperty('g_img_y')) {
+        this.g_img_y = initObj.g_img_y
+      }
+      else {
+        this.g_img_y = [];
+      }
+      if (initObj.hasOwnProperty('g_img_z')) {
+        this.g_img_z = initObj.g_img_z
+      }
+      else {
+        this.g_img_z = [];
       }
     }
   }
@@ -56,12 +119,30 @@ class ball_position {
     // Serializes a message object of type ball_position
     // Serialize message field [header]
     bufferOffset = std_msgs.msg.Header.serialize(obj.header, buffer, bufferOffset);
-    // Serialize message field [size]
-    bufferOffset = _serializer.int32(obj.size, buffer, bufferOffset);
-    // Serialize message field [img_x]
-    bufferOffset = _arraySerializer.float32(obj.img_x, buffer, bufferOffset, null);
-    // Serialize message field [img_y]
-    bufferOffset = _arraySerializer.float32(obj.img_y, buffer, bufferOffset, null);
+    // Serialize message field [r_size]
+    bufferOffset = _serializer.int32(obj.r_size, buffer, bufferOffset);
+    // Serialize message field [b_size]
+    bufferOffset = _serializer.int32(obj.b_size, buffer, bufferOffset);
+    // Serialize message field [g_size]
+    bufferOffset = _serializer.int32(obj.g_size, buffer, bufferOffset);
+    // Serialize message field [b_img_x]
+    bufferOffset = _arraySerializer.float32(obj.b_img_x, buffer, bufferOffset, null);
+    // Serialize message field [b_img_y]
+    bufferOffset = _arraySerializer.float32(obj.b_img_y, buffer, bufferOffset, null);
+    // Serialize message field [b_img_z]
+    bufferOffset = _arraySerializer.float32(obj.b_img_z, buffer, bufferOffset, null);
+    // Serialize message field [r_img_x]
+    bufferOffset = _arraySerializer.float32(obj.r_img_x, buffer, bufferOffset, null);
+    // Serialize message field [r_img_y]
+    bufferOffset = _arraySerializer.float32(obj.r_img_y, buffer, bufferOffset, null);
+    // Serialize message field [r_img_z]
+    bufferOffset = _arraySerializer.float32(obj.r_img_z, buffer, bufferOffset, null);
+    // Serialize message field [g_img_x]
+    bufferOffset = _arraySerializer.float32(obj.g_img_x, buffer, bufferOffset, null);
+    // Serialize message field [g_img_y]
+    bufferOffset = _arraySerializer.float32(obj.g_img_y, buffer, bufferOffset, null);
+    // Serialize message field [g_img_z]
+    bufferOffset = _arraySerializer.float32(obj.g_img_z, buffer, bufferOffset, null);
     return bufferOffset;
   }
 
@@ -71,21 +152,46 @@ class ball_position {
     let data = new ball_position(null);
     // Deserialize message field [header]
     data.header = std_msgs.msg.Header.deserialize(buffer, bufferOffset);
-    // Deserialize message field [size]
-    data.size = _deserializer.int32(buffer, bufferOffset);
-    // Deserialize message field [img_x]
-    data.img_x = _arrayDeserializer.float32(buffer, bufferOffset, null)
-    // Deserialize message field [img_y]
-    data.img_y = _arrayDeserializer.float32(buffer, bufferOffset, null)
+    // Deserialize message field [r_size]
+    data.r_size = _deserializer.int32(buffer, bufferOffset);
+    // Deserialize message field [b_size]
+    data.b_size = _deserializer.int32(buffer, bufferOffset);
+    // Deserialize message field [g_size]
+    data.g_size = _deserializer.int32(buffer, bufferOffset);
+    // Deserialize message field [b_img_x]
+    data.b_img_x = _arrayDeserializer.float32(buffer, bufferOffset, null)
+    // Deserialize message field [b_img_y]
+    data.b_img_y = _arrayDeserializer.float32(buffer, bufferOffset, null)
+    // Deserialize message field [b_img_z]
+    data.b_img_z = _arrayDeserializer.float32(buffer, bufferOffset, null)
+    // Deserialize message field [r_img_x]
+    data.r_img_x = _arrayDeserializer.float32(buffer, bufferOffset, null)
+    // Deserialize message field [r_img_y]
+    data.r_img_y = _arrayDeserializer.float32(buffer, bufferOffset, null)
+    // Deserialize message field [r_img_z]
+    data.r_img_z = _arrayDeserializer.float32(buffer, bufferOffset, null)
+    // Deserialize message field [g_img_x]
+    data.g_img_x = _arrayDeserializer.float32(buffer, bufferOffset, null)
+    // Deserialize message field [g_img_y]
+    data.g_img_y = _arrayDeserializer.float32(buffer, bufferOffset, null)
+    // Deserialize message field [g_img_z]
+    data.g_img_z = _arrayDeserializer.float32(buffer, bufferOffset, null)
     return data;
   }
 
   static getMessageSize(object) {
     let length = 0;
     length += std_msgs.msg.Header.getMessageSize(object.header);
-    length += 4 * object.img_x.length;
-    length += 4 * object.img_y.length;
-    return length + 12;
+    length += 4 * object.b_img_x.length;
+    length += 4 * object.b_img_y.length;
+    length += 4 * object.b_img_z.length;
+    length += 4 * object.r_img_x.length;
+    length += 4 * object.r_img_y.length;
+    length += 4 * object.r_img_z.length;
+    length += 4 * object.g_img_x.length;
+    length += 4 * object.g_img_y.length;
+    length += 4 * object.g_img_z.length;
+    return length + 48;
   }
 
   static datatype() {
@@ -95,16 +201,28 @@ class ball_position {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '757a1931a6c8745932637f2569d72982';
+    return 'aed016388a639bff17b1abc7071952eb';
   }
 
   static messageDefinition() {
     // Returns full string definition for message
     return `
     Header header
-    int32 size
-    float32[] img_x
-    float32[] img_y
+    int32 r_size
+    int32 b_size
+    int32 g_size
+    
+    float32[] b_img_x
+    float32[] b_img_y
+    float32[] b_img_z
+    
+    float32[] r_img_x
+    float32[] r_img_y
+    float32[] r_img_z
+    
+    float32[] g_img_x
+    float32[] g_img_y
+    float32[] g_img_z
     
     ================================================================================
     MSG: std_msgs/Header
@@ -140,25 +258,88 @@ class ball_position {
       resolved.header = new std_msgs.msg.Header()
     }
 
-    if (msg.size !== undefined) {
-      resolved.size = msg.size;
+    if (msg.r_size !== undefined) {
+      resolved.r_size = msg.r_size;
     }
     else {
-      resolved.size = 0
+      resolved.r_size = 0
     }
 
-    if (msg.img_x !== undefined) {
-      resolved.img_x = msg.img_x;
+    if (msg.b_size !== undefined) {
+      resolved.b_size = msg.b_size;
     }
     else {
-      resolved.img_x = []
+      resolved.b_size = 0
     }
 
-    if (msg.img_y !== undefined) {
-      resolved.img_y = msg.img_y;
+    if (msg.g_size !== undefined) {
+      resolved.g_size = msg.g_size;
     }
     else {
-      resolved.img_y = []
+      resolved.g_size = 0
+    }
+
+    if (msg.b_img_x !== undefined) {
+      resolved.b_img_x = msg.b_img_x;
+    }
+    else {
+      resolved.b_img_x = []
+    }
+
+    if (msg.b_img_y !== undefined) {
+      resolved.b_img_y = msg.b_img_y;
+    }
+    else {
+      resolved.b_img_y = []
+    }
+
+    if (msg.b_img_z !== undefined) {
+      resolved.b_img_z = msg.b_img_z;
+    }
+    else {
+      resolved.b_img_z = []
+    }
+
+    if (msg.r_img_x !== undefined) {
+      resolved.r_img_x = msg.r_img_x;
+    }
+    else {
+      resolved.r_img_x = []
+    }
+
+    if (msg.r_img_y !== undefined) {
+      resolved.r_img_y = msg.r_img_y;
+    }
+    else {
+      resolved.r_img_y = []
+    }
+
+    if (msg.r_img_z !== undefined) {
+      resolved.r_img_z = msg.r_img_z;
+    }
+    else {
+      resolved.r_img_z = []
+    }
+
+    if (msg.g_img_x !== undefined) {
+      resolved.g_img_x = msg.g_img_x;
+    }
+    else {
+      resolved.g_img_x = []
+    }
+
+    if (msg.g_img_y !== undefined) {
+      resolved.g_img_y = msg.g_img_y;
+    }
+    else {
+      resolved.g_img_y = []
+    }
+
+    if (msg.g_img_z !== undefined) {
+      resolved.g_img_z = msg.g_img_z;
+    }
+    else {
+      resolved.g_img_z = []
     }
 
     return resolved;

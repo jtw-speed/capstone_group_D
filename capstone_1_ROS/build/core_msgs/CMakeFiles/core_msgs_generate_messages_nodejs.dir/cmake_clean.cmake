@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "/home/taewook/capstone_1_ROS/devel/share/gennodejs/ros/core_msgs/msg/markermsg.js"
   "/home/taewook/capstone_1_ROS/devel/share/gennodejs/ros/core_msgs/msg/ball_position.js"
   "/home/taewook/capstone_1_ROS/devel/share/gennodejs/ros/core_msgs/msg/multiarray.js"
+  "/home/taewook/capstone_1_ROS/devel/share/gennodejs/ros/core_msgs/msg/ball_position_modify.js"
 )
 
 # Per-language clean rules from dependency scanning.

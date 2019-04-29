@@ -1,8 +1,0 @@
-prefix=/home/taewook/capstone_1_ROS/install
-
-Name: test
-Description: Description of test
-Version: 0.1.0
-Cflags: -I/home/taewook/capstone_1_ROS/install/include
-Libs: -L/home/taewook/capstone_1_ROS/install/lib 
-Requires: std_msgs roscpp

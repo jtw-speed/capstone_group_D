@@ -56,6 +56,7 @@ include core_msgs/CMakeFiles/core_msgs_generate_messages_py.dir/progress.make
 core_msgs/CMakeFiles/core_msgs_generate_messages_py: /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_markermsg.py
 core_msgs/CMakeFiles/core_msgs_generate_messages_py: /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_ball_position.py
 core_msgs/CMakeFiles/core_msgs_generate_messages_py: /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_multiarray.py
+core_msgs/CMakeFiles/core_msgs_generate_messages_py: /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_ball_position_modify.py
 core_msgs/CMakeFiles/core_msgs_generate_messages_py: /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/__init__.py
 
 
@@ -79,17 +80,25 @@ core_msgs/CMakeFiles/core_msgs_generate_messages_py: /home/taewook/capstone_1_RO
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/taewook/capstone_1_ROS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Python from MSG core_msgs/multiarray"
 	cd /home/taewook/capstone_1_ROS/build/core_msgs && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/taewook/capstone_1_ROS/src/core_msgs/msg/multiarray.msg -Icore_msgs:/home/taewook/capstone_1_ROS/src/core_msgs/msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/kinetic/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -p core_msgs -o /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg
 
+/home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_ball_position_modify.py: /opt/ros/kinetic/lib/genpy/genmsg_py.py
+/home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_ball_position_modify.py: /home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg
+/home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_ball_position_modify.py: /opt/ros/kinetic/share/std_msgs/msg/Header.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/taewook/capstone_1_ROS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Python from MSG core_msgs/ball_position_modify"
+	cd /home/taewook/capstone_1_ROS/build/core_msgs && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg -Icore_msgs:/home/taewook/capstone_1_ROS/src/core_msgs/msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/kinetic/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -p core_msgs -o /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg
+
 /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/__init__.py: /opt/ros/kinetic/lib/genpy/genmsg_py.py
 /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/__init__.py: /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_markermsg.py
 /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/__init__.py: /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_ball_position.py
 /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/__init__.py: /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_multiarray.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/taewook/capstone_1_ROS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Python msg __init__.py for core_msgs"
+/home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/__init__.py: /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_ball_position_modify.py
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/taewook/capstone_1_ROS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating Python msg __init__.py for core_msgs"
 	cd /home/taewook/capstone_1_ROS/build/core_msgs && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg --initpy
 
 core_msgs_generate_messages_py: core_msgs/CMakeFiles/core_msgs_generate_messages_py
 core_msgs_generate_messages_py: /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_markermsg.py
 core_msgs_generate_messages_py: /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_ball_position.py
 core_msgs_generate_messages_py: /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_multiarray.py
+core_msgs_generate_messages_py: /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_ball_position_modify.py
 core_msgs_generate_messages_py: /home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/__init__.py
 core_msgs_generate_messages_py: core_msgs/CMakeFiles/core_msgs_generate_messages_py.dir/build.make
 

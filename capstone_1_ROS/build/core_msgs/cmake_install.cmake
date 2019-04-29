@@ -37,6 +37,7 @@ if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
     "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position.msg"
     "/home/taewook/capstone_1_ROS/src/core_msgs/msg/multiarray.msg"
     "/home/taewook/capstone_1_ROS/src/core_msgs/msg/markermsg.msg"
+    "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg"
     )
 endif()
 

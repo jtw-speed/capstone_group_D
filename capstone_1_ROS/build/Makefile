@@ -504,199 +504,17 @@ client_node/fast:
 .PHONY : client_node/fast
 
 #=============================================================================
-# Target rules for targets named publisher
+# Target rules for targets named imu_tutorial_node
 
 # Build rule for target.
-publisher: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 publisher
-.PHONY : publisher
+imu_tutorial_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 imu_tutorial_node
+.PHONY : imu_tutorial_node
 
 # fast build rule for target.
-publisher/fast:
-	$(MAKE) -f test/CMakeFiles/publisher.dir/build.make test/CMakeFiles/publisher.dir/build
-.PHONY : publisher/fast
-
-#=============================================================================
-# Target rules for targets named test_genpy
-
-# Build rule for target.
-test_genpy: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_genpy
-.PHONY : test_genpy
-
-# fast build rule for target.
-test_genpy/fast:
-	$(MAKE) -f test/CMakeFiles/test_genpy.dir/build.make test/CMakeFiles/test_genpy.dir/build
-.PHONY : test_genpy/fast
-
-#=============================================================================
-# Target rules for targets named test_generate_messages_py
-
-# Build rule for target.
-test_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_generate_messages_py
-.PHONY : test_generate_messages_py
-
-# fast build rule for target.
-test_generate_messages_py/fast:
-	$(MAKE) -f test/CMakeFiles/test_generate_messages_py.dir/build.make test/CMakeFiles/test_generate_messages_py.dir/build
-.PHONY : test_generate_messages_py/fast
-
-#=============================================================================
-# Target rules for targets named test_gennodejs
-
-# Build rule for target.
-test_gennodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_gennodejs
-.PHONY : test_gennodejs
-
-# fast build rule for target.
-test_gennodejs/fast:
-	$(MAKE) -f test/CMakeFiles/test_gennodejs.dir/build.make test/CMakeFiles/test_gennodejs.dir/build
-.PHONY : test_gennodejs/fast
-
-#=============================================================================
-# Target rules for targets named test_generate_messages
-
-# Build rule for target.
-test_generate_messages: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_generate_messages
-.PHONY : test_generate_messages
-
-# fast build rule for target.
-test_generate_messages/fast:
-	$(MAKE) -f test/CMakeFiles/test_generate_messages.dir/build.make test/CMakeFiles/test_generate_messages.dir/build
-.PHONY : test_generate_messages/fast
-
-#=============================================================================
-# Target rules for targets named _test_generate_messages_check_deps_ball_position
-
-# Build rule for target.
-_test_generate_messages_check_deps_ball_position: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _test_generate_messages_check_deps_ball_position
-.PHONY : _test_generate_messages_check_deps_ball_position
-
-# fast build rule for target.
-_test_generate_messages_check_deps_ball_position/fast:
-	$(MAKE) -f test/CMakeFiles/_test_generate_messages_check_deps_ball_position.dir/build.make test/CMakeFiles/_test_generate_messages_check_deps_ball_position.dir/build
-.PHONY : _test_generate_messages_check_deps_ball_position/fast
-
-#=============================================================================
-# Target rules for targets named test_generate_messages_eus
-
-# Build rule for target.
-test_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_generate_messages_eus
-.PHONY : test_generate_messages_eus
-
-# fast build rule for target.
-test_generate_messages_eus/fast:
-	$(MAKE) -f test/CMakeFiles/test_generate_messages_eus.dir/build.make test/CMakeFiles/test_generate_messages_eus.dir/build
-.PHONY : test_generate_messages_eus/fast
-
-#=============================================================================
-# Target rules for targets named test_genlisp
-
-# Build rule for target.
-test_genlisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_genlisp
-.PHONY : test_genlisp
-
-# fast build rule for target.
-test_genlisp/fast:
-	$(MAKE) -f test/CMakeFiles/test_genlisp.dir/build.make test/CMakeFiles/test_genlisp.dir/build
-.PHONY : test_genlisp/fast
-
-#=============================================================================
-# Target rules for targets named _catkin_empty_exported_target
-
-# Build rule for target.
-_catkin_empty_exported_target: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _catkin_empty_exported_target
-.PHONY : _catkin_empty_exported_target
-
-# fast build rule for target.
-_catkin_empty_exported_target/fast:
-	$(MAKE) -f test/CMakeFiles/_catkin_empty_exported_target.dir/build.make test/CMakeFiles/_catkin_empty_exported_target.dir/build
-.PHONY : _catkin_empty_exported_target/fast
-
-#=============================================================================
-# Target rules for targets named subscriber
-
-# Build rule for target.
-subscriber: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 subscriber
-.PHONY : subscriber
-
-# fast build rule for target.
-subscriber/fast:
-	$(MAKE) -f test/CMakeFiles/subscriber.dir/build.make test/CMakeFiles/subscriber.dir/build
-.PHONY : subscriber/fast
-
-#=============================================================================
-# Target rules for targets named test_gencpp
-
-# Build rule for target.
-test_gencpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_gencpp
-.PHONY : test_gencpp
-
-# fast build rule for target.
-test_gencpp/fast:
-	$(MAKE) -f test/CMakeFiles/test_gencpp.dir/build.make test/CMakeFiles/test_gencpp.dir/build
-.PHONY : test_gencpp/fast
-
-#=============================================================================
-# Target rules for targets named test_geneus
-
-# Build rule for target.
-test_geneus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_geneus
-.PHONY : test_geneus
-
-# fast build rule for target.
-test_geneus/fast:
-	$(MAKE) -f test/CMakeFiles/test_geneus.dir/build.make test/CMakeFiles/test_geneus.dir/build
-.PHONY : test_geneus/fast
-
-#=============================================================================
-# Target rules for targets named test_generate_messages_lisp
-
-# Build rule for target.
-test_generate_messages_lisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_generate_messages_lisp
-.PHONY : test_generate_messages_lisp
-
-# fast build rule for target.
-test_generate_messages_lisp/fast:
-	$(MAKE) -f test/CMakeFiles/test_generate_messages_lisp.dir/build.make test/CMakeFiles/test_generate_messages_lisp.dir/build
-.PHONY : test_generate_messages_lisp/fast
-
-#=============================================================================
-# Target rules for targets named test_generate_messages_cpp
-
-# Build rule for target.
-test_generate_messages_cpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_generate_messages_cpp
-.PHONY : test_generate_messages_cpp
-
-# fast build rule for target.
-test_generate_messages_cpp/fast:
-	$(MAKE) -f test/CMakeFiles/test_generate_messages_cpp.dir/build.make test/CMakeFiles/test_generate_messages_cpp.dir/build
-.PHONY : test_generate_messages_cpp/fast
-
-#=============================================================================
-# Target rules for targets named test_generate_messages_nodejs
-
-# Build rule for target.
-test_generate_messages_nodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_generate_messages_nodejs
-.PHONY : test_generate_messages_nodejs
-
-# fast build rule for target.
-test_generate_messages_nodejs/fast:
-	$(MAKE) -f test/CMakeFiles/test_generate_messages_nodejs.dir/build.make test/CMakeFiles/test_generate_messages_nodejs.dir/build
-.PHONY : test_generate_messages_nodejs/fast
+imu_tutorial_node/fast:
+	$(MAKE) -f imu_tutorial/CMakeFiles/imu_tutorial_node.dir/build.make imu_tutorial/CMakeFiles/imu_tutorial_node.dir/build
+.PHONY : imu_tutorial_node/fast
 
 #=============================================================================
 # Target rules for targets named core_msgs_genpy
@@ -723,6 +541,19 @@ core_msgs_generate_messages_py: cmake_check_build_system
 core_msgs_generate_messages_py/fast:
 	$(MAKE) -f core_msgs/CMakeFiles/core_msgs_generate_messages_py.dir/build.make core_msgs/CMakeFiles/core_msgs_generate_messages_py.dir/build
 .PHONY : core_msgs_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named core_msgs_generate_messages_nodejs
+
+# Build rule for target.
+core_msgs_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 core_msgs_generate_messages_nodejs
+.PHONY : core_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+core_msgs_generate_messages_nodejs/fast:
+	$(MAKE) -f core_msgs/CMakeFiles/core_msgs_generate_messages_nodejs.dir/build.make core_msgs/CMakeFiles/core_msgs_generate_messages_nodejs.dir/build
+.PHONY : core_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
 # Target rules for targets named _core_msgs_generate_messages_check_deps_ball_position
@@ -775,6 +606,19 @@ sensor_msgs_generate_messages_lisp: cmake_check_build_system
 sensor_msgs_generate_messages_lisp/fast:
 	$(MAKE) -f core_msgs/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build.make core_msgs/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build
 .PHONY : sensor_msgs_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named _catkin_empty_exported_target
+
+# Build rule for target.
+_catkin_empty_exported_target: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _catkin_empty_exported_target
+.PHONY : _catkin_empty_exported_target
+
+# fast build rule for target.
+_catkin_empty_exported_target/fast:
+	$(MAKE) -f core_msgs/CMakeFiles/_catkin_empty_exported_target.dir/build.make core_msgs/CMakeFiles/_catkin_empty_exported_target.dir/build
+.PHONY : _catkin_empty_exported_target/fast
 
 #=============================================================================
 # Target rules for targets named sensor_msgs_generate_messages_cpp
@@ -842,6 +686,19 @@ core_msgs_gencpp/fast:
 .PHONY : core_msgs_gencpp/fast
 
 #=============================================================================
+# Target rules for targets named geometry_msgs_generate_messages_nodejs
+
+# Build rule for target.
+geometry_msgs_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 geometry_msgs_generate_messages_nodejs
+.PHONY : geometry_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+geometry_msgs_generate_messages_nodejs/fast:
+	$(MAKE) -f core_msgs/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build.make core_msgs/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build
+.PHONY : geometry_msgs_generate_messages_nodejs/fast
+
+#=============================================================================
 # Target rules for targets named sensor_msgs_generate_messages_nodejs
 
 # Build rule for target.
@@ -866,19 +723,6 @@ geometry_msgs_generate_messages_cpp: cmake_check_build_system
 geometry_msgs_generate_messages_cpp/fast:
 	$(MAKE) -f core_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make core_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build
 .PHONY : geometry_msgs_generate_messages_cpp/fast
-
-#=============================================================================
-# Target rules for targets named core_msgs_generate_messages_nodejs
-
-# Build rule for target.
-core_msgs_generate_messages_nodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 core_msgs_generate_messages_nodejs
-.PHONY : core_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-core_msgs_generate_messages_nodejs/fast:
-	$(MAKE) -f core_msgs/CMakeFiles/core_msgs_generate_messages_nodejs.dir/build.make core_msgs/CMakeFiles/core_msgs_generate_messages_nodejs.dir/build
-.PHONY : core_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
 # Target rules for targets named geometry_msgs_generate_messages_eus
@@ -920,17 +764,17 @@ geometry_msgs_generate_messages_lisp/fast:
 .PHONY : geometry_msgs_generate_messages_lisp/fast
 
 #=============================================================================
-# Target rules for targets named geometry_msgs_generate_messages_nodejs
+# Target rules for targets named _core_msgs_generate_messages_check_deps_ball_position_modify
 
 # Build rule for target.
-geometry_msgs_generate_messages_nodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 geometry_msgs_generate_messages_nodejs
-.PHONY : geometry_msgs_generate_messages_nodejs
+_core_msgs_generate_messages_check_deps_ball_position_modify: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _core_msgs_generate_messages_check_deps_ball_position_modify
+.PHONY : _core_msgs_generate_messages_check_deps_ball_position_modify
 
 # fast build rule for target.
-geometry_msgs_generate_messages_nodejs/fast:
-	$(MAKE) -f core_msgs/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build.make core_msgs/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build
-.PHONY : geometry_msgs_generate_messages_nodejs/fast
+_core_msgs_generate_messages_check_deps_ball_position_modify/fast:
+	$(MAKE) -f core_msgs/CMakeFiles/_core_msgs_generate_messages_check_deps_ball_position_modify.dir/build.make core_msgs/CMakeFiles/_core_msgs_generate_messages_check_deps_ball_position_modify.dir/build
+.PHONY : _core_msgs_generate_messages_check_deps_ball_position_modify/fast
 
 #=============================================================================
 # Target rules for targets named _core_msgs_generate_messages_check_deps_markermsg
@@ -1037,17 +881,17 @@ visualization_msgs_generate_messages_eus/fast:
 .PHONY : visualization_msgs_generate_messages_eus/fast
 
 #=============================================================================
-# Target rules for targets named ball_detect_node
+# Target rules for targets named modify_ball_count_node1
 
 # Build rule for target.
-ball_detect_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 ball_detect_node
-.PHONY : ball_detect_node
+modify_ball_count_node1: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 modify_ball_count_node1
+.PHONY : modify_ball_count_node1
 
 # fast build rule for target.
-ball_detect_node/fast:
-	$(MAKE) -f ball_detection/CMakeFiles/ball_detect_node.dir/build.make ball_detection/CMakeFiles/ball_detect_node.dir/build
-.PHONY : ball_detect_node/fast
+modify_ball_count_node1/fast:
+	$(MAKE) -f ball_detection/CMakeFiles/modify_ball_count_node1.dir/build.make ball_detection/CMakeFiles/modify_ball_count_node1.dir/build
+.PHONY : modify_ball_count_node1/fast
 
 #=============================================================================
 # Target rules for targets named visualization_msgs_generate_messages_lisp
@@ -1063,6 +907,45 @@ visualization_msgs_generate_messages_lisp/fast:
 .PHONY : visualization_msgs_generate_messages_lisp/fast
 
 #=============================================================================
+# Target rules for targets named visualization_msgs_generate_messages_py
+
+# Build rule for target.
+visualization_msgs_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 visualization_msgs_generate_messages_py
+.PHONY : visualization_msgs_generate_messages_py
+
+# fast build rule for target.
+visualization_msgs_generate_messages_py/fast:
+	$(MAKE) -f ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/build.make ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/build
+.PHONY : visualization_msgs_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named ball_detect_node1
+
+# Build rule for target.
+ball_detect_node1: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ball_detect_node1
+.PHONY : ball_detect_node1
+
+# fast build rule for target.
+ball_detect_node1/fast:
+	$(MAKE) -f ball_detection/CMakeFiles/ball_detect_node1.dir/build.make ball_detection/CMakeFiles/ball_detect_node1.dir/build
+.PHONY : ball_detect_node1/fast
+
+#=============================================================================
+# Target rules for targets named ball_detect_node2
+
+# Build rule for target.
+ball_detect_node2: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ball_detect_node2
+.PHONY : ball_detect_node2
+
+# fast build rule for target.
+ball_detect_node2/fast:
+	$(MAKE) -f ball_detection/CMakeFiles/ball_detect_node2.dir/build.make ball_detection/CMakeFiles/ball_detect_node2.dir/build
+.PHONY : ball_detect_node2/fast
+
+#=============================================================================
 # Target rules for targets named visualization_msgs_generate_messages_cpp
 
 # Build rule for target.
@@ -1076,17 +959,17 @@ visualization_msgs_generate_messages_cpp/fast:
 .PHONY : visualization_msgs_generate_messages_cpp/fast
 
 #=============================================================================
-# Target rules for targets named visualization_msgs_generate_messages_py
+# Target rules for targets named modify_ball_count_node2
 
 # Build rule for target.
-visualization_msgs_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 visualization_msgs_generate_messages_py
-.PHONY : visualization_msgs_generate_messages_py
+modify_ball_count_node2: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 modify_ball_count_node2
+.PHONY : modify_ball_count_node2
 
 # fast build rule for target.
-visualization_msgs_generate_messages_py/fast:
-	$(MAKE) -f ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/build.make ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/build
-.PHONY : visualization_msgs_generate_messages_py/fast
+modify_ball_count_node2/fast:
+	$(MAKE) -f ball_detection/CMakeFiles/modify_ball_count_node2.dir/build.make ball_detection/CMakeFiles/modify_ball_count_node2.dir/build
+.PHONY : modify_ball_count_node2/fast
 
 #=============================================================================
 # Target rules for targets named data_show_node
@@ -1102,17 +985,17 @@ data_show_node/fast:
 .PHONY : data_show_node/fast
 
 #=============================================================================
-# Target rules for targets named data_integation_node
+# Target rules for targets named data_integration_node
 
 # Build rule for target.
-data_integation_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 data_integation_node
-.PHONY : data_integation_node
+data_integration_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 data_integration_node
+.PHONY : data_integration_node
 
 # fast build rule for target.
-data_integation_node/fast:
-	$(MAKE) -f data_integrate/CMakeFiles/data_integation_node.dir/build.make data_integrate/CMakeFiles/data_integation_node.dir/build
-.PHONY : data_integation_node/fast
+data_integration_node/fast:
+	$(MAKE) -f data_integrate/CMakeFiles/data_integration_node.dir/build.make data_integrate/CMakeFiles/data_integration_node.dir/build
+.PHONY : data_integration_node/fast
 
 #=============================================================================
 # Target rules for targets named my_publisher
@@ -1270,39 +1153,27 @@ help:
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... server_node"
 	@echo "... client_node"
-	@echo "... publisher"
-	@echo "... test_genpy"
-	@echo "... test_generate_messages_py"
-	@echo "... test_gennodejs"
-	@echo "... test_generate_messages"
-	@echo "... _test_generate_messages_check_deps_ball_position"
-	@echo "... test_generate_messages_eus"
-	@echo "... test_genlisp"
-	@echo "... _catkin_empty_exported_target"
-	@echo "... subscriber"
-	@echo "... test_gencpp"
-	@echo "... test_geneus"
-	@echo "... test_generate_messages_lisp"
-	@echo "... test_generate_messages_cpp"
-	@echo "... test_generate_messages_nodejs"
+	@echo "... imu_tutorial_node"
 	@echo "... core_msgs_genpy"
 	@echo "... core_msgs_generate_messages_py"
+	@echo "... core_msgs_generate_messages_nodejs"
 	@echo "... _core_msgs_generate_messages_check_deps_ball_position"
 	@echo "... sensor_msgs_generate_messages_eus"
 	@echo "... _core_msgs_generate_messages_check_deps_multiarray"
 	@echo "... sensor_msgs_generate_messages_lisp"
+	@echo "... _catkin_empty_exported_target"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... core_msgs_gennodejs"
 	@echo "... core_msgs_geneus"
 	@echo "... geometry_msgs_generate_messages_py"
 	@echo "... core_msgs_gencpp"
+	@echo "... geometry_msgs_generate_messages_nodejs"
 	@echo "... sensor_msgs_generate_messages_nodejs"
 	@echo "... geometry_msgs_generate_messages_cpp"
-	@echo "... core_msgs_generate_messages_nodejs"
 	@echo "... geometry_msgs_generate_messages_eus"
 	@echo "... core_msgs_generate_messages"
 	@echo "... geometry_msgs_generate_messages_lisp"
-	@echo "... geometry_msgs_generate_messages_nodejs"
+	@echo "... _core_msgs_generate_messages_check_deps_ball_position_modify"
 	@echo "... _core_msgs_generate_messages_check_deps_markermsg"
 	@echo "... sensor_msgs_generate_messages_py"
 	@echo "... core_msgs_generate_messages_cpp"
@@ -1311,12 +1182,15 @@ help:
 	@echo "... core_msgs_genlisp"
 	@echo "... visualization_msgs_generate_messages_nodejs"
 	@echo "... visualization_msgs_generate_messages_eus"
-	@echo "... ball_detect_node"
+	@echo "... modify_ball_count_node1"
 	@echo "... visualization_msgs_generate_messages_lisp"
-	@echo "... visualization_msgs_generate_messages_cpp"
 	@echo "... visualization_msgs_generate_messages_py"
+	@echo "... ball_detect_node1"
+	@echo "... ball_detect_node2"
+	@echo "... visualization_msgs_generate_messages_cpp"
+	@echo "... modify_ball_count_node2"
 	@echo "... data_show_node"
-	@echo "... data_integation_node"
+	@echo "... data_integration_node"
 	@echo "... my_publisher"
 	@echo "... my_subscriber"
 	@echo "... my_subscriber_law_image"

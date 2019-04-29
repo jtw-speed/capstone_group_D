@@ -48,3 +48,11 @@ target_link_libraries(ball_detect_node1
 target_link_libraries(ball_detect_node2
   ${catkin_LIBRARIES} ${OpenCV_LIBS} ${cv_bridge_LIBRARIES}
 )
+
+add_executable(modify_ball_count_node1 src/modify_ball_count1.cpp)
+add_dependencies(modify_ball_count_node1 core_msgs_generate_messages_cpp)
+target_link_libraries(modify_ball_count_node1 ${catkin_LIBRARIES} ${OpenCV_LIBS} ${cv_bridge_LIBRARIES})
+
+add_executable(modify_ball_count_node2 src/modify_ball_count2.cpp)
+add_dependencies(modify_ball_count_node2 core_msgs_generate_messages_cpp)
+target_link_libraries(modify_ball_count_node2 ${catkin_LIBRARIES} ${OpenCV_LIBS} ${cv_bridge_LIBRARIES})

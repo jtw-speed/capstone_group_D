@@ -26,15 +26,33 @@ struct ball_position_
 
   ball_position_()
     : header()
-    , size(0)
-    , img_x()
-    , img_y()  {
+    , r_size(0)
+    , b_size(0)
+    , g_size(0)
+    , b_img_x()
+    , b_img_y()
+    , b_img_z()
+    , r_img_x()
+    , r_img_y()
+    , r_img_z()
+    , g_img_x()
+    , g_img_y()
+    , g_img_z()  {
     }
   ball_position_(const ContainerAllocator& _alloc)
     : header(_alloc)
-    , size(0)
-    , img_x(_alloc)
-    , img_y(_alloc)  {
+    , r_size(0)
+    , b_size(0)
+    , g_size(0)
+    , b_img_x(_alloc)
+    , b_img_y(_alloc)
+    , b_img_z(_alloc)
+    , r_img_x(_alloc)
+    , r_img_y(_alloc)
+    , r_img_z(_alloc)
+    , g_img_x(_alloc)
+    , g_img_y(_alloc)
+    , g_img_z(_alloc)  {
   (void)_alloc;
     }
 
@@ -43,14 +61,41 @@ struct ball_position_
    typedef  ::std_msgs::Header_<ContainerAllocator>  _header_type;
   _header_type header;
 
-   typedef int32_t _size_type;
-  _size_type size;
+   typedef int32_t _r_size_type;
+  _r_size_type r_size;
 
-   typedef std::vector<float, typename ContainerAllocator::template rebind<float>::other >  _img_x_type;
-  _img_x_type img_x;
+   typedef int32_t _b_size_type;
+  _b_size_type b_size;
 
-   typedef std::vector<float, typename ContainerAllocator::template rebind<float>::other >  _img_y_type;
-  _img_y_type img_y;
+   typedef int32_t _g_size_type;
+  _g_size_type g_size;
+
+   typedef std::vector<float, typename ContainerAllocator::template rebind<float>::other >  _b_img_x_type;
+  _b_img_x_type b_img_x;
+
+   typedef std::vector<float, typename ContainerAllocator::template rebind<float>::other >  _b_img_y_type;
+  _b_img_y_type b_img_y;
+
+   typedef std::vector<float, typename ContainerAllocator::template rebind<float>::other >  _b_img_z_type;
+  _b_img_z_type b_img_z;
+
+   typedef std::vector<float, typename ContainerAllocator::template rebind<float>::other >  _r_img_x_type;
+  _r_img_x_type r_img_x;
+
+   typedef std::vector<float, typename ContainerAllocator::template rebind<float>::other >  _r_img_y_type;
+  _r_img_y_type r_img_y;
+
+   typedef std::vector<float, typename ContainerAllocator::template rebind<float>::other >  _r_img_z_type;
+  _r_img_z_type r_img_z;
+
+   typedef std::vector<float, typename ContainerAllocator::template rebind<float>::other >  _g_img_x_type;
+  _g_img_x_type g_img_x;
+
+   typedef std::vector<float, typename ContainerAllocator::template rebind<float>::other >  _g_img_y_type;
+  _g_img_y_type g_img_y;
+
+   typedef std::vector<float, typename ContainerAllocator::template rebind<float>::other >  _g_img_z_type;
+  _g_img_z_type g_img_z;
 
 
 
@@ -130,12 +175,12 @@ struct MD5Sum< ::core_msgs::ball_position_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "757a1931a6c8745932637f2569d72982";
+    return "aed016388a639bff17b1abc7071952eb";
   }
 
   static const char* value(const ::core_msgs::ball_position_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x757a1931a6c87459ULL;
-  static const uint64_t static_value2 = 0x32637f2569d72982ULL;
+  static const uint64_t static_value1 = 0xaed016388a639bffULL;
+  static const uint64_t static_value2 = 0x17b1abc7071952ebULL;
 };
 
 template<class ContainerAllocator>
@@ -155,9 +200,21 @@ struct Definition< ::core_msgs::ball_position_<ContainerAllocator> >
   static const char* value()
   {
     return "Header header\n\
-int32 size\n\
-float32[] img_x\n\
-float32[] img_y\n\
+int32 r_size\n\
+int32 b_size\n\
+int32 g_size\n\
+\n\
+float32[] b_img_x\n\
+float32[] b_img_y\n\
+float32[] b_img_z\n\
+\n\
+float32[] r_img_x\n\
+float32[] r_img_y\n\
+float32[] r_img_z\n\
+\n\
+float32[] g_img_x\n\
+float32[] g_img_y\n\
+float32[] g_img_z\n\
 \n\
 ================================================================================\n\
 MSG: std_msgs/Header\n\
@@ -195,9 +252,18 @@ namespace serialization
     template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
     {
       stream.next(m.header);
-      stream.next(m.size);
-      stream.next(m.img_x);
-      stream.next(m.img_y);
+      stream.next(m.r_size);
+      stream.next(m.b_size);
+      stream.next(m.g_size);
+      stream.next(m.b_img_x);
+      stream.next(m.b_img_y);
+      stream.next(m.b_img_z);
+      stream.next(m.r_img_x);
+      stream.next(m.r_img_y);
+      stream.next(m.r_img_z);
+      stream.next(m.g_img_x);
+      stream.next(m.g_img_y);
+      stream.next(m.g_img_z);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -219,19 +285,65 @@ struct Printer< ::core_msgs::ball_position_<ContainerAllocator> >
     s << indent << "header: ";
     s << std::endl;
     Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
-    s << indent << "size: ";
-    Printer<int32_t>::stream(s, indent + "  ", v.size);
-    s << indent << "img_x[]" << std::endl;
-    for (size_t i = 0; i < v.img_x.size(); ++i)
+    s << indent << "r_size: ";
+    Printer<int32_t>::stream(s, indent + "  ", v.r_size);
+    s << indent << "b_size: ";
+    Printer<int32_t>::stream(s, indent + "  ", v.b_size);
+    s << indent << "g_size: ";
+    Printer<int32_t>::stream(s, indent + "  ", v.g_size);
+    s << indent << "b_img_x[]" << std::endl;
+    for (size_t i = 0; i < v.b_img_x.size(); ++i)
     {
-      s << indent << "  img_x[" << i << "]: ";
-      Printer<float>::stream(s, indent + "  ", v.img_x[i]);
+      s << indent << "  b_img_x[" << i << "]: ";
+      Printer<float>::stream(s, indent + "  ", v.b_img_x[i]);
     }
-    s << indent << "img_y[]" << std::endl;
-    for (size_t i = 0; i < v.img_y.size(); ++i)
+    s << indent << "b_img_y[]" << std::endl;
+    for (size_t i = 0; i < v.b_img_y.size(); ++i)
     {
-      s << indent << "  img_y[" << i << "]: ";
-      Printer<float>::stream(s, indent + "  ", v.img_y[i]);
+      s << indent << "  b_img_y[" << i << "]: ";
+      Printer<float>::stream(s, indent + "  ", v.b_img_y[i]);
+    }
+    s << indent << "b_img_z[]" << std::endl;
+    for (size_t i = 0; i < v.b_img_z.size(); ++i)
+    {
+      s << indent << "  b_img_z[" << i << "]: ";
+      Printer<float>::stream(s, indent + "  ", v.b_img_z[i]);
+    }
+    s << indent << "r_img_x[]" << std::endl;
+    for (size_t i = 0; i < v.r_img_x.size(); ++i)
+    {
+      s << indent << "  r_img_x[" << i << "]: ";
+      Printer<float>::stream(s, indent + "  ", v.r_img_x[i]);
+    }
+    s << indent << "r_img_y[]" << std::endl;
+    for (size_t i = 0; i < v.r_img_y.size(); ++i)
+    {
+      s << indent << "  r_img_y[" << i << "]: ";
+      Printer<float>::stream(s, indent + "  ", v.r_img_y[i]);
+    }
+    s << indent << "r_img_z[]" << std::endl;
+    for (size_t i = 0; i < v.r_img_z.size(); ++i)
+    {
+      s << indent << "  r_img_z[" << i << "]: ";
+      Printer<float>::stream(s, indent + "  ", v.r_img_z[i]);
+    }
+    s << indent << "g_img_x[]" << std::endl;
+    for (size_t i = 0; i < v.g_img_x.size(); ++i)
+    {
+      s << indent << "  g_img_x[" << i << "]: ";
+      Printer<float>::stream(s, indent + "  ", v.g_img_x[i]);
+    }
+    s << indent << "g_img_y[]" << std::endl;
+    for (size_t i = 0; i < v.g_img_y.size(); ++i)
+    {
+      s << indent << "  g_img_y[" << i << "]: ";
+      Printer<float>::stream(s, indent + "  ", v.g_img_y[i]);
+    }
+    s << indent << "g_img_z[]" << std::endl;
+    for (size_t i = 0; i < v.g_img_z.size(); ++i)
+    {
+      s << indent << "  g_img_z[" << i << "]: ";
+      Printer<float>::stream(s, indent + "  ", v.g_img_z[i]);
     }
   }
 };

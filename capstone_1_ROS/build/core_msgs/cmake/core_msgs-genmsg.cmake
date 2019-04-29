@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "core_msgs: 3 messages, 0 services")
+message(STATUS "core_msgs: 4 messages, 0 services")
 
 set(MSG_I_FLAGS "-Icore_msgs:/home/taewook/capstone_1_ROS/src/core_msgs/msg;-Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg;-Isensor_msgs:/opt/ros/kinetic/share/sensor_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg")
 
@@ -32,6 +32,11 @@ add_custom_target(_core_msgs_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "core_msgs" "/home/taewook/capstone_1_ROS/src/core_msgs/msg/multiarray.msg" "std_msgs/Header"
 )
 
+get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg" NAME_WE)
+add_custom_target(_core_msgs_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "core_msgs" "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg" "std_msgs/Header"
+)
+
 #
 #  langs = gencpp;geneus;genlisp;gennodejs;genpy
 #
@@ -56,6 +61,12 @@ _generate_msg_cpp(core_msgs
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/core_msgs
 )
+_generate_msg_cpp(core_msgs
+  "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/core_msgs
+)
 
 ### Generating Services
 
@@ -76,6 +87,8 @@ add_dependencies(core_msgs_generate_messages_cpp _core_msgs_generate_messages_ch
 get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position.msg" NAME_WE)
 add_dependencies(core_msgs_generate_messages_cpp _core_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/multiarray.msg" NAME_WE)
+add_dependencies(core_msgs_generate_messages_cpp _core_msgs_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg" NAME_WE)
 add_dependencies(core_msgs_generate_messages_cpp _core_msgs_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -105,6 +118,12 @@ _generate_msg_eus(core_msgs
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/core_msgs
 )
+_generate_msg_eus(core_msgs
+  "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/core_msgs
+)
 
 ### Generating Services
 
@@ -125,6 +144,8 @@ add_dependencies(core_msgs_generate_messages_eus _core_msgs_generate_messages_ch
 get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position.msg" NAME_WE)
 add_dependencies(core_msgs_generate_messages_eus _core_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/multiarray.msg" NAME_WE)
+add_dependencies(core_msgs_generate_messages_eus _core_msgs_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg" NAME_WE)
 add_dependencies(core_msgs_generate_messages_eus _core_msgs_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -154,6 +175,12 @@ _generate_msg_lisp(core_msgs
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/core_msgs
 )
+_generate_msg_lisp(core_msgs
+  "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/core_msgs
+)
 
 ### Generating Services
 
@@ -174,6 +201,8 @@ add_dependencies(core_msgs_generate_messages_lisp _core_msgs_generate_messages_c
 get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position.msg" NAME_WE)
 add_dependencies(core_msgs_generate_messages_lisp _core_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/multiarray.msg" NAME_WE)
+add_dependencies(core_msgs_generate_messages_lisp _core_msgs_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg" NAME_WE)
 add_dependencies(core_msgs_generate_messages_lisp _core_msgs_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -203,6 +232,12 @@ _generate_msg_nodejs(core_msgs
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/core_msgs
 )
+_generate_msg_nodejs(core_msgs
+  "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/core_msgs
+)
 
 ### Generating Services
 
@@ -223,6 +258,8 @@ add_dependencies(core_msgs_generate_messages_nodejs _core_msgs_generate_messages
 get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position.msg" NAME_WE)
 add_dependencies(core_msgs_generate_messages_nodejs _core_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/multiarray.msg" NAME_WE)
+add_dependencies(core_msgs_generate_messages_nodejs _core_msgs_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg" NAME_WE)
 add_dependencies(core_msgs_generate_messages_nodejs _core_msgs_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -252,6 +289,12 @@ _generate_msg_py(core_msgs
   "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/core_msgs
 )
+_generate_msg_py(core_msgs
+  "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/core_msgs
+)
 
 ### Generating Services
 
@@ -272,6 +315,8 @@ add_dependencies(core_msgs_generate_messages_py _core_msgs_generate_messages_che
 get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position.msg" NAME_WE)
 add_dependencies(core_msgs_generate_messages_py _core_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/multiarray.msg" NAME_WE)
+add_dependencies(core_msgs_generate_messages_py _core_msgs_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg" NAME_WE)
 add_dependencies(core_msgs_generate_messages_py _core_msgs_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility

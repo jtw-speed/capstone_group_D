@@ -56,6 +56,7 @@ include core_msgs/CMakeFiles/core_msgs_generate_messages_eus.dir/progress.make
 core_msgs/CMakeFiles/core_msgs_generate_messages_eus: /home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/markermsg.l
 core_msgs/CMakeFiles/core_msgs_generate_messages_eus: /home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/ball_position.l
 core_msgs/CMakeFiles/core_msgs_generate_messages_eus: /home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/multiarray.l
+core_msgs/CMakeFiles/core_msgs_generate_messages_eus: /home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/ball_position_modify.l
 core_msgs/CMakeFiles/core_msgs_generate_messages_eus: /home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/manifest.l
 
 
@@ -79,14 +80,21 @@ core_msgs/CMakeFiles/core_msgs_generate_messages_eus: /home/taewook/capstone_1_R
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/taewook/capstone_1_ROS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating EusLisp code from core_msgs/multiarray.msg"
 	cd /home/taewook/capstone_1_ROS/build/core_msgs && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/taewook/capstone_1_ROS/src/core_msgs/msg/multiarray.msg -Icore_msgs:/home/taewook/capstone_1_ROS/src/core_msgs/msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/kinetic/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -p core_msgs -o /home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg
 
+/home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/ball_position_modify.l: /opt/ros/kinetic/lib/geneus/gen_eus.py
+/home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/ball_position_modify.l: /home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg
+/home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/ball_position_modify.l: /opt/ros/kinetic/share/std_msgs/msg/Header.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/taewook/capstone_1_ROS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp code from core_msgs/ball_position_modify.msg"
+	cd /home/taewook/capstone_1_ROS/build/core_msgs && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg -Icore_msgs:/home/taewook/capstone_1_ROS/src/core_msgs/msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/kinetic/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -p core_msgs -o /home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg
+
 /home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/manifest.l: /opt/ros/kinetic/lib/geneus/gen_eus.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/taewook/capstone_1_ROS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp manifest code for core_msgs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/taewook/capstone_1_ROS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating EusLisp manifest code for core_msgs"
 	cd /home/taewook/capstone_1_ROS/build/core_msgs && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs core_msgs std_msgs sensor_msgs
 
 core_msgs_generate_messages_eus: core_msgs/CMakeFiles/core_msgs_generate_messages_eus
 core_msgs_generate_messages_eus: /home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/markermsg.l
 core_msgs_generate_messages_eus: /home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/ball_position.l
 core_msgs_generate_messages_eus: /home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/multiarray.l
+core_msgs_generate_messages_eus: /home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/ball_position_modify.l
 core_msgs_generate_messages_eus: /home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/manifest.l
 core_msgs_generate_messages_eus: core_msgs/CMakeFiles/core_msgs_generate_messages_eus.dir/build.make
 

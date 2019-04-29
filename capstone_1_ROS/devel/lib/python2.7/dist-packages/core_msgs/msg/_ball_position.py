@@ -8,13 +8,25 @@ import struct
 import std_msgs.msg
 
 class ball_position(genpy.Message):
-  _md5sum = "757a1931a6c8745932637f2569d72982"
+  _md5sum = "aed016388a639bff17b1abc7071952eb"
   _type = "core_msgs/ball_position"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """Header header
-int32 size
-float32[] img_x
-float32[] img_y
+int32 r_size
+int32 b_size
+int32 g_size
+
+float32[] b_img_x
+float32[] b_img_y
+float32[] b_img_z
+
+float32[] r_img_x
+float32[] r_img_y
+float32[] r_img_z
+
+float32[] g_img_x
+float32[] g_img_y
+float32[] g_img_z
 
 ================================================================================
 MSG: std_msgs/Header
@@ -34,8 +46,8 @@ time stamp
 # 1: global frame
 string frame_id
 """
-  __slots__ = ['header','size','img_x','img_y']
-  _slot_types = ['std_msgs/Header','int32','float32[]','float32[]']
+  __slots__ = ['header','r_size','b_size','g_size','b_img_x','b_img_y','b_img_z','r_img_x','r_img_y','r_img_z','g_img_x','g_img_y','g_img_z']
+  _slot_types = ['std_msgs/Header','int32','int32','int32','float32[]','float32[]','float32[]','float32[]','float32[]','float32[]','float32[]','float32[]','float32[]']
 
   def __init__(self, *args, **kwds):
     """
@@ -45,7 +57,7 @@ string frame_id
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,size,img_x,img_y
+       header,r_size,b_size,g_size,b_img_x,b_img_y,b_img_z,r_img_x,r_img_y,r_img_z,g_img_x,g_img_y,g_img_z
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -56,17 +68,44 @@ string frame_id
       #message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
-      if self.size is None:
-        self.size = 0
-      if self.img_x is None:
-        self.img_x = []
-      if self.img_y is None:
-        self.img_y = []
+      if self.r_size is None:
+        self.r_size = 0
+      if self.b_size is None:
+        self.b_size = 0
+      if self.g_size is None:
+        self.g_size = 0
+      if self.b_img_x is None:
+        self.b_img_x = []
+      if self.b_img_y is None:
+        self.b_img_y = []
+      if self.b_img_z is None:
+        self.b_img_z = []
+      if self.r_img_x is None:
+        self.r_img_x = []
+      if self.r_img_y is None:
+        self.r_img_y = []
+      if self.r_img_z is None:
+        self.r_img_z = []
+      if self.g_img_x is None:
+        self.g_img_x = []
+      if self.g_img_y is None:
+        self.g_img_y = []
+      if self.g_img_z is None:
+        self.g_img_z = []
     else:
       self.header = std_msgs.msg.Header()
-      self.size = 0
-      self.img_x = []
-      self.img_y = []
+      self.r_size = 0
+      self.b_size = 0
+      self.g_size = 0
+      self.b_img_x = []
+      self.b_img_y = []
+      self.b_img_z = []
+      self.r_img_x = []
+      self.r_img_y = []
+      self.r_img_z = []
+      self.g_img_x = []
+      self.g_img_y = []
+      self.g_img_z = []
 
   def _get_types(self):
     """
@@ -88,15 +127,44 @@ string frame_id
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_i().pack(self.size))
-      length = len(self.img_x)
+      _x = self
+      buff.write(_get_struct_3i().pack(_x.r_size, _x.b_size, _x.g_size))
+      length = len(self.b_img_x)
       buff.write(_struct_I.pack(length))
       pattern = '<%sf'%length
-      buff.write(struct.pack(pattern, *self.img_x))
-      length = len(self.img_y)
+      buff.write(struct.pack(pattern, *self.b_img_x))
+      length = len(self.b_img_y)
       buff.write(_struct_I.pack(length))
       pattern = '<%sf'%length
-      buff.write(struct.pack(pattern, *self.img_y))
+      buff.write(struct.pack(pattern, *self.b_img_y))
+      length = len(self.b_img_z)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sf'%length
+      buff.write(struct.pack(pattern, *self.b_img_z))
+      length = len(self.r_img_x)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sf'%length
+      buff.write(struct.pack(pattern, *self.r_img_x))
+      length = len(self.r_img_y)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sf'%length
+      buff.write(struct.pack(pattern, *self.r_img_y))
+      length = len(self.r_img_z)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sf'%length
+      buff.write(struct.pack(pattern, *self.r_img_z))
+      length = len(self.g_img_x)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sf'%length
+      buff.write(struct.pack(pattern, *self.g_img_x))
+      length = len(self.g_img_y)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sf'%length
+      buff.write(struct.pack(pattern, *self.g_img_y))
+      length = len(self.g_img_z)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sf'%length
+      buff.write(struct.pack(pattern, *self.g_img_z))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -122,23 +190,73 @@ string frame_id
         self.header.frame_id = str[start:end].decode('utf-8')
       else:
         self.header.frame_id = str[start:end]
+      _x = self
       start = end
-      end += 4
-      (self.size,) = _get_struct_i().unpack(str[start:end])
-      start = end
-      end += 4
-      (length,) = _struct_I.unpack(str[start:end])
-      pattern = '<%sf'%length
-      start = end
-      end += struct.calcsize(pattern)
-      self.img_x = struct.unpack(pattern, str[start:end])
+      end += 12
+      (_x.r_size, _x.b_size, _x.g_size,) = _get_struct_3i().unpack(str[start:end])
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
       pattern = '<%sf'%length
       start = end
       end += struct.calcsize(pattern)
-      self.img_y = struct.unpack(pattern, str[start:end])
+      self.b_img_x = struct.unpack(pattern, str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.b_img_y = struct.unpack(pattern, str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.b_img_z = struct.unpack(pattern, str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.r_img_x = struct.unpack(pattern, str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.r_img_y = struct.unpack(pattern, str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.r_img_z = struct.unpack(pattern, str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.g_img_x = struct.unpack(pattern, str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.g_img_y = struct.unpack(pattern, str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.g_img_z = struct.unpack(pattern, str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -159,15 +277,44 @@ string frame_id
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_i().pack(self.size))
-      length = len(self.img_x)
+      _x = self
+      buff.write(_get_struct_3i().pack(_x.r_size, _x.b_size, _x.g_size))
+      length = len(self.b_img_x)
       buff.write(_struct_I.pack(length))
       pattern = '<%sf'%length
-      buff.write(self.img_x.tostring())
-      length = len(self.img_y)
+      buff.write(self.b_img_x.tostring())
+      length = len(self.b_img_y)
       buff.write(_struct_I.pack(length))
       pattern = '<%sf'%length
-      buff.write(self.img_y.tostring())
+      buff.write(self.b_img_y.tostring())
+      length = len(self.b_img_z)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sf'%length
+      buff.write(self.b_img_z.tostring())
+      length = len(self.r_img_x)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sf'%length
+      buff.write(self.r_img_x.tostring())
+      length = len(self.r_img_y)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sf'%length
+      buff.write(self.r_img_y.tostring())
+      length = len(self.r_img_z)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sf'%length
+      buff.write(self.r_img_z.tostring())
+      length = len(self.g_img_x)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sf'%length
+      buff.write(self.g_img_x.tostring())
+      length = len(self.g_img_y)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sf'%length
+      buff.write(self.g_img_y.tostring())
+      length = len(self.g_img_z)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sf'%length
+      buff.write(self.g_img_z.tostring())
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -194,23 +341,73 @@ string frame_id
         self.header.frame_id = str[start:end].decode('utf-8')
       else:
         self.header.frame_id = str[start:end]
+      _x = self
       start = end
-      end += 4
-      (self.size,) = _get_struct_i().unpack(str[start:end])
-      start = end
-      end += 4
-      (length,) = _struct_I.unpack(str[start:end])
-      pattern = '<%sf'%length
-      start = end
-      end += struct.calcsize(pattern)
-      self.img_x = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=length)
+      end += 12
+      (_x.r_size, _x.b_size, _x.g_size,) = _get_struct_3i().unpack(str[start:end])
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
       pattern = '<%sf'%length
       start = end
       end += struct.calcsize(pattern)
-      self.img_y = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=length)
+      self.b_img_x = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=length)
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.b_img_y = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=length)
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.b_img_z = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=length)
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.r_img_x = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=length)
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.r_img_y = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=length)
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.r_img_z = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=length)
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.g_img_x = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=length)
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.g_img_y = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=length)
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sf'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.g_img_z = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=length)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -219,15 +416,15 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_i = None
-def _get_struct_i():
-    global _struct_i
-    if _struct_i is None:
-        _struct_i = struct.Struct("<i")
-    return _struct_i
 _struct_3I = None
 def _get_struct_3I():
     global _struct_3I
     if _struct_3I is None:
         _struct_3I = struct.Struct("<3I")
     return _struct_3I
+_struct_3i = None
+def _get_struct_3i():
+    global _struct_3i
+    if _struct_3i is None:
+        _struct_3i = struct.Struct("<3i")
+    return _struct_3i

@@ -6,7 +6,7 @@
 # testing this directory and lists subdirectories to be tested as well.
 subdirs(gtest)
 subdirs(comm_tcp)
-subdirs(test)
+subdirs(imu_tutorial)
 subdirs(core_msgs)
 subdirs(ball_detection)
 subdirs(data_integrate)

@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
-messages_str = "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position.msg;/home/taewook/capstone_1_ROS/src/core_msgs/msg/multiarray.msg;/home/taewook/capstone_1_ROS/src/core_msgs/msg/markermsg.msg"
+messages_str = "/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position.msg;/home/taewook/capstone_1_ROS/src/core_msgs/msg/multiarray.msg;/home/taewook/capstone_1_ROS/src/core_msgs/msg/markermsg.msg;/home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg"
 services_str = ""
 pkg_name = "core_msgs"
 dependencies_str = "std_msgs;sensor_msgs"

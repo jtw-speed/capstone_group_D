@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "/home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/markermsg.l"
   "/home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/ball_position.l"
   "/home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/multiarray.l"
+  "/home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/msg/ball_position_modify.l"
   "/home/taewook/capstone_1_ROS/devel/share/roseus/ros/core_msgs/manifest.l"
 )
 

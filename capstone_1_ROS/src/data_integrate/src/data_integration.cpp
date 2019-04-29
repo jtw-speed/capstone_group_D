@@ -18,7 +18,7 @@
 #include <ros/ros.h>
 #include <ros/package.h>
 #include "core_msgs/ball_position.h"
-
+#include "core_msgs/ball_position_modify.h"
 #include "ros/ros.h"
 #include "sensor_msgs/LaserScan.h"
 #include "std_msgs/Int8.h"
@@ -27,15 +27,11 @@
 
 #include "opencv2/opencv.hpp"
 
-#include <climits>
-#include <algorithm>
 
 #define RAD2DEG(x) ((x)*180./M_PI)
 
 #define PORT 4000
 #define IPADDR "127.0.0.1" // myRIO ipadress
-
-
 
 using namespace std;
 
@@ -46,17 +42,33 @@ float lidar_degree[400];
 float lidar_distance[400];
 float lidar_obs;
 
-int ball_number;
+// int ball_number;
+// float ball_X[20];
+// float ball_Y[20];
+// float ball_distance[20];
+// int near_ball;					// groupD modify
 
-float web1_ball_X[20];
-float web1_ball_Y[20];
-
-float web2_ball_X[20];
-float web2_ball_Y[20];
-
-float ball_distance[20];
-
-int near_ball;
+// webcam1 global variables
+int web1_blue_number;
+float web1_blue_X_array[20];		// not necessary
+float web1_blue_X;
+float web1_blue_Z_array[20];		// not necessary
+float web1_blue_Z;
+int web1_green_number;
+float web1_green_X_array[20];
+float web1_green_X;
+float web1_green_Z_array[20];
+float web1_green_Z;
+// webcam2 global variables
+int web2_red_number;
+float web2_red_X_array[20];			// not necessary
+float web2_red_X;
+int web2_blue_number;
+float web2_blue_X_array[20];		// not necessary
+float web2_blue_X;
+// number of collected blue balls
+int collection=0;
+int old
 
 int action;
 
@@ -65,8 +77,6 @@ struct sockaddr_in c_addr;
 int len;
 int n;
 float data[24];
-
-#define RAD2DEG(x) ((x)*180./M_PI)
 
 void dataInit()
 {
@@ -111,72 +121,116 @@ void lidar_Callback(const sensor_msgs::LaserScan::ConstPtr& scan)
 		map_mutex.unlock();
 
 }
-void camera1_Callback(const core_msgs::ball_position::ConstPtr& position1)
+void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1)
 {
-    map_mutex.lock();
-    ball_number = position1->b_size;
+	  map_mutex.lock();
+	  // number assign
+	  int count1 = position_modify1->b_size;
+    web1_blue_number=count1;
+		int count2 = position_modify1->g_size;
+		web1_green_number=count2;
+		ROS_INFO("recieved number = %f", web1_blue_number);
+    cout<<"total number of blue balls from webcam1:"<<web1_blue_number<<endl;
+    cout<<"total number of green balls from webcam1:"<<web1_green_number<<endl;
 
-    c_socket = socket(PF_INET, SOCK_STREAM, 0);
-    c_addr.sin_addr.s_addr = inet_addr(IPADDR);
-    c_addr.sin_family = AF_INET;
-    c_addr.sin_port = htons(PORT);
-
-    write(c_socket, data, sizeof(data));
-
-    cout<<"number of web1 balls:"<<ball_number<<endl;
-    for(int i = 0; i < ball_number; i++)
+    // position assign webcam1 blue
+		web1_blue_X=-10000;
+		web1_blue_Z=-10000;
+    for(int i = 0; i < count1; i++)
     {
-        web1_ball_X[i] = position1->b_img_x[i];
-        web1_ball_Y[i] = position1->b_img_y[i];
+        web1_blue_X_array[i] = position_modify1->b_img_x[i];
+        web1_blue_Z_array[i] = position_modify1->b_img_z[i];
+				if(web1_blue_X < position_modify1->b_img_x[i]){
+					web1_blue_X = position_modify1->b_img_x[i];
+					web1_blue_Z = position_modify1->b_img_z[i];
+				}
         // std::cout << "degree : "<< ball_degree[i];
         // std::cout << "   distance : "<< ball_distance[i]<<std::endl;
-		//ball_distance[i] = ball_X[i]*ball_X[i]+ball_Y[i]*ball_X[i];
-
-    cout<<"webcam1 ball("<<i<<"):x="<<web1_ball_X[i]<<", y="<<web1_ball_Y[i]<<endl;
-    //cout<<"ball I will follow: x="<<max(ball_X[i])<<endl;
+		// ball_distance[i] = ball_X[i]*ball_X[i]+ball_Y[i]*ball_X[i];			//[groupD] we don't use any distance
+    cout<<"web1 blue circle("<<i<<"):x="<<web1_blue_X_array[i]<<", z="<<web1_blue_Z_array[i]<<endl;			//[groupD] for check
     }
+		// position assign webcam1 green
+		for(int i = 0; i < count2; i++)
+		{
+				web1_green_X_array[i] = position_modify1->g_img_x[i];
+				web1_green_Z_array[i] = position_modify1->g_img_z[i];
+				// std::cout << "degree : "<< ball_degree[i];
+				// std::cout << "   distance : "<< ball_distance[i]<<std::endl;
+		// ball_distance[i] = ball_X[i]*ball_X[i]+ball_Y[i]*ball_X[i];			//[groupD] we don't use any distance
+		cout<<"web1 green circle("<<i<<"):x="<<web1_green_X_array[i]<<", z="<<web1_green_Z_array[i]<<endl;			//[groupD] for check
+		}
     map_mutex.unlock();
-	//std::pair<float*, float*> minmax = std::minmax_element(std::begin(ball_X), std::end(ball_X));
-
-	//cout << "The min element is " << *(minmax.first) << '\n';
-	//cout << "The max element is " << *(minmax.second) << '\n';
 }
 
-void camera2_Callback(const core_msgs::ball_position::ConstPtr& position2)
+void camera2_Callback(const core_msgs::ball_position::ConstPtr& position_modify2)
 {
-    map_mutex.lock();
-    ball_number = position2->b_size;
+	  map_mutex.lock();
+	  // number assign
+	  int count1 = position_modify2->r_size;
+    web2_red_number=count1;
+		int count2 = position_modify2->b_size;
+		web2_blue_number=count2;
+    cout<<"total number of red balls from webcam2:"<<web2_red_number<<endl;
+    cout<<"total number of blue balls from webcam2:"<<web2_blue_number<<endl;
 
-    c_socket = socket(PF_INET, SOCK_STREAM, 0);
-    c_addr.sin_addr.s_addr = inet_addr(IPADDR);
-    c_addr.sin_family = AF_INET;
-    c_addr.sin_port = htons(PORT);
-
-    write(c_socket, data, sizeof(data));
-
-    cout<<"number of web2 balls:"<<ball_number<<endl;
-    for(int i = 0; i < ball_number; i++)
+		// position assign webcam2 red
+		web2_red_X=-10000;
+    for(int i = 0; i < count1; i++)
     {
-        web2_ball_X[i] = position2->b_img_x[i];
-        web2_ball_Y[i] = position2->b_img_y[i];
+        web2_red_X_array[i] = position_modify2->r_img_x[i];
+				if(web2_red_X < position_modify2->r_img_x[i]){
+					web2_red_X = position_modify2->r_img_x[i];
+				}
         // std::cout << "degree : "<< ball_degree[i];
         // std::cout << "   distance : "<< ball_distance[i]<<std::endl;
-		//ball_distance[i] = ball_X[i]*ball_X[i]+ball_Y[i]*ball_X[i];
-
-    cout<<"webcam2 ball("<<i<<"):x="<<web2_ball_X[i]<<", y="<<web2_ball_Y[i]<<endl;
-    //cout<<"ball I will follow: x="<<max(ball_X[i])<<endl;
+		// ball_distance[i] = ball_X[i]*ball_X[i]+ball_Y[i]*ball_X[i];			//[groupD] we don't use any distance
+    cout<<"web2 red circle("<<i<<"):x="<<web2_red_X_array[i]<<", z="<<endl;			//[groupD] for check
     }
-    map_mutex.unlock();
-	//std::pair<float*, float*> minmax = std::minmax_element(std::begin(ball_X), std::end(ball_X));
-
-	//cout << "The min element is " << *(minmax.first) << '\n';
-	//cout << "The max element is " << *(minmax.second) << '\n';
+		// position assign webcam2 blue
+		web2_blue_X=-10000;
+		for(int i = 0; i < count2; i++)
+		{
+				web2_blue_X_array[i] = position_modify2->b_img_x[i];
+				if(web1_blue_X < position_modify2->b_img_x[i]){
+					web1_blue_X = position_modify2->b_img_x[i];
+				}
+				// std::cout << "degree : "<< ball_degree[i];
+				// std::cout << "   distance : "<< ball_distance[i]<<std::endl;
+		// ball_distance[i] = ball_X[i]*ball_X[i]+ball_Y[i]*ball_X[i];			//[groupD] we don't use any distance
+		cout<<"web2 blue circle("<<i<<"):x="<<web2_blue_X_array[i]<<", z="<<endl;			//[groupD] for check
+		}
+		map_mutex.unlock();
 }
-
 
 void find_ball()
 {
 	data[20]=1;
+}
+
+void pick_up(int size2, float ball_X_2){
+data[14]=1;
+if(ball_X_2<-0.4){
+ // go left
+ data[2] = 180;
+ data[3] = 20000;
+ data[6] = 1;
+ data[7] = 1;
+}
+if(ball_X_2>0.4){
+ // go right
+ data[2] = 0;
+ data[3] = 20000;
+ data[6] = 1;
+ data[7] = 1;
+}
+if(-0.4<ball_X_2<0.4){
+ // go forward
+ data[2] = 90;
+ data[3] = 20000;
+ data[6] = 1;
+ data[7] = 1;
+}
+old = web2_blue_number;
 }
 
 
@@ -186,10 +240,15 @@ int main(int argc, char **argv)
     ros::NodeHandle n;
 
     ros::Subscriber sub = n.subscribe<sensor_msgs::LaserScan>("/scan", 1000, lidar_Callback);
-    ros::Subscriber sub1 = n.subscribe<core_msgs::ball_position>("/position1", 1000, camera1_Callback);
-    ros::Subscriber sub2 = n.subscribe<core_msgs::ball_position>("/position2", 1000, camera2_Callback);
+    ros::Subscriber sub1 = n.subscribe<core_msgs::ball_position>("/position_modify1", 1000, camera1_Callback);
+    ros::Subscriber sub2 = n.subscribe<core_msgs::ball_position>("/position_modify2", 1000, camera2_Callback);
 
 		dataInit();
+
+		c_socket = socket(PF_INET, SOCK_STREAM, 0);
+    c_addr.sin_addr.s_addr = inet_addr(IPADDR);
+    c_addr.sin_family = AF_INET;
+    c_addr.sin_port = htons(PORT);
 
 
 
@@ -204,7 +263,7 @@ int main(int argc, char **argv)
     // }
 
 
-    while(ros::ok){
+		while(ros::ok){
 		/////////////////////////////////////////////////////////////////////////////////////////////////
 		// // 각노드에서 받아오는 센서 테이터가 잘 받아 왔는지 확인하는 코드 (ctrl + /)을 눌러 주석을 추가/제거할수 있다.///
 		/////////////////////////////////////////////////////////////////////////////////////////////////
@@ -262,8 +321,80 @@ int main(int argc, char **argv)
 	      // printf("\n");
 			// printf("%d\n",action);
 
-	    ros::Duration(0.025).sleep();
-	    ros::spinOnce();
+			// [groupD]
+			if(collection==3){
+			// release
+			//release(ball_position->midpoint, ball_position->distance4)
+			}
+			else{
+			 int old = 1;
+			 if(web2_blue_number!=0){
+				// pick, collection++
+				// pick_up(web2_blue_number, web2_blue_X);
+				// kcollection++
+				if(old-web2_blue_number==1){
+				// stop suction
+				data[14]=0;
+				collection++;
+				old = 0;
+				}
+			 }
+			 else{
+				if(web1_blue_X<-0.1 || web1_blue_X>0.1){
+				 // turn
+				 data[2] = 1;
+				 data[3] = 1;
+				 data[6] = 180;
+				 data[7] = 20000;
+				}
+				else{
+				 if(web2_red_number!=0){
+					// avoid(go right)
+					data[2] = 0;
+					data[3] = 20000;
+					data[6] = 1;
+					data[7] = 1;
+				 }
+				 else{
+					if(web1_blue_Z>0.1){
+					 // go forward
+					 data[2] = 90;
+					 data[3] = 20000;
+					 data[6] = 1;
+					 data[7] = 1;
+					}
+					else{
+					 if(web1_blue_X<-0.01){
+						// go left
+						data[2] = 180;
+						data[3] = 20000;
+						data[6] = 1;
+						data[7] = 1;
+					 }
+					 if(web1_blue_X>0.01){
+						// go right
+						data[2] = 0;
+						data[3] = 20000;
+						data[6] = 1;
+						data[7] = 1;
+					 }
+					 else{
+						// go forward
+						data[2] = 90;
+						data[3] = 20000;
+						data[6] = 1;
+						data[7] = 1;
+					 }
+					}
+				 }
+				}
+			 }
+			}
+		 ROS_INFO("%f, %f, %f, %f", data[2], data[3], data[6], data[7]);  // for exp
+     write(c_socket, data, sizeof(data));
+
+		 ros::Duration(1).sleep();
+     ros::spinOnce();
     }
 
     return 0;

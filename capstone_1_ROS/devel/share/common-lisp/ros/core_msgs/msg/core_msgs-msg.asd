@@ -8,6 +8,8 @@
   :components ((:file "_package")
     (:file "ball_position" :depends-on ("_package_ball_position"))
     (:file "_package_ball_position" :depends-on ("_package"))
+    (:file "ball_position_modify" :depends-on ("_package_ball_position_modify"))
+    (:file "_package_ball_position_modify" :depends-on ("_package"))
     (:file "markermsg" :depends-on ("_package_markermsg"))
     (:file "_package_markermsg" :depends-on ("_package"))
     (:file "multiarray" :depends-on ("_package_multiarray"))

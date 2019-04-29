@@ -207,12 +207,12 @@ int main(int argc, char **argv)
      morphOps(hsv_frame_blue);
      morphOps(hsv_frame_green);
 
-     bilateralFilter ( hsv_frame_red,hsv_frame_red_blur, 31, 31*2, 31/2 );
-     bilateralFilter ( hsv_frame_blue,hsv_frame_blue_blur, 31, 31*2, 31/2 );
-     bilateralFilter ( hsv_frame_green,hsv_frame_green_blur, 31, 31*2, 31/2 );
-     //GaussianBlur(hsv_frame_red, hsv_frame_red_blur, cv::Size(9, 9), 2, 2);
-     //GaussianBlur(hsv_frame_blue, hsv_frame_blue_blur, cv::Size(9, 9), 2, 2);
-     //GaussianBlur(hsv_frame_green, hsv_frame_green_blur, cv::Size(9, 9), 2, 2);
+     //bilateralFilter ( hsv_frame_red,hsv_frame_red_blur, 31, 31*2, 31/2 );
+     //bilateralFilter ( hsv_frame_blue,hsv_frame_blue_blur, 31, 31*2, 31/2 );
+     //bilateralFilter ( hsv_frame_green,hsv_frame_green_blur, 31, 31*2, 31/2 );
+     GaussianBlur(hsv_frame_red, hsv_frame_red_blur, cv::Size(9, 9), 2, 2);
+     GaussianBlur(hsv_frame_blue, hsv_frame_blue_blur, cv::Size(9, 9), 2, 2);
+     GaussianBlur(hsv_frame_green, hsv_frame_green_blur, cv::Size(9, 9), 2, 2);
 
      Canny(hsv_frame_red_blur, hsv_frame_red_canny, lowThreshold_r, lowThreshold_r*ratio_r, kernel_size_r);
      Canny(hsv_frame_blue_blur, hsv_frame_blue_canny, lowThreshold_b, lowThreshold_b*ratio_b, kernel_size_b);

@@ -111,17 +111,6 @@ test/fast: test
 
 .PHONY : test/fast
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: install/local
-
-.PHONY : install/local/fast
-
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
@@ -132,6 +121,17 @@ install/strip: preinstall
 install/strip/fast: install/strip
 
 .PHONY : install/strip/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: install/local
+
+.PHONY : install/local/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -181,19 +181,19 @@ data_show_node/fast:
 .PHONY : data_show_node/fast
 
 # Convenience name for target.
-data_integrate/CMakeFiles/data_integation_node.dir/rule:
-	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f CMakeFiles/Makefile2 data_integrate/CMakeFiles/data_integation_node.dir/rule
-.PHONY : data_integrate/CMakeFiles/data_integation_node.dir/rule
+data_integrate/CMakeFiles/data_integration_node.dir/rule:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f CMakeFiles/Makefile2 data_integrate/CMakeFiles/data_integration_node.dir/rule
+.PHONY : data_integrate/CMakeFiles/data_integration_node.dir/rule
 
 # Convenience name for target.
-data_integation_node: data_integrate/CMakeFiles/data_integation_node.dir/rule
+data_integration_node: data_integrate/CMakeFiles/data_integration_node.dir/rule
 
-.PHONY : data_integation_node
+.PHONY : data_integration_node
 
 # fast build rule for target.
-data_integation_node/fast:
-	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f data_integrate/CMakeFiles/data_integation_node.dir/build.make data_integrate/CMakeFiles/data_integation_node.dir/build
-.PHONY : data_integation_node/fast
+data_integration_node/fast:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f data_integrate/CMakeFiles/data_integration_node.dir/build.make data_integrate/CMakeFiles/data_integration_node.dir/build
+.PHONY : data_integration_node/fast
 
 src/data_integration.o: src/data_integration.cpp.o
 
@@ -201,7 +201,7 @@ src/data_integration.o: src/data_integration.cpp.o
 
 # target to build an object file
 src/data_integration.cpp.o:
-	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f data_integrate/CMakeFiles/data_integation_node.dir/build.make data_integrate/CMakeFiles/data_integation_node.dir/src/data_integration.cpp.o
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f data_integrate/CMakeFiles/data_integration_node.dir/build.make data_integrate/CMakeFiles/data_integration_node.dir/src/data_integration.cpp.o
 .PHONY : src/data_integration.cpp.o
 
 src/data_integration.i: src/data_integration.cpp.i
@@ -210,7 +210,7 @@ src/data_integration.i: src/data_integration.cpp.i
 
 # target to preprocess a source file
 src/data_integration.cpp.i:
-	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f data_integrate/CMakeFiles/data_integation_node.dir/build.make data_integrate/CMakeFiles/data_integation_node.dir/src/data_integration.cpp.i
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f data_integrate/CMakeFiles/data_integration_node.dir/build.make data_integrate/CMakeFiles/data_integration_node.dir/src/data_integration.cpp.i
 .PHONY : src/data_integration.cpp.i
 
 src/data_integration.s: src/data_integration.cpp.s
@@ -219,7 +219,7 @@ src/data_integration.s: src/data_integration.cpp.s
 
 # target to generate assembly for a file
 src/data_integration.cpp.s:
-	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f data_integrate/CMakeFiles/data_integation_node.dir/build.make data_integrate/CMakeFiles/data_integation_node.dir/src/data_integration.cpp.s
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f data_integrate/CMakeFiles/data_integration_node.dir/build.make data_integrate/CMakeFiles/data_integration_node.dir/src/data_integration.cpp.s
 .PHONY : src/data_integration.cpp.s
 
 src/data_show.o: src/data_show.cpp.o
@@ -261,9 +261,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... test"
 	@echo "... data_show_node"
-	@echo "... data_integation_node"
-	@echo "... install/local"
+	@echo "... data_integration_node"
 	@echo "... install/strip"
+	@echo "... install/local"
 	@echo "... src/data_integration.o"
 	@echo "... src/data_integration.i"
 	@echo "... src/data_integration.s"

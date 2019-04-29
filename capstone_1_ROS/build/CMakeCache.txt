@@ -389,6 +389,12 @@ image_transport_tutorial_BINARY_DIR:STATIC=/home/taewook/capstone_1_ROS/build/im
 //Value Computed by CMake
 image_transport_tutorial_SOURCE_DIR:STATIC=/home/taewook/capstone_1_ROS/src/image_transport_tutorial
 
+//Value Computed by CMake
+imu_tutorial_BINARY_DIR:STATIC=/home/taewook/capstone_1_ROS/build/imu_tutorial
+
+//Value Computed by CMake
+imu_tutorial_SOURCE_DIR:STATIC=/home/taewook/capstone_1_ROS/src/imu_tutorial
+
 //Path to a library.
 lib:FILEPATH=/opt/ros/kinetic/lib/libxmlrpcpp.so
 
@@ -442,12 +448,6 @@ sensor_msgs_DIR:PATH=/opt/ros/kinetic/share/sensor_msgs/cmake
 
 //The directory containing a CMake configuration file for std_msgs.
 std_msgs_DIR:PATH=/opt/ros/kinetic/share/std_msgs/cmake
-
-//Value Computed by CMake
-test_BINARY_DIR:STATIC=/home/taewook/capstone_1_ROS/build/test
-
-//Value Computed by CMake
-test_SOURCE_DIR:STATIC=/home/taewook/capstone_1_ROS/src/test
 
 //The directory containing a CMake configuration file for visualization_msgs.
 visualization_msgs_DIR:PATH=/opt/ros/kinetic/share/visualization_msgs/cmake

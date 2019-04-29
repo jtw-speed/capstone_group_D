@@ -56,6 +56,7 @@ include core_msgs/CMakeFiles/core_msgs_generate_messages_lisp.dir/progress.make
 core_msgs/CMakeFiles/core_msgs_generate_messages_lisp: /home/taewook/capstone_1_ROS/devel/share/common-lisp/ros/core_msgs/msg/markermsg.lisp
 core_msgs/CMakeFiles/core_msgs_generate_messages_lisp: /home/taewook/capstone_1_ROS/devel/share/common-lisp/ros/core_msgs/msg/ball_position.lisp
 core_msgs/CMakeFiles/core_msgs_generate_messages_lisp: /home/taewook/capstone_1_ROS/devel/share/common-lisp/ros/core_msgs/msg/multiarray.lisp
+core_msgs/CMakeFiles/core_msgs_generate_messages_lisp: /home/taewook/capstone_1_ROS/devel/share/common-lisp/ros/core_msgs/msg/ball_position_modify.lisp
 
 
 /home/taewook/capstone_1_ROS/devel/share/common-lisp/ros/core_msgs/msg/markermsg.lisp: /opt/ros/kinetic/lib/genlisp/gen_lisp.py
@@ -78,10 +79,17 @@ core_msgs/CMakeFiles/core_msgs_generate_messages_lisp: /home/taewook/capstone_1_
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/taewook/capstone_1_ROS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Lisp code from core_msgs/multiarray.msg"
 	cd /home/taewook/capstone_1_ROS/build/core_msgs && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/taewook/capstone_1_ROS/src/core_msgs/msg/multiarray.msg -Icore_msgs:/home/taewook/capstone_1_ROS/src/core_msgs/msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/kinetic/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -p core_msgs -o /home/taewook/capstone_1_ROS/devel/share/common-lisp/ros/core_msgs/msg
 
+/home/taewook/capstone_1_ROS/devel/share/common-lisp/ros/core_msgs/msg/ball_position_modify.lisp: /opt/ros/kinetic/lib/genlisp/gen_lisp.py
+/home/taewook/capstone_1_ROS/devel/share/common-lisp/ros/core_msgs/msg/ball_position_modify.lisp: /home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg
+/home/taewook/capstone_1_ROS/devel/share/common-lisp/ros/core_msgs/msg/ball_position_modify.lisp: /opt/ros/kinetic/share/std_msgs/msg/Header.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/taewook/capstone_1_ROS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Lisp code from core_msgs/ball_position_modify.msg"
+	cd /home/taewook/capstone_1_ROS/build/core_msgs && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/taewook/capstone_1_ROS/src/core_msgs/msg/ball_position_modify.msg -Icore_msgs:/home/taewook/capstone_1_ROS/src/core_msgs/msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/kinetic/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -p core_msgs -o /home/taewook/capstone_1_ROS/devel/share/common-lisp/ros/core_msgs/msg
+
 core_msgs_generate_messages_lisp: core_msgs/CMakeFiles/core_msgs_generate_messages_lisp
 core_msgs_generate_messages_lisp: /home/taewook/capstone_1_ROS/devel/share/common-lisp/ros/core_msgs/msg/markermsg.lisp
 core_msgs_generate_messages_lisp: /home/taewook/capstone_1_ROS/devel/share/common-lisp/ros/core_msgs/msg/ball_position.lisp
 core_msgs_generate_messages_lisp: /home/taewook/capstone_1_ROS/devel/share/common-lisp/ros/core_msgs/msg/multiarray.lisp
+core_msgs_generate_messages_lisp: /home/taewook/capstone_1_ROS/devel/share/common-lisp/ros/core_msgs/msg/ball_position_modify.lisp
 core_msgs_generate_messages_lisp: core_msgs/CMakeFiles/core_msgs_generate_messages_lisp.dir/build.make
 
 .PHONY : core_msgs_generate_messages_lisp

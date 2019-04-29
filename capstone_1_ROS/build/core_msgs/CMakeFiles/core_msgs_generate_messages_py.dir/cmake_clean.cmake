@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "/home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_markermsg.py"
   "/home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_ball_position.py"
   "/home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_multiarray.py"
+  "/home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/_ball_position_modify.py"
   "/home/taewook/capstone_1_ROS/devel/lib/python2.7/dist-packages/core_msgs/msg/__init__.py"
 )
 

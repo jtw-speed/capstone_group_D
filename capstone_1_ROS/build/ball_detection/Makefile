@@ -56,6 +56,39 @@ CMAKE_BINARY_DIR = /home/taewook/capstone_1_ROS/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: install/local
+
+.PHONY : install/local/fast
+
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -89,17 +122,6 @@ install/strip/fast: install/strip
 
 .PHONY : install/strip/fast
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: install/local
-
-.PHONY : install/local/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -110,28 +132,6 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
-
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -196,19 +196,19 @@ visualization_msgs_generate_messages_eus/fast:
 .PHONY : visualization_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
-ball_detection/CMakeFiles/ball_detect_node.dir/rule:
-	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f CMakeFiles/Makefile2 ball_detection/CMakeFiles/ball_detect_node.dir/rule
-.PHONY : ball_detection/CMakeFiles/ball_detect_node.dir/rule
+ball_detection/CMakeFiles/modify_ball_count_node1.dir/rule:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f CMakeFiles/Makefile2 ball_detection/CMakeFiles/modify_ball_count_node1.dir/rule
+.PHONY : ball_detection/CMakeFiles/modify_ball_count_node1.dir/rule
 
 # Convenience name for target.
-ball_detect_node: ball_detection/CMakeFiles/ball_detect_node.dir/rule
+modify_ball_count_node1: ball_detection/CMakeFiles/modify_ball_count_node1.dir/rule
 
-.PHONY : ball_detect_node
+.PHONY : modify_ball_count_node1
 
 # fast build rule for target.
-ball_detect_node/fast:
-	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/ball_detect_node.dir/build.make ball_detection/CMakeFiles/ball_detect_node.dir/build
-.PHONY : ball_detect_node/fast
+modify_ball_count_node1/fast:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/modify_ball_count_node1.dir/build.make ball_detection/CMakeFiles/modify_ball_count_node1.dir/build
+.PHONY : modify_ball_count_node1/fast
 
 # Convenience name for target.
 ball_detection/CMakeFiles/visualization_msgs_generate_messages_lisp.dir/rule:
@@ -226,6 +226,51 @@ visualization_msgs_generate_messages_lisp/fast:
 .PHONY : visualization_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
+ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/rule:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f CMakeFiles/Makefile2 ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/rule
+.PHONY : ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+visualization_msgs_generate_messages_py: ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/rule
+
+.PHONY : visualization_msgs_generate_messages_py
+
+# fast build rule for target.
+visualization_msgs_generate_messages_py/fast:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/build.make ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/build
+.PHONY : visualization_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+ball_detection/CMakeFiles/ball_detect_node1.dir/rule:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f CMakeFiles/Makefile2 ball_detection/CMakeFiles/ball_detect_node1.dir/rule
+.PHONY : ball_detection/CMakeFiles/ball_detect_node1.dir/rule
+
+# Convenience name for target.
+ball_detect_node1: ball_detection/CMakeFiles/ball_detect_node1.dir/rule
+
+.PHONY : ball_detect_node1
+
+# fast build rule for target.
+ball_detect_node1/fast:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/ball_detect_node1.dir/build.make ball_detection/CMakeFiles/ball_detect_node1.dir/build
+.PHONY : ball_detect_node1/fast
+
+# Convenience name for target.
+ball_detection/CMakeFiles/ball_detect_node2.dir/rule:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f CMakeFiles/Makefile2 ball_detection/CMakeFiles/ball_detect_node2.dir/rule
+.PHONY : ball_detection/CMakeFiles/ball_detect_node2.dir/rule
+
+# Convenience name for target.
+ball_detect_node2: ball_detection/CMakeFiles/ball_detect_node2.dir/rule
+
+.PHONY : ball_detect_node2
+
+# fast build rule for target.
+ball_detect_node2/fast:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/ball_detect_node2.dir/build.make ball_detection/CMakeFiles/ball_detect_node2.dir/build
+.PHONY : ball_detect_node2/fast
+
+# Convenience name for target.
 ball_detection/CMakeFiles/visualization_msgs_generate_messages_cpp.dir/rule:
 	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f CMakeFiles/Makefile2 ball_detection/CMakeFiles/visualization_msgs_generate_messages_cpp.dir/rule
 .PHONY : ball_detection/CMakeFiles/visualization_msgs_generate_messages_cpp.dir/rule
@@ -241,46 +286,127 @@ visualization_msgs_generate_messages_cpp/fast:
 .PHONY : visualization_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
-ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/rule:
-	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f CMakeFiles/Makefile2 ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/rule
-.PHONY : ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/rule
+ball_detection/CMakeFiles/modify_ball_count_node2.dir/rule:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f CMakeFiles/Makefile2 ball_detection/CMakeFiles/modify_ball_count_node2.dir/rule
+.PHONY : ball_detection/CMakeFiles/modify_ball_count_node2.dir/rule
 
 # Convenience name for target.
-visualization_msgs_generate_messages_py: ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/rule
+modify_ball_count_node2: ball_detection/CMakeFiles/modify_ball_count_node2.dir/rule
 
-.PHONY : visualization_msgs_generate_messages_py
+.PHONY : modify_ball_count_node2
 
 # fast build rule for target.
-visualization_msgs_generate_messages_py/fast:
-	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/build.make ball_detection/CMakeFiles/visualization_msgs_generate_messages_py.dir/build
-.PHONY : visualization_msgs_generate_messages_py/fast
+modify_ball_count_node2/fast:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/modify_ball_count_node2.dir/build.make ball_detection/CMakeFiles/modify_ball_count_node2.dir/build
+.PHONY : modify_ball_count_node2/fast
 
-src/ball_detect.o: src/ball_detect.cpp.o
+src/ball_detect1.o: src/ball_detect1.cpp.o
 
-.PHONY : src/ball_detect.o
+.PHONY : src/ball_detect1.o
 
 # target to build an object file
-src/ball_detect.cpp.o:
-	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/ball_detect_node.dir/build.make ball_detection/CMakeFiles/ball_detect_node.dir/src/ball_detect.cpp.o
-.PHONY : src/ball_detect.cpp.o
+src/ball_detect1.cpp.o:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/ball_detect_node1.dir/build.make ball_detection/CMakeFiles/ball_detect_node1.dir/src/ball_detect1.cpp.o
+.PHONY : src/ball_detect1.cpp.o
 
-src/ball_detect.i: src/ball_detect.cpp.i
+src/ball_detect1.i: src/ball_detect1.cpp.i
 
-.PHONY : src/ball_detect.i
+.PHONY : src/ball_detect1.i
 
 # target to preprocess a source file
-src/ball_detect.cpp.i:
-	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/ball_detect_node.dir/build.make ball_detection/CMakeFiles/ball_detect_node.dir/src/ball_detect.cpp.i
-.PHONY : src/ball_detect.cpp.i
+src/ball_detect1.cpp.i:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/ball_detect_node1.dir/build.make ball_detection/CMakeFiles/ball_detect_node1.dir/src/ball_detect1.cpp.i
+.PHONY : src/ball_detect1.cpp.i
 
-src/ball_detect.s: src/ball_detect.cpp.s
+src/ball_detect1.s: src/ball_detect1.cpp.s
 
-.PHONY : src/ball_detect.s
+.PHONY : src/ball_detect1.s
 
 # target to generate assembly for a file
-src/ball_detect.cpp.s:
-	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/ball_detect_node.dir/build.make ball_detection/CMakeFiles/ball_detect_node.dir/src/ball_detect.cpp.s
-.PHONY : src/ball_detect.cpp.s
+src/ball_detect1.cpp.s:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/ball_detect_node1.dir/build.make ball_detection/CMakeFiles/ball_detect_node1.dir/src/ball_detect1.cpp.s
+.PHONY : src/ball_detect1.cpp.s
+
+src/ball_detect2.o: src/ball_detect2.cpp.o
+
+.PHONY : src/ball_detect2.o
+
+# target to build an object file
+src/ball_detect2.cpp.o:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/ball_detect_node2.dir/build.make ball_detection/CMakeFiles/ball_detect_node2.dir/src/ball_detect2.cpp.o
+.PHONY : src/ball_detect2.cpp.o
+
+src/ball_detect2.i: src/ball_detect2.cpp.i
+
+.PHONY : src/ball_detect2.i
+
+# target to preprocess a source file
+src/ball_detect2.cpp.i:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/ball_detect_node2.dir/build.make ball_detection/CMakeFiles/ball_detect_node2.dir/src/ball_detect2.cpp.i
+.PHONY : src/ball_detect2.cpp.i
+
+src/ball_detect2.s: src/ball_detect2.cpp.s
+
+.PHONY : src/ball_detect2.s
+
+# target to generate assembly for a file
+src/ball_detect2.cpp.s:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/ball_detect_node2.dir/build.make ball_detection/CMakeFiles/ball_detect_node2.dir/src/ball_detect2.cpp.s
+.PHONY : src/ball_detect2.cpp.s
+
+src/modify_ball_count1.o: src/modify_ball_count1.cpp.o
+
+.PHONY : src/modify_ball_count1.o
+
+# target to build an object file
+src/modify_ball_count1.cpp.o:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/modify_ball_count_node1.dir/build.make ball_detection/CMakeFiles/modify_ball_count_node1.dir/src/modify_ball_count1.cpp.o
+.PHONY : src/modify_ball_count1.cpp.o
+
+src/modify_ball_count1.i: src/modify_ball_count1.cpp.i
+
+.PHONY : src/modify_ball_count1.i
+
+# target to preprocess a source file
+src/modify_ball_count1.cpp.i:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/modify_ball_count_node1.dir/build.make ball_detection/CMakeFiles/modify_ball_count_node1.dir/src/modify_ball_count1.cpp.i
+.PHONY : src/modify_ball_count1.cpp.i
+
+src/modify_ball_count1.s: src/modify_ball_count1.cpp.s
+
+.PHONY : src/modify_ball_count1.s
+
+# target to generate assembly for a file
+src/modify_ball_count1.cpp.s:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/modify_ball_count_node1.dir/build.make ball_detection/CMakeFiles/modify_ball_count_node1.dir/src/modify_ball_count1.cpp.s
+.PHONY : src/modify_ball_count1.cpp.s
+
+src/modify_ball_count2.o: src/modify_ball_count2.cpp.o
+
+.PHONY : src/modify_ball_count2.o
+
+# target to build an object file
+src/modify_ball_count2.cpp.o:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/modify_ball_count_node2.dir/build.make ball_detection/CMakeFiles/modify_ball_count_node2.dir/src/modify_ball_count2.cpp.o
+.PHONY : src/modify_ball_count2.cpp.o
+
+src/modify_ball_count2.i: src/modify_ball_count2.cpp.i
+
+.PHONY : src/modify_ball_count2.i
+
+# target to preprocess a source file
+src/modify_ball_count2.cpp.i:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/modify_ball_count_node2.dir/build.make ball_detection/CMakeFiles/modify_ball_count_node2.dir/src/modify_ball_count2.cpp.i
+.PHONY : src/modify_ball_count2.cpp.i
+
+src/modify_ball_count2.s: src/modify_ball_count2.cpp.s
+
+.PHONY : src/modify_ball_count2.s
+
+# target to generate assembly for a file
+src/modify_ball_count2.cpp.s:
+	cd /home/taewook/capstone_1_ROS/build && $(MAKE) -f ball_detection/CMakeFiles/modify_ball_count_node2.dir/build.make ball_detection/CMakeFiles/modify_ball_count_node2.dir/src/modify_ball_count2.cpp.s
+.PHONY : src/modify_ball_count2.cpp.s
 
 # Help Target
 help:
@@ -288,22 +414,34 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install"
+	@echo "... edit_cache"
+	@echo "... test"
+	@echo "... install/local"
 	@echo "... visualization_msgs_generate_messages_nodejs"
 	@echo "... visualization_msgs_generate_messages_eus"
-	@echo "... ball_detect_node"
+	@echo "... install"
+	@echo "... modify_ball_count_node1"
 	@echo "... list_install_components"
 	@echo "... visualization_msgs_generate_messages_lisp"
 	@echo "... install/strip"
-	@echo "... install/local"
+	@echo "... visualization_msgs_generate_messages_py"
+	@echo "... ball_detect_node1"
+	@echo "... ball_detect_node2"
 	@echo "... rebuild_cache"
 	@echo "... visualization_msgs_generate_messages_cpp"
-	@echo "... visualization_msgs_generate_messages_py"
-	@echo "... test"
-	@echo "... edit_cache"
-	@echo "... src/ball_detect.o"
-	@echo "... src/ball_detect.i"
-	@echo "... src/ball_detect.s"
+	@echo "... modify_ball_count_node2"
+	@echo "... src/ball_detect1.o"
+	@echo "... src/ball_detect1.i"
+	@echo "... src/ball_detect1.s"
+	@echo "... src/ball_detect2.o"
+	@echo "... src/ball_detect2.i"
+	@echo "... src/ball_detect2.s"
+	@echo "... src/modify_ball_count1.o"
+	@echo "... src/modify_ball_count1.i"
+	@echo "... src/modify_ball_count1.s"
+	@echo "... src/modify_ball_count2.o"
+	@echo "... src/modify_ball_count2.i"
+	@echo "... src/modify_ball_count2.s"
 .PHONY : help
 
 

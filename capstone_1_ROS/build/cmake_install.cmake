@@ -118,7 +118,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/taewook/capstone_1_ROS/build/gtest/cmake_install.cmake")
   include("/home/taewook/capstone_1_ROS/build/comm_tcp/cmake_install.cmake")
-  include("/home/taewook/capstone_1_ROS/build/test/cmake_install.cmake")
+  include("/home/taewook/capstone_1_ROS/build/imu_tutorial/cmake_install.cmake")
   include("/home/taewook/capstone_1_ROS/build/core_msgs/cmake_install.cmake")
   include("/home/taewook/capstone_1_ROS/build/ball_detection/cmake_install.cmake")
   include("/home/taewook/capstone_1_ROS/build/data_integrate/cmake_install.cmake")
