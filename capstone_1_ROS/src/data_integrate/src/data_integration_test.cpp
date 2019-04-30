@@ -60,6 +60,13 @@ float web1_green_X_array[20];
 float web1_green_X;
 float web1_green_Z_array[20];
 float web1_green_Z;
+int web1_red_number;
+float web1_red_X_array[20];
+float web1_red_X;
+float web1_red_Z_array[20];
+float web1_red_Z;
+
+
 // webcam2 global variables
 int web2_red_number;
 float web2_red_X_array[20];			// not necessary
@@ -129,12 +136,16 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
     web1_blue_number=count1;
 		int count2 = position_modify1->g_size;
 		web1_green_number=count2;
+		int count3 = position_modify1->r_size;
+		web1_red_number=count3;
     cout<<"total number of blue balls from webcam1:"<<web1_blue_number<<endl;
     cout<<"total number of green balls from webcam1:"<<web1_green_number<<endl;
-
+    cout<<"total number of red balls from webcam1:"<<web1_red_number<<endl;
     // position assign webcam1 blue
 		web1_blue_X=-10000;
-		web1_blue_Z=-10000;
+		web1_blue_Z=10000;
+		web1_red_X = -100;
+		web1_red_Z = 10000;
     for(int i = 0; i < count1; i++)
     {
         web1_blue_X_array[i] = position_modify1->b_img_x[i];
@@ -158,6 +169,18 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 		// ball_distance[i] = ball_X[i]*ball_X[i]+ball_Y[i]*ball_X[i];			//[groupD] we don't use any distance
 		cout<<"web1 green circle("<<i<<"):x="<<web1_green_X_array[i]<<", z="<<web1_green_Z_array[i]<<endl;			//[groupD] for check
 	}
+	for(int i = 0; i < count3; i++)
+	{
+			web1_red_X_array[i] = position_modify1->r_img_x[i];
+			web1_red_Z_array[i] = position_modify1->r_img_z[i];
+			if(web1_red_Z > position_modify1->r_img_z[i]){
+				web1_red_X = position_modify1->r_img_x[i];
+				web1_red_Z = position_modify1->r_img_z[i];
+			}
+	cout<<"web1 red circle("<<i<<"):x="<<web1_red_X_array[i]<<", z="<<web1_red_Z_array[i]<<endl;			//[groupD] for check
+	}
+
+
     map_mutex.unlock();
 
 }
@@ -265,53 +288,98 @@ int main(int argc, char **argv)
 
 		 int i=0;
 		 int ch;
- 		while (i<15){
- 		 data[0] = 0;
- 		 data[1] = 20000;
- 		 data[4] = 0;
- 		 data[5] = 0;
- 		 i=i+1;
-		 ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);  // for exp
-		 write(c_socket, data, sizeof(data));
- 		 ros::Duration(0.1/1.02).sleep();
- 		}
-
-		while(ros::ok){
-	  ros::spinOnce();
-		cout<<web1_blue_number<<endl;
-    if(web1_blue_number != 0){
-			cout<<"dkdkddjdjdjdjdjdjdjdjdjdjdjdjdj"<<endl;
-     break;
+		 //first go forward
+		 web1_red_Z =100;
+    while(web1_red_Z > 0.4) {
+			ros::spinOnce();
+      if(web1_red_X<-0.04){
+				while(web1_red_X<-0.01){
+				ros::spinOnce();
+				data[0] = 0;
+				data[1] = 0;
+				data[4] = -1;
+				data[5] = 0;
+				write(c_socket, data, sizeof(data));
+				ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+				ros::Duration(0.025).sleep();
+			 }
+			}
+			if(web1_red_X>0.04){
+				  while(web1_red_X>0.01){
+				ros::spinOnce();
+				data[0] = 0;
+				data[1] = 0;
+				data[4] = 1;
+				data[5] = 0;
+				write(c_socket, data, sizeof(data));
+				ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+        ros::Duration(0.025).sleep();
+			}
 		}
-		else{
+      else{
+				data[0] = 0;
+				data[1] = 1;
+				data[4] = 0;
+				data[5] = 0;
+				write(c_socket, data, sizeof(data));
+				ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+				ros::Duration(0.1).sleep();
+			}
+				ros::Duration(0.1).sleep();
+	}//end while
+
+
+
+
+
+ web1_blue_Z = 100;
+	while(web1_blue_Z > 0.4) {
+		ros::spinOnce();
+		if(web1_blue_X<-0.04){
+			while(web1_blue_X<-0.01){
+			ros::spinOnce();
+			data[0] = 0;
+			data[1] = 0;
+			data[4] = -1;
+			data[5] = 0;
+			write(c_socket, data, sizeof(data));
+			ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+			ros::Duration(0.025).sleep();
+		 }
+		}
+		if(web1_blue_X>0.04){
+				while(web1_blue_X>0.01){
+			ros::spinOnce();
 			data[0] = 0;
 			data[1] = 0;
 			data[4] = 1;
 			data[5] = 0;
 			write(c_socket, data, sizeof(data));
-			cout<<"checkpoint"<<endl;
 			ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+			ros::Duration(0.025).sleep();
 		}
-    }
-		i=0;
-		while (i<15){
-		 data[0] = 0;
-		 data[1] = 20000;
-		 data[4] = 0;
-		 data[5] = 0;
-		 i=i+1;
-		 ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);  // for exp
-		 write(c_socket, data, sizeof(data));
-		 ros::Duration(0.1/1.02).sleep();
-}
-		while(ros::ok){
-		data[0] = 0;
-		data[1] = 0;
-		data[4] = 0;
-		data[5] = 0;
-	  write(c_socket, data, sizeof(data));
-	  ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
 	}
+		else{
+			data[0] = 0;
+			data[1] = 1;
+			data[4] = 0;
+			data[5] = 0;
+			write(c_socket, data, sizeof(data));
+			ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+			ros::Duration(0.1).sleep();
+		}
+			ros::Duration(0.1).sleep();
+}
+
+while(ros::ok){
+	data[0] = 0;
+	data[1] = 0;
+	data[4] = 0;
+	data[5] = 0;
+	write(c_socket, data, sizeof(data));
+	ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+	ros::Duration(0.1).sleep();
+}
     close(c_socket);
     return 0;
 }
