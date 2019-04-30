@@ -124,7 +124,7 @@ int main(int argc, char **argv)
    vector<vector<Point> > contours_b;
    vector<vector<Point> > contours_g;
 
-   VideoCapture cap(1);
+   VideoCapture cap(0);
    namedWindow("Video Capture", WINDOW_NORMAL);
 
    namedWindow("Object Detection_HSV_Red", WINDOW_NORMAL);
@@ -398,7 +398,7 @@ void morphOps(Mat &thresh){
 }
 
 
-//function which displays ball position vector
+//function which di/  splays ball position vector
 vector<float> pixel2point(Point center, int radius){
     vector<float> position;
     float x, y, u, v, Xc, Yc, Zc;
