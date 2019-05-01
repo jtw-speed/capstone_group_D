@@ -280,20 +280,20 @@ int main(int argc, char **argv)
 		//	노드가 작동 -> 통신이 연결됨, Failed to connect 이라고 뜸 -> 통신이 안됨///
 		////////////////////////////////////////////////////////////////////////
 		//connect(c_socket, (struct sockaddr*) &c_addr, sizeof(c_addr));
-     // if(connect(c_socket, (struct sockaddr*) &c_addr, sizeof(c_addr)) == -1){
-     //     printf("Failed to connect\n");
-     //     close(c_socket);
-     //     return -1;
-     // }
+     if(connect(c_socket, (struct sockaddr*) &c_addr, sizeof(c_addr)) == -1){
+         printf("Failed to connect\n");
+         close(c_socket);
+         return -1;
+     }
 
 		 int i=0;
 		 int ch;
 		 //first go forward
 		 web1_red_Z =100;
-    while(web1_red_Z > 0.4) {
+    while(web1_red_Z > 0.5) {
 			ros::spinOnce();
-      if(web1_red_X<-0.04){
-				while(web1_red_X<-0.01){
+      if(web1_red_X<-0.18-0.6){
+				while(web1_red_X<-0.18-0.3){
 				ros::spinOnce();
 				data[0] = 0;
 				data[1] = 0;
@@ -304,8 +304,8 @@ int main(int argc, char **argv)
 				ros::Duration(0.025).sleep();
 			 }
 			}
-			if(web1_red_X>0.04){
-				  while(web1_red_X>0.01){
+			if(web1_red_X>0.18+0.6){
+				  while(web1_red_X>0.18+0.3){
 				ros::spinOnce();
 				data[0] = 0;
 				data[1] = 0;
@@ -323,54 +323,100 @@ int main(int argc, char **argv)
 				data[5] = 0;
 				write(c_socket, data, sizeof(data));
 				ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
-				ros::Duration(0.1).sleep();
+				ros::Duration(0.025).sleep();
 			}
-				ros::Duration(0.1).sleep();
+				ros::Duration(0.025).sleep();
 	}//end while
 
 
 
 
 
- web1_blue_Z = 100;
-	while(web1_blue_Z > 0.4) {
-		ros::spinOnce();
-		if(web1_blue_X<-0.04){
-			while(web1_blue_X<-0.01){
-			ros::spinOnce();
-			data[0] = 0;
-			data[1] = 0;
-			data[4] = -1;
-			data[5] = 0;
-			write(c_socket, data, sizeof(data));
-			ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
-			ros::Duration(0.025).sleep();
-		 }
+	web1_blue_Z =100;
+ while(web1_blue_Z > 0.5) {
+	 ros::spinOnce();
+	 if(web1_blue_X<-0.18-0.6){
+		 while(web1_blue_X<-0.18-0.3){
+		 ros::spinOnce();
+		 data[0] = 0;
+		 data[1] = 0;
+		 data[4] = -1;
+		 data[5] = 0;
+		 write(c_socket, data, sizeof(data));
+		 ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+		 ros::Duration(0.025).sleep();
 		}
-		if(web1_blue_X>0.04){
-				while(web1_blue_X>0.01){
-			ros::spinOnce();
-			data[0] = 0;
-			data[1] = 0;
-			data[4] = 1;
-			data[5] = 0;
-			write(c_socket, data, sizeof(data));
-			ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
-			ros::Duration(0.025).sleep();
-		}
-	}
-		else{
-			data[0] = 0;
-			data[1] = 1;
-			data[4] = 0;
-			data[5] = 0;
-			write(c_socket, data, sizeof(data));
-			ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
-			ros::Duration(0.1).sleep();
-		}
-			ros::Duration(0.1).sleep();
-}
+	 }
+	 if(web1_blue_X>0.18+0.6){
+			 while(web1_blue_X>0.18+0.3){
+		 ros::spinOnce();
+		 data[0] = 0;
+		 data[1] = 0;
+		 data[4] = 1;
+		 data[5] = 0;
+		 write(c_socket, data, sizeof(data));
+		 ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+		 ros::Duration(0.025).sleep();
+	 }
+ }
+	 else{
+		 data[0] = 0;
+		 data[1] = 1;
+		 data[4] = 0;
+		 data[5] = 0;
+		 write(c_socket, data, sizeof(data));
+		 ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+		 ros::Duration(0.025).sleep();
+	 }
+		 ros::Duration(0.025).sleep();
+}//end while
 
+
+
+
+
+
+
+
+//  web1_blue_Z = 100;
+// 	while(web1_blue_Z > 0.4) {
+// 		ros::spinOnce();
+// 		if(web1_blue_X<-0.18-0.6){
+// 			while(web1_blue_X<-0.18-0.3){
+// 			ros::spinOnce();
+// 			data[0] = 0;
+// 			data[1] = 0;
+// 			data[4] = -1;
+// 			data[5] = 0;
+// 			write(c_socket, data, sizeof(data));
+// 			ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+// 			ros::Duration(0.025).sleep();
+// 		 }
+// 		}
+// 		if(web1_blue_X>0.18+0.6){
+// 				while(web1_blue_X>0.18+0.3){
+// 			ros::spinOnce();
+// 			data[0] = 0;
+// 			data[1] = 0;
+// 			data[4] = 1;
+// 			data[5] = 0;
+// 			write(c_socket, data, sizeof(data));
+// 			ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+// 			ros::Duration(0.025).sleep();
+// 		}
+// 	}
+// 		else{
+// 			data[0] = 0;
+// 			data[1] = 1;
+// 			data[4] = 0;
+// 			data[5] = 0;
+// 			write(c_socket, data, sizeof(data));
+// 			ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+// 			ros::Duration(0.1).sleep();
+// 		}
+// 			ros::Duration(0.1).sleep();
+// }
+//
 while(ros::ok){
 	data[0] = 0;
 	data[1] = 0;
