@@ -19,7 +19,7 @@
 #include "opencv2/opencv.hpp"
 using namespace std;
 
-float acceptable_distance = 0.02; //change this parameter to choose acceptable distance of deleting 중복된 ball data
+float acceptable_distance = 0.05; //change this parameter to choose acceptable distance of deleting 중복된 ball data
 ros::Publisher pub;
 
 void imageCallback(const core_msgs::ball_position::ConstPtr& position1)
@@ -71,7 +71,8 @@ void imageCallback(const core_msgs::ball_position::ConstPtr& position1)
     }
 
   }
-
+  for( int x = 0; x < g_size_original; x++ ){
+      cout << g_pos_x_original[x] << endl;}
 
   cout << "checkpoint 2" <<endl;
 
@@ -135,7 +136,12 @@ void imageCallback(const core_msgs::ball_position::ConstPtr& position1)
         }
       }
   }
-
+  for( int x = 0; x < b_size_original; x++ ){
+      cout <<"b"<< b_pos_x_original[x] << endl;}
+      for( int x = 0; x < r_size_original; x++ ){
+          cout <<"r"<< r_pos_x_original[x] << endl;}
+          for( int x = 0; x < g_size_original; x++ ){
+              cout <<"g"<< g_pos_x_original[x] << endl;}
   cout << "checkpoint 3" <<endl;
 
 //define modified position
@@ -191,8 +197,9 @@ core_msgs::ball_position mmsg;  //create a message for ball positions
   cout << "reduced green balls: "<< g_data_reduction << endl;
 
   //save useful data in array
+  int j = 0;
   for( size_t i = 0; i< b_size_original; i++ ){
-    int j = 0;
+
     if(b_pos_x_original[i] < 99){
       mmsg.b_img_x[j] = b_pos_x_original[i];
       mmsg.b_img_y[j] = b_pos_y_original[i];
@@ -201,8 +208,8 @@ core_msgs::ball_position mmsg;  //create a message for ball positions
 
     }
   }
+  j=0;
   for( size_t i = 0; i< r_size_original; i++ ){
-    int j = 0;
     if(r_pos_x_original[i] < 99){
       mmsg.r_img_x[j] = r_pos_x_original[i];
       mmsg.r_img_y[j] = r_pos_y_original[i];
@@ -210,9 +217,8 @@ core_msgs::ball_position mmsg;  //create a message for ball positions
       j++;
     }
   }
-
+  j=0;
   for( size_t i = 0; i< g_size_original; i++ ){
-    int j = 0;
     if(g_pos_x_original[i] < 99){
       mmsg.g_img_x[j] = g_pos_x_original[i];
       mmsg.g_img_y[j] = g_pos_y_original[i];
@@ -223,8 +229,8 @@ core_msgs::ball_position mmsg;  //create a message for ball positions
 
 
   }
-
   pub.publish(mmsg);
+
 
 
 }
