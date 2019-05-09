@@ -432,113 +432,110 @@ int main(int argc, char **argv)
 
 			// [groupD]
       ros::spinOnce();
-			if(collection==3){
-			// release
-			//release(ball_position->midpoint, ball_position->distance4)
-			}
-			else{
-			 if(web2_blue_number!=0){
-				pick_up();
-			 }
-			 else{
-				if(web1_blue_X>0.6){
-				 // turn
-				 while(web1_blue_X>0.3 && web2_blue_number==0 && web2_red_number==0){
-					 turn_CCW(1);
-					 ros::spinOnce();
-	 				 sleep_count(0.025);
-				 }
-			}
-				else if(web1_blue_X<-0.6){
-				 while(web1_blue_X<-0.3 && web2_blue_number==0 && web2_red_number==0){
-					turn_CW(1);
-					ros::spinOnce();
-					sleep_count(0.025);
-				}
-				}
-				else{
-				 if(web1_red_Z<0.5){
-					// avoid start
-					if(web1_red_X>0){
-						//when red ball is on right side
-					  while(web1_red_number != 0){
-						//move left
-						move_left();
-						ros::spinOnce();
- 	 				 sleep_count(0.025);
-			 }
-			      float k = 0;
-			      while(k<1.5){
-							//go forward for a while
-							data[0] = 0;
-							data[1] = 1;
-							data[4] = 0;
-							data[5] = 0;
-							suction_check();
-							write(c_socket, data, sizeof(data));
-							sleep_count(0.025);
-							k=k+0.025;
-						}
-					}
-
-				 else{
-					 //when red ball is on left side
-					 while(web1_red_number != 0){
-					 //move right and go forward
-					 move_right();
-					 ros::spinOnce();
-	 				 sleep_count(0.025);
-			}
-					 float k = 0;
-					 while(k<1.5){
-						 //go forward for a while
-						 data[0] = 0;
-						 data[1] = 1;
-						 data[4] = 0;
-						 data[5] = 0;
-						 suction_check();
-						 write(c_socket, data, sizeof(data));
-						 sleep_count(0.025);
-						 k=k+0.025;
-					 }
-			 }
-		  }
-				 else{
-					if(web1_blue_Z>0.5){
-					 // go forward
-					 move_forward(1);
-
-			 }
-					else{
-					 if(web1_blue_X<-0.04){
-						// go left
-						while(web1_blue_X<-0.02 && web2_blue_number==0 && web2_red_number==0){
-							turn_CCW(1);
-							ros::spinOnce();
-	 	 				 sleep_count(0.025);
-						}
-					 }
-					 else if(web1_blue_X>0.04){
-						// go right
-						while(web1_blue_X>0.02 && web2_blue_number==0 && web2_red_number==0){
-						turn_CW(1);
-						ros::spinOnce();
- 	 				 sleep_count(0.025);
-					  }
-					 }
-					 else{
-						// go forward
-						move_forward(0.5);
-					 }
-					}
-				 }
-				}
-			}
-			}
-		}
-		 //ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);  // for exp
+      if(collection==3){
+       // release
+       //release(ball_position->midpoint, ball_position->distance4)
+      }
+      else{
+       if(web2_blue_number!=0){
+	pick_up();
+       }
+       else{
+	if(web1_blue_X>0.6){
+         // turn
+	 while(web1_blue_X>0.3 && web2_blue_number==0 && web2_red_number==0){
+	  turn_CCW(1);
+	  ros::spinOnce();
+	  sleep_count(0.025);
+	 }
+	}
+	else if(web1_blue_X<-0.6){
+	 while(web1_blue_X<-0.3 && web2_blue_number==0 && web2_red_number==0){
+	  turn_CW(1);
+	  ros::spinOnce();
+	  sleep_count(0.025);
+	 }
+	}
+	else{
+	 if(web1_red_Z<0.5){
+	  // avoid start
+	  if(web1_red_X>0){
+	   //when red ball is on right side
+	   while(web1_red_number != 0){
+	    //move left
+	    move_left();
+	    ros::spinOnce();
+ 	    sleep_count(0.025);
+	   }
+	   float k = 0;
+	   while(k<1.5){
+	    //go forward for a while
+	    data[0] = 0;
+	    data[1] = 1;
+	    data[4] = 0;
+	    data[5] = 0;
+	    suction_check();
+	    write(c_socket, data, sizeof(data));
+	    sleep_count(0.025);
+	    k=k+0.025;
+	   }
+	  }         
+	  else{
+	   //when red ball is on left side
+	   while(web1_red_number != 0){
+	    //move right and go forward
+	    move_right();
+	    ros::spinOnce();
+	    sleep_count(0.025);
+	   }
+	   float k = 0;
+	   while(k<1.5){
+	    //go forward for a while
+	    data[0] = 0;
+	    data[1] = 1;
+	    data[4] = 0;
+	    data[5] = 0;
+	    suction_check();
+	    write(c_socket, data, sizeof(data));
+	    sleep_count(0.025);
+	    k=k+0.025;
+	   }
+	  }
+	 }
+	 else{
+          if(web1_blue_Z>0.5){
+	   // go forward
+	   move_forward(1);
+          }
+	  else{
+	   if(web1_blue_X<-0.04){
+	    // go left
+	    while(web1_blue_X<-0.02 && web2_blue_number==0 && web2_red_number==0){
+	     turn_CCW(1);
+	     ros::spinOnce();
+	     sleep_count(0.025);
+	    }
+	   }
+	   else if(web1_blue_X>0.04){
+	    // go right
+	    while(web1_blue_X>0.02 && web2_blue_number==0 && web2_red_number==0){
+	     turn_CW(1);
+	     ros::spinOnce();
+ 	     sleep_count(0.025);
+	    }
+	   }
+	   else{
+	    // go forward
+	    move_forward(0.5);
+	   }
+	  }
+	 }
+	}
+       }
+      }
+     }
+     //ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);  // for exp
      //write(c_socket, data, sizeof(data));
-		 sleep_count(0.025);
-
-    return 0;
+     sleep_count(0.025);
+     return 0;
 }
