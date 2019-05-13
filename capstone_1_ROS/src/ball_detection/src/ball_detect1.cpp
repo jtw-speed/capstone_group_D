@@ -124,58 +124,58 @@ int main(int argc, char **argv)
    vector<vector<Point> > contours_b;
    vector<vector<Point> > contours_g;
 
-   VideoCapture cap(1);
-   namedWindow("Video Capture", WINDOW_NORMAL);
-
-   namedWindow("Object Detection_HSV_Red", WINDOW_NORMAL);
-   namedWindow("Object Detection_HSV_Blue", WINDOW_NORMAL);
-   namedWindow("Object Detection_HSV_Green", WINDOW_NORMAL);
-
-   namedWindow("Canny Edge for Red Ball", WINDOW_NORMAL);
-   namedWindow("Canny Edge for Blue Ball", WINDOW_NORMAL);
-   namedWindow("Canny Edge for Green Ball", WINDOW_NORMAL);
-
-   namedWindow("Result", WINDOW_NORMAL);
-   moveWindow("Video Capture", 50, 0);
-
-   moveWindow("Object Detection_HSV_Red", 50,370);
-   moveWindow("Object Detection_HSV_Blue",500,370);
-   moveWindow("Object Detection_HSV_Green",1000,370);
-
-   moveWindow("Canny Edge for Red Ball", 50,730);
-   moveWindow("Canny Edge for Blue Ball", 500,730);
-   moveWindow("Canny Edge for Green Ball", 1000,730);
-
-   moveWindow("Result", 1500, 0);
+   VideoCapture cap(0);
+ //namedWindow("Video Capture", WINDOW_NORMAL);
+   //
+   // namedWindow("Object Detection_HSV_Red", WINDOW_NORMAL);
+   // namedWindow("Object Detection_HSV_Blue", WINDOW_NORMAL);
+   // namedWindow("Object Detection_HSV_Green", WINDOW_NORMAL);
+   //
+   // namedWindow("Canny Edge for Red Ball", WINDOW_NORMAL);
+   // namedWindow("Canny Edge for Blue Ball", WINDOW_NORMAL);
+   // namedWindow("Canny Edge for Green Ball", WINDOW_NORMAL);
+   //
+ namedWindow("Result", WINDOW_NORMAL);
+ //moveWindow("Video Capture", 1500, 0);
+   //
+   // moveWindow("Object Detection_HSV_Red", 50,370);
+   // moveWindow("Object Detection_HSV_Blue",500,370);
+   // moveWindow("Object Detection_HSV_Green",1000,370);
+   //
+   // moveWindow("Canny Edge for Red Ball", 50,730);
+   // moveWindow("Canny Edge for Blue Ball", 500,730);
+   // moveWindow("Canny Edge for Green Ball", 1000,730);
+   //
+ moveWindow("Result", 50, 0);
 
 
    // Trackbars to set thresholds for HSV values : Red ball
-   createTrackbar("Low H","Object Detection_HSV_Red", &low_h_r, 180, on_low_h_thresh_trackbar_red);
-   createTrackbar("High H","Object Detection_HSV_Red", &high_h_r, 180, on_high_h_thresh_trackbar_red);
-   createTrackbar("Low H2","Object Detection_HSV_Red", &low_h2_r, 180, on_low_h2_thresh_trackbar_red);
-   createTrackbar("High H2","Object Detection_HSV_Red", &high_h2_r, 180, on_high_h2_thresh_trackbar_red);
-   createTrackbar("Low S","Object Detection_HSV_Red", &low_s_r, 255, on_low_s_thresh_trackbar_red);
-   createTrackbar("High S","Object Detection_HSV_Red", &high_s_r, 255, on_high_s_thresh_trackbar_red);
-   createTrackbar("Low V","Object Detection_HSV_Red", &low_v_r, 255, on_low_v_thresh_trackbar_red);
-   createTrackbar("High V","Object Detection_HSV_Red", &high_v_r, 255, on_high_v_thresh_trackbar_red);
-   // Trackbars to set thresholds for HSV values : Blue ball
-   createTrackbar("Low H","Object Detection_HSV_Blue", &low_h_b, 180, on_low_h_thresh_trackbar_blue);
-   createTrackbar("High H","Object Detection_HSV_Blue", &high_h_b, 180, on_high_h_thresh_trackbar_blue);
-   createTrackbar("Low S","Object Detection_HSV_Blue", &low_s_b, 255, on_low_s_thresh_trackbar_blue);
-   createTrackbar("High S","Object Detection_HSV_Blue", &high_s_b, 255, on_high_s_thresh_trackbar_blue);
-   createTrackbar("Low V","Object Detection_HSV_Blue", &low_v_b, 255, on_low_v_thresh_trackbar_blue);
-   createTrackbar("High V","Object Detection_HSV_Blue", &high_v_b, 255, on_high_v_thresh_trackbar_blue);
-   // Trackbars to set thresholds for HSV values : Blue ball
-   createTrackbar("Low H","Object Detection_HSV_Green", &low_h_g, 180, on_low_h_thresh_trackbar_green);
-   createTrackbar("High H","Object Detection_HSV_Green", &high_h_g, 180, on_high_h_thresh_trackbar_green);
-   createTrackbar("Low S","Object Detection_HSV_Green", &low_s_g, 255, on_low_s_thresh_trackbar_green);
-   createTrackbar("High S","Object Detection_HSV_Green", &high_s_g, 255, on_high_s_thresh_trackbar_green);
-   createTrackbar("Low V","Object Detection_HSV_Green", &low_v_g, 255, on_low_v_thresh_trackbar_green);
-   createTrackbar("High V","Object Detection_HSV_Green", &high_v_g, 255, on_high_v_thresh_trackbar_green);
-   // Trackbar to set parameter for Canny Edge
-   createTrackbar("Min Threshold:","Canny Edge for Red Ball", &lowThreshold_r, 100, on_canny_edge_trackbar_red);
-   createTrackbar("Min Threshold:","Canny Edge for Blue Ball", &lowThreshold_b, 100, on_canny_edge_trackbar_blue);
-   createTrackbar("Min Threshold:","Canny Edge for Green Ball", &lowThreshold_b, 100, on_canny_edge_trackbar_green);
+   // createTrackbar("Low H","Object Detection_HSV_Red", &low_h_r, 180, on_low_h_thresh_trackbar_red);
+   // createTrackbar("High H","Object Detection_HSV_Red", &high_h_r, 180, on_high_h_thresh_trackbar_red);
+   // createTrackbar("Low H2","Object Detection_HSV_Red", &low_h2_r, 180, on_low_h2_thresh_trackbar_red);
+   // createTrackbar("High H2","Object Detection_HSV_Red", &high_h2_r, 180, on_high_h2_thresh_trackbar_red);
+   // createTrackbar("Low S","Object Detection_HSV_Red", &low_s_r, 255, on_low_s_thresh_trackbar_red);
+   // createTrackbar("High S","Object Detection_HSV_Red", &high_s_r, 255, on_high_s_thresh_trackbar_red);
+   // createTrackbar("Low V","Object Detection_HSV_Red", &low_v_r, 255, on_low_v_thresh_trackbar_red);
+   // createTrackbar("High V","Object Detection_HSV_Red", &high_v_r, 255, on_high_v_thresh_trackbar_red);
+   // // Trackbars to set thresholds for HSV values : Blue ball
+   // createTrackbar("Low H","Object Detection_HSV_Blue", &low_h_b, 180, on_low_h_thresh_trackbar_blue);
+   // createTrackbar("High H","Object Detection_HSV_Blue", &high_h_b, 180, on_high_h_thresh_trackbar_blue);
+   // createTrackbar("Low S","Object Detection_HSV_Blue", &low_s_b, 255, on_low_s_thresh_trackbar_blue);
+   // createTrackbar("High S","Object Detection_HSV_Blue", &high_s_b, 255, on_high_s_thresh_trackbar_blue);
+   // createTrackbar("Low V","Object Detection_HSV_Blue", &low_v_b, 255, on_low_v_thresh_trackbar_blue);
+   // createTrackbar("High V","Object Detection_HSV_Blue", &high_v_b, 255, on_high_v_thresh_trackbar_blue);
+   // // Trackbars to set thresholds for HSV values : Blue ball
+   // createTrackbar("Low H","Object Detection_HSV_Green", &low_h_g, 180, on_low_h_thresh_trackbar_green);
+   // createTrackbar("High H","Object Detection_HSV_Green", &high_h_g, 180, on_high_h_thresh_trackbar_green);
+   // createTrackbar("Low S","Object Detection_HSV_Green", &low_s_g, 255, on_low_s_thresh_trackbar_green);
+   // createTrackbar("High S","Object Detection_HSV_Green", &high_s_g, 255, on_high_s_thresh_trackbar_green);
+   // createTrackbar("Low V","Object Detection_HSV_Green", &low_v_g, 255, on_low_v_thresh_trackbar_green);
+   // createTrackbar("High V","Object Detection_HSV_Green", &high_v_g, 255, on_high_v_thresh_trackbar_green);
+   // // Trackbar to set parameter for Canny Edge
+   // createTrackbar("Min Threshold:","Canny Edge for Red Ball", &lowThreshold_r, 100, on_canny_edge_trackbar_red);
+   // createTrackbar("Min Threshold:","Canny Edge for Blue Ball", &lowThreshold_b, 100, on_canny_edge_trackbar_blue);
+   // createTrackbar("Min Threshold:","Canny Edge for Green Ball", &lowThreshold_b, 100, on_canny_edge_trackbar_green);
 
    core_msgs::ball_position msg;  //create a message for ball positions
 
@@ -344,13 +344,13 @@ int main(int argc, char **argv)
 
 
      // Show the frames
-     imshow("Video Capture",calibrated_frame);
-     imshow("Object Detection_HSV_Red",hsv_frame_red);
-     imshow("Object Detection_HSV_Blue",hsv_frame_blue);
-     imshow("Object Detection_HSV_Green",hsv_frame_green);
-     imshow("Canny Edge for Red Ball", hsv_frame_red_canny);
-     imshow("Canny Edge for Blue Ball", hsv_frame_blue_canny);
-     imshow("Canny Edge for Green Ball", hsv_frame_green_canny);
+     //imshow("Video Capture",calibrated_frame);
+     // imshow("Object Detection_HSV_Red",hsv_frame_red);
+     // imshow("Object Detection_HSV_Blue",hsv_frame_blue);
+     // imshow("Object Detection_HSV_Green",hsv_frame_green);
+     // imshow("Canny Edge for Red Ball", hsv_frame_red_canny);
+     // imshow("Canny Edge for Blue Ball", hsv_frame_blue_canny);
+     // imshow("Canny Edge for Green Ball", hsv_frame_green_canny);
      imshow("Result", result);
 
      pub1.publish(msg);
