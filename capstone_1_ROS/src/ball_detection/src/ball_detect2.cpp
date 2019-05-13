@@ -85,7 +85,7 @@ float distortion_data[5] = {0.084217, -0.120368, 0.001346, -0.002229, 0};
 double fontScale = 0.3;
 int thickness = 3;
 String text ;
-int iMin_tracking_ball_size = 10;
+int iMin_tracking_ball_size = 7;
 
 Mat buffer(320,240,CV_8UC1);
 // Declare publsiher
@@ -124,7 +124,7 @@ int main(int argc, char **argv)
    vector<vector<Point> > contours_b;
    vector<vector<Point> > contours_g;
 
-   VideoCapture cap(1);
+   VideoCapture cap(2);
    namedWindow("Video Capture", WINDOW_NORMAL);
 
    namedWindow("Object Detection_HSV_Red", WINDOW_NORMAL);
@@ -412,8 +412,8 @@ vector<float> pixel2point(Point center, int radius){
     Xc = roundf(Xc * 1000) / 1000;
     Yc = roundf(Yc * 1000) / 1000;
     Zc = roundf(Zc * 1000) / 1000;
-    position.push_back(Xc);
-    position.push_back(Yc);
+    position.push_back(x/100-3.2);
+    position.push_back(y/100);
     position.push_back(Zc);
     return position;
 }
