@@ -49,8 +49,8 @@ float lidar_obs;
 // int near_ball;					// groupD modify
 
 // webcam1 global variables
-int web1_blue_number;
-int web1_red_number;
+int web1_blue_number=0;
+int web1_red_number=0;
 float web1_blue_X_array[20];		// not necessary
 float web1_blue_X;
 float web1_blue_Z_array[20];		// not necessary
@@ -59,16 +59,16 @@ float web1_red_X_array[20];
 float web1_red_X;
 float web1_red_Z_array[20];
 float web1_red_Z;
-int web1_green_number;
+int web1_green_number=0;
 float web1_green_X_array[20];
 float web1_green_X;
 float web1_green_Z_array[20];
 float web1_green_Z;
 // webcam2 global variables
-int web2_red_number;
+int web2_red_number=0;
 float web2_red_X_array[20];			// not necessary
 float web2_red_X;
-int web2_blue_number;
+int web2_blue_number=0;
 float web2_blue_X_array[20];		// not necessary
 float web2_blue_X;
 // number of collected blue balls
