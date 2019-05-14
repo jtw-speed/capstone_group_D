@@ -132,6 +132,14 @@ void lidar_Callback(const sensor_msgs::LaserScan::ConstPtr& scan)
 void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1)
 {
 	  map_mutex.lock();
+
+	  web1_blue_X = -100;
+          web1_blue_Z = -100;
+	  web1_red_X = -100;
+	  web1_red_Z = 100;
+	  web1_green_X = -100;
+	  web1_green_Z = -100;
+
 	  // number assign
 	  int count1 = position_modify1->b_size;
     web1_blue_number=count1;
@@ -147,6 +155,7 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 
     for(int i = 0; i < count1; i++)
     {
+	
         web1_blue_X_array[i] = position_modify1->b_img_x[i];
         web1_blue_Z_array[i] = position_modify1->b_img_z[i];
 				if(web1_blue_X < position_modify1->b_img_x[i]){
@@ -185,6 +194,8 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 void camera2_Callback(const core_msgs::ball_position::ConstPtr& position_modify2)
 {
 	  map_mutex.lock();
+	float web2_red_X = -100;
+	float web2_blue_X = -100;
 	  // number assign
 	  int count1 = position_modify2->r_size;
     web2_red_number=count1;
@@ -363,7 +374,7 @@ int main(int argc, char **argv)
 		////////////////////////////////////////////////////////////////////////
      if(connect(c_socket, (struct sockaddr*) &c_addr, sizeof(c_addr)) == -1){
         printf("Failed to connect\n");
-         close(c_socket);
+        close(c_socket);
          return -1;
     }
 
@@ -380,8 +391,7 @@ int main(int argc, char **argv)
 	 //  }
 		// for(int i = 0; i < ball_number; i++)
 		// {
-		// 	std::cout << "ball_X : "<< ball_X[i];
-		// 	std::cout << "ball_Y : "<< ball_Y[i]<<std::endl;
+		// 	std::cout << "ball_X : "<< ball_X[i]		// 	std::cout << "ball_Y : "<< ball_Y[i]<<std::endl;
    //
 		// }
 
@@ -428,7 +438,7 @@ int main(int argc, char **argv)
 
 			// [groupD]
                  ros::spinOnce();
-		 sleep_count(0.025);
+		
 			if(collection==3){
 			// release
 			//release(ball_position->midpoint, ball_position->distance4)
@@ -438,23 +448,30 @@ int main(int argc, char **argv)
 				pick_up();
 			 }
 			 else{
-				if(web1_blue_X>0.6){
+				if(web1_blue_X>1){
 				 // turn
-				 while(web1_blue_X>0.3 && web2_blue_number==0 && web2_red_number==0){
+				int q=0;
+				cout<<"check"<<web1_blue_X<<endl;
+				 while(web1_blue_X>0.3 //&& web2_blue_number==0
+										){
+					cout<<"check1"<<web1_blue_X<<endl;
+					 cout<<q<<endl;
 					 turn_CW(0.7);
 					 ros::spinOnce();
 	 				 sleep_count(0.025);
+					 q++;
 				 }
 			}
-				else if(web1_blue_X<-0.6){
-				 while(web1_blue_X<-0.3 && web2_blue_number==0 && web2_red_number==0){
+				else if(web1_blue_X<-1){
+				 while(web1_blue_X<-0.3// && web2_blue_number==0 && web2_red_number==0
+													){
 					turn_CCW(0.7);
 					ros::spinOnce();
 					sleep_count(0.025);
 				}
 				}
 				else{
-				 if(web1_red_Z<0.7){
+				 if(web1_red_Z<0.5){
 					// avoid start
 					if(web1_red_X>0){
 						//when red ball is on right side
@@ -465,7 +482,7 @@ int main(int argc, char **argv)
  	 				 sleep_count(0.025);
 			 }
 			      float k = 0;
-			      while(k<1){
+			      while(k<1.5){
 							//go forward for a while
 							data[0] = 0;
 					         	data[1] = 1;
@@ -487,7 +504,7 @@ int main(int argc, char **argv)
 	 				 sleep_count(0.025);
 			}
 					 float k = 0;
-					 while(k<1){
+					 while(k<1.5){
 						 //go forward for a while
 						 data[0] = 0;
 						 data[1] = 1;
@@ -506,34 +523,37 @@ int main(int argc, char **argv)
 					 move_forward(1);
 
 			 }
-					else{
-					 if(web1_blue_X<-0.4){
-						// go left
-						while(web1_blue_X<-0.2 && web2_blue_number==0 && web2_red_number==0){
-							turn_CCW(0.7);
-							ros::spinOnce();
-	 	 				 sleep_count(0.025);
-						}
-					 }
-					 else if(web1_blue_X>0.4){
-						// go right
-						while(web1_blue_X>0.2 && web2_blue_number==0 && web2_red_number==0){
-						turn_CW(0.7);
-						ros::spinOnce();
- 	 				 sleep_count(0.025);
-					  }
-					 }
-					 else{
-						// go forward
-						move_forward(0.5);
-					 }
-					}
+					//else{
+					// if(web1_blue_X<-0.4){
+					//	// go left
+					//	while(web1_blue_X<-0.2 && web2_blue_number==0 && web2_red_number==0){
+					//		turn_CCW(0.7);
+					//		ros::spinOnce();
+	 	 			//	 sleep_count(0.025);
+					//	}
+					// }
+					// else if(web1_blue_X>0.4){
+					//	// go right
+					//	while(web1_blue_X>0.2 && web2_blue_number==0 && web2_red_number==0){
+					//	cout<<"check3"<<endl;						
+					//	turn_CW(0.7);
+					//	ros::spinOnce();
+ 	 				// sleep_count(0.025);
+					//  }
+					// }
+					// else{
+					//	// go forward
+					//	move_forward(0.5);
+					// }
+					//}
 				 }
 				}
 			}
 			}
-
+                    cout<<"MMMM"<<endl;
 		 ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]); 
+                 sleep_count(0.025);
+		 
 		}
 		 //ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);  // for exp
      //write(c_socket, data, sizeof(data));
@@ -541,3 +561,4 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
