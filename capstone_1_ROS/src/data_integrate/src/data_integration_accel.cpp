@@ -155,7 +155,7 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 
     for(int i = 0; i < count1; i++)
     {
-	
+
         web1_blue_X_array[i] = position_modify1->b_img_x[i];
         web1_blue_Z_array[i] = position_modify1->b_img_z[i];
 				if(web1_blue_X < position_modify1->b_img_x[i]){
@@ -323,23 +323,23 @@ void pick_up(){
 
   suc = 10;
 
-	if(web2_blue_X>0.4){
+	if(web2_blue_X>1){
 	 // turn
-	 while(web2_blue_X>0.2){
-		 turn_CCW(1);
+	 while(web2_blue_X>0.6){
+		 turn_CW(0.6);
 		 ros::spinOnce();
 		 ros::Duration(0.025).sleep();
 	 }
 	}
-	else if(web2_blue_X<-0.4){
-	 while(web2_blue_X<-0.2){
-		turn_CW(1);
+	else if(web2_blue_X<-1){
+	 while(web2_blue_X<-0.6){
+		turn_CCW(0.6);
 		ros::spinOnce();
 		ros::Duration(0.025).sleep();
 		}
 	}
 	else{
-	 move_forward(0.7);
+	 move_forward(0.6);
 }
 
 }
@@ -372,11 +372,11 @@ int main(int argc, char **argv)
 		//	렙뷰와 통신이 되었는지 확인하는 코드 아래 코드를 활성화 후 노드를 실행 시켰을때///
 		//	노드가 작동 -> 통신이 연결됨, Failed to connect 이라고 뜸 -> 통신이 안됨///
 		////////////////////////////////////////////////////////////////////////
-     if(connect(c_socket, (struct sockaddr*) &c_addr, sizeof(c_addr)) == -1){
-        printf("Failed to connect\n");
-        close(c_socket);
-         return -1;
-    }
+     //if(connect(c_socket, (struct sockaddr*) &c_addr, sizeof(c_addr)) == -1){
+    //    printf("Failed to connect\n");
+   //     close(c_socket);
+  //       return -1;
+//    }
 
 
 		while(ros::ok){
@@ -438,8 +438,12 @@ int main(int argc, char **argv)
 
 			// [groupD]
                  ros::spinOnce();
-		
+
 			if(collection==3){
+				data[0] = 0;
+			  data[1] = 0;
+			  data[4] = 0;
+			  data[5] = 0;
 			// release
 			//release(ball_position->midpoint, ball_position->distance4)
 			}
@@ -476,7 +480,7 @@ int main(int argc, char **argv)
 					if(web1_red_X>0){
 						//when red ball is on right side
 					  while(web1_red_number != 0){
-						//move left
+						//move left and go forward
 						move_left();
 						ros::spinOnce();
  	 				 sleep_count(0.025);
@@ -485,8 +489,20 @@ int main(int argc, char **argv)
 			      while(k<1.5){
 							//go forward for a while
 							data[0] = 0;
-					         	data[1] = 1;
+					    data[1] = 1;
 							data[4] = 0;
+							data[5] = 0;
+							suction_check();
+							write(c_socket, data, sizeof(data));
+							sleep_count(0.025);
+							k=k+0.025;
+						}
+						//turn CW for a while
+						k=0;
+						while(k<1){
+							data[0] = 0;
+							data[1] = 0;
+							data[4] = 1;
 							data[5] = 0;
 							suction_check();
 							write(c_socket, data, sizeof(data));
@@ -535,7 +551,7 @@ int main(int argc, char **argv)
 					// else if(web1_blue_X>0.4){
 					//	// go right
 					//	while(web1_blue_X>0.2 && web2_blue_number==0 && web2_red_number==0){
-					//	cout<<"check3"<<endl;						
+					//	cout<<"check3"<<endl;
 					//	turn_CW(0.7);
 					//	ros::spinOnce();
  	 				// sleep_count(0.025);
@@ -551,9 +567,9 @@ int main(int argc, char **argv)
 			}
 			}
                     cout<<"MMMM"<<endl;
-		 ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]); 
+		 ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
                  sleep_count(0.025);
-		 
+
 		}
 		 //ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);  // for exp
      //write(c_socket, data, sizeof(data));
@@ -561,4 +577,3 @@ int main(int argc, char **argv)
 
     return 0;
 }
-
