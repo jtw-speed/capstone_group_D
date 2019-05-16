@@ -51,20 +51,18 @@ void imageCallback(const core_msgs::ball_position::ConstPtr& position2)
   cout << "checkpoint 1" <<endl;
   if (b_size_original != 0 ){
     for( size_t i = 0; i< b_size_original; i++ ){
-      if(position2->b_img_y[i] > 1){ //ignore ball position when y value is low
+
       b_pos_x_original[i] = position2 -> b_img_x[i];
       b_pos_y_original[i] = position2 -> b_img_y[i];
       b_pos_z_original[i] = position2 -> b_img_z[i];
-      }
+
     }
   }
   if (r_size_original != 0){
     for( size_t i = 0; i< r_size_original; i++ ){
-      if(position2->b_img_y[i] > 1){ //ignore ball position when y value is low
       r_pos_x_original[i] = position2 -> r_img_x[i];
       r_pos_y_original[i] = position2 -> r_img_y[i];
       r_pos_z_original[i] = position2 -> r_img_z[i];
-      }
     }
   }
   if (g_size_original != 0){
@@ -90,6 +88,7 @@ void imageCallback(const core_msgs::ball_position::ConstPtr& position2)
           if(abs(x_distance)<acceptable_distance && abs(y_distance)<acceptable_distance){
             //put 100 in uneeded data
             b_pos_x_original[j] = 100+j;
+            b_pos_y_original[j] = 100+j;
             b_pos_z_original[j] = 100+j;
             ++b_data_reduction;
           }
@@ -150,7 +149,12 @@ void imageCallback(const core_msgs::ball_position::ConstPtr& position2)
         }
       }
   }
-
+  for( int x = 0; x < b_size_original; x++ ){
+      cout <<"b"<< b_pos_x_original[x] << endl;}
+      for( int x = 0; x < r_size_original; x++ ){
+          cout <<"r"<< r_pos_x_original[x] << endl;}
+          for( int x = 0; x < g_size_original; x++ ){
+              cout <<"g"<< g_pos_x_original[x] << endl;}
 
 
   cout << "checkpoint 3" <<endl;
@@ -208,8 +212,8 @@ core_msgs::ball_position mmsg;  //create a message for ball positions
   cout << "reduced green balls: "<< g_data_reduction << endl;
 
   //save useful data in array
+      int j = 0;
   for( size_t i = 0; i< b_size_original; i++ ){
-    int j = 0;
     if(b_pos_x_original[i] < 99){
       mmsg.b_img_x[j] = b_pos_x_original[i];
       mmsg.b_img_y[j] = b_pos_y_original[i];
@@ -218,8 +222,9 @@ core_msgs::ball_position mmsg;  //create a message for ball positions
 
     }
   }
+      j = 0;
   for( size_t i = 0; i< r_size_original; i++ ){
-    int j = 0;
+
     if(r_pos_x_original[i] < 99){
       mmsg.r_img_x[j] = r_pos_x_original[i];
       mmsg.r_img_y[j] = r_pos_y_original[i];
@@ -228,8 +233,9 @@ core_msgs::ball_position mmsg;  //create a message for ball positions
     }
   }
 
+  j = 0;
   for( size_t i = 0; i< g_size_original; i++ ){
-    int j = 0;
+
     if(g_pos_x_original[i] < 99){
       mmsg.g_img_x[j] = g_pos_x_original[i];
       mmsg.g_img_y[j] = g_pos_y_original[i];
