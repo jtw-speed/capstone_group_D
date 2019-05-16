@@ -124,7 +124,7 @@ int main(int argc, char **argv)
    vector<vector<Point> > contours_b;
    vector<vector<Point> > contours_g;
 
-   VideoCapture cap(0);
+   VideoCapture cap(1);
  //namedWindow("Video Capture", WINDOW_NORMAL);
    //
    // namedWindow("Object Detection_HSV_Red", WINDOW_NORMAL);
