@@ -48,6 +48,8 @@ float lidar_obs;
 // float ball_distance[20];
 // int near_ball;					// groupD modify
 
+float t = 0.025;
+
 // webcam1 global variables
 int web1_blue_number=0;
 int web1_red_number=0;
@@ -59,13 +61,13 @@ float web1_red_X_array[20];
 float web1_red_X = -100;
 float web1_red_Z_array[20];
 float web1_red_Z = 100;
-int web1_green_number;
+int web1_green_number=0;
 float web1_green_X_array[20];
 float web1_green_X=-100;
 float web1_green_Z_array[20];
 float web1_green_Z=-100;
 // webcam2 global variables
-int web2_red_number;
+int web2_red_number=0;
 float web2_red_X_array[20];			// not necessary
 float web2_red_X = -100;
 int web2_blue_number=0;
@@ -78,7 +80,7 @@ int action;
 
 float acc=0.1;
 
-float suc=0;
+float suc=10;
 
 int c_socket, s_socket;
 struct sockaddr_in c_addr;
@@ -115,24 +117,24 @@ void dataInit()
 }
 
 
-void lidar_Callback(const sensor_msgs::LaserScan::ConstPtr& scan)
-{
-		map_mutex.lock();
-
-    int count = scan->scan_time / scan->time_increment;
-    lidar_size=count;
-    for(int i = 0; i < count; i++)
-    {
-        lidar_degree[i] = RAD2DEG(scan->angle_min + scan->angle_increment * i);
-        lidar_distance[i]=scan->ranges[i];
-    }
-		map_mutex.unlock();
-
-}
+// void lidar_Callback(const sensor_msgs::LaserScan::ConstPtr& scan)
+// {
+// 		map_mutex.lock();
+//
+//     int count = scan->scan_time / scan->time_increment;
+//     lidar_size=count;
+//     for(int i = 0; i < count; i++)
+//     {
+//         lidar_degree[i] = RAD2DEG(scan->angle_min + scan->angle_increment * i);
+//         lidar_distance[i]=scan->ranges[i];
+//     }
+// 		map_mutex.unlock();
+//
+// }
 void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1)
 {
 	  map_mutex.lock();
-
+    cout<<"callback 1 start"<<endl;
 	  web1_blue_X = -100;
           web1_blue_Z = -100;
 	  web1_red_X = -100;
@@ -155,7 +157,6 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 
     for(int i = 0; i < count1; i++)
     {
-
         web1_blue_X_array[i] = position_modify1->b_img_x[i];
         web1_blue_Z_array[i] = position_modify1->b_img_z[i];
 				if(web1_blue_X < position_modify1->b_img_x[i]){
@@ -187,6 +188,7 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 				}
 		cout<<"web1 red circle("<<i<<"):x="<<web1_red_X_array[i]<<", z="<<web1_red_Z_array[i]<<endl;			//[groupD] for check
 		}
+		cout<<"callback 1 end"<<endl;
 
     map_mutex.unlock();
 }
@@ -194,8 +196,9 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 void camera2_Callback(const core_msgs::ball_position::ConstPtr& position_modify2)
 {
 	  map_mutex.lock();
-	float web2_red_X = -100;
-	float web2_blue_X = -100;
+		cout<<"callback 2 start"<<endl;
+	web2_red_X = -100;
+	web2_blue_X = -100;
 	  // number assign
 	  int count1 = position_modify2->r_size;
     web2_red_number=count1;
@@ -221,14 +224,15 @@ void camera2_Callback(const core_msgs::ball_position::ConstPtr& position_modify2
 		for(int i = 0; i < count2; i++)
 		{
 				web2_blue_X_array[i] = position_modify2->b_img_x[i];
-				if(web1_blue_X < position_modify2->b_img_x[i]){
-					web1_blue_X = position_modify2->b_img_x[i];
+				if(web2_blue_X < position_modify2->b_img_x[i]){
+					web2_blue_X = position_modify2->b_img_x[i];
 				}
 				// std::cout << "degree : "<< ball_degree[i];
 				// std::cout << "   distance : "<< ball_distance[i]<<std::endl;
 		// ball_distance[i] = ball_X[i]*ball_X[i]+ball_Y[i]*ball_X[i];			//[groupD] we don't use any distance
-		cout<<"web2 blue circle("<<i<<"):x="<<web2_blue_X_array[i]<<", z="<<endl;			//[groupD] for check
+		cout<<"web2 blue circle("<<i<<"):x="<<web2_blue_X_array[i]<<endl;			//[groupD] for check
 		}
+    cout<<"callback 2 end"<<endl;
 		map_mutex.unlock();
 }
 
@@ -251,8 +255,11 @@ void sleep_count(float sleeprate){
 
 	ros::Duration(sleeprate).sleep();
 	suc = suc + sleeprate;
-	if(suc = 3){
+	cout<<"succ ="<<suc<<endl;
+	cout<<collection<<endl;
+	if(suc == 3){
 		collection = collection + 1;
+		cout<<"collected a ball!"<<endl;
 	}
 }
 
@@ -264,13 +271,14 @@ void move_forward(float v){
 	 data[5] = 0;
   }
 	else if(data[1] > v){
-	 data[0] = 0;
+	 data[	0] = 0;
 	 data[1] = data[1]-acc;
 	 data[4] = 0;
 	 data[5] = 0;
   }
 	suction_check();
 	write(c_socket, data, sizeof(data));
+  cout<<"void move forward"<<endl;
 	ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
 }
 
@@ -281,6 +289,7 @@ void turn_CW(float w){
  data[5] = 0;
  suction_check();
  write(c_socket, data, sizeof(data));
+ cout<<"void turn CW"<<endl;
  ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
 }
 
@@ -291,6 +300,7 @@ void turn_CCW(float w){
  data[5] = 0;
  suction_check();
  write(c_socket, data, sizeof(data));
+ cout<<"void turn CCW"<<endl;
  ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
 }
 
@@ -304,6 +314,7 @@ void move_left(){
    }
 	 suction_check();
 	write(c_socket, data, sizeof(data));
+	cout<<"void move left"<<endl;
 	ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
 }
 
@@ -316,31 +327,31 @@ void move_right(){
 }
   suction_check();
 	write(c_socket, data, sizeof(data));
+	cout<<"void move right"<<endl;
 	ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
 }
 
 void pick_up(){
 
-  suc = 10;
-
+  suc = 0;
+  cout<<"void starting pikcup"<<endl;
 	if(web2_blue_X>1){
-	 // turn
-	 while(web2_blue_X>0.6){
+	 while(web2_blue_X>0.6 && web2_blue_number != 0){
 		 turn_CW(0.6);
 		 ros::spinOnce();
-		 ros::Duration(0.025).sleep();
+		 ros::Duration(t).sleep();
 	 }
 	}
 	else if(web2_blue_X<-1){
-	 while(web2_blue_X<-0.6){
+	 while(web2_blue_X<-0.6 && web2_blue_number != 0){
 		turn_CCW(0.6);
 		ros::spinOnce();
-		ros::Duration(0.025).sleep();
+		ros::Duration(t).sleep();
 		}
-	}
+	 }
 	else{
 	 move_forward(0.6);
-}
+  }
 
 }
 
@@ -355,7 +366,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "data_integration");
     ros::NodeHandle n;
 
-    ros::Subscriber sub = n.subscribe<sensor_msgs::LaserScan>("/scan", 1000, lidar_Callback);
+    //ros::Subscriber sub = n.subscribe<sensor_msgs::LaserScan>("/scan", 1000, lidar_Callback);
     ros::Subscriber sub1 = n.subscribe<core_msgs::ball_position>("/position_modify1", 1000, camera1_Callback);
     ros::Subscriber sub2 = n.subscribe<core_msgs::ball_position>("/position_modify2", 1000, camera2_Callback);
 
@@ -366,79 +377,18 @@ int main(int argc, char **argv)
     c_addr.sin_family = AF_INET;
     c_addr.sin_port = htons(PORT);
 
-
-
-		///////////////////////////////////////////////////////////////////////
-		//	렙뷰와 통신이 되었는지 확인하는 코드 아래 코드를 활성화 후 노드를 실행 시켰을때///
-		//	노드가 작동 -> 통신이 연결됨, Failed to connect 이라고 뜸 -> 통신이 안됨///
-		////////////////////////////////////////////////////////////////////////
-     //if(connect(c_socket, (struct sockaddr*) &c_addr, sizeof(c_addr)) == -1){
-    //    printf("Failed to connect\n");
-   //     close(c_socket);
-  //       return -1;
-//    }
+    //  if(connect(c_socket, (struct sockaddr*) &c_addr, sizeof(c_addr)) == -1){
+    //     printf("Failed to connect\n");
+    //     close(c_socket);
+    //      return -1;
+    // }
 
 
 		while(ros::ok){
-		/////////////////////////////////////////////////////////////////////////////////////////////////
-		// // 각노드에서 받아오는 센서 테이터가 잘 받아 왔는지 확인하는 코드 (ctrl + /)을 눌러 주석을 추가/제거할수 있다.///
-		/////////////////////////////////////////////////////////////////////////////////////////////////
-
-	 //  for(int i = 0; i < lidar_size; i++
-   // {
-	 //    std::cout << "degree : "<< lidar_degree[i];
-	 //    std::cout << "   distance : "<< lidar_distance[i]<<std::endl;
-	 //  }
-		// for(int i = 0; i < ball_number; i++)
-		// {
-		// 	std::cout << "ball_X : "<< ball_X[i]		// 	std::cout << "ball_Y : "<< ball_Y[i]<<std::endl;
-   //
-		// }
-
-
-
-		////////////////////////////////////////////////////////////////
-		// // 자율 주행을 예제 코드 (ctrl + /)을 눌러 주석을 추가/제거할수 있다.///
-		////////////////////////////////////////////////////////////////
-		// dataInit();
-		// for(int i = 0; i < lidar_size-1; i++)
-		// 	    {
-		// 		if(lidar_distance[i]<lidar_distance[i+1]){lidar_obs=i;}
-		// 		else if(lidar_distance[i]==lidar_distance[i+1]){lidar_obs=i;}
-		// 		else {lidar_obs=i+1;}
-		// 	    }
-		// if(ball_number==0 || lidar_obs<0.3)
-		// {
-		// 		find_ball();
-		// }
-		// else
-		// {
-		// 	for(int i = 0; i < ball_number-1; i++)
-		// 	    {
-		// 		if(ball_distance[i]<ball_distance[i+1]){near_ball=i;}
-		// 		else if(ball_distance[i]==ball_distance[i+1]){near_ball=i;}
-		// 		else {near_ball=i+1;}
-		// 	    }
-		// 	if(ball_distance[near_ball]<0.1){data[4]=0; data[5]=0; data[21]=0;}
-		// 	else
-		// 	{
-		// 		data[20]=1;
-		// 		if(ball_X[near_ball]>0){data[4]=1;}  else{data[4]=-1;}
-		// 		if(ball_Y[near_ball]>0){data[5]=1;}  else{data[5]=-1;}
-		// 	}
-		// }
-
-		//자율 주행 알고리즘에 입력된 제어데이터(xbox 컨트롤러 데이터)를 myRIO에 송신(tcp/ip 통신)
-	      // for (int i = 0; i < 24; i++){
-	      // printf("%f ",data[i]);
-				//
-	      // }
-	      // printf("\n");
-			// printf("%d\n",action);
-
 			// [groupD]
-                 ros::spinOnce();
-
+			//map_mutex.lock();
+      ros::spinOnce();
+     	//map_mutex.unlock();
 			if(collection==3){
 				data[0] = 0;
 			  data[1] = 0;
@@ -456,23 +406,23 @@ int main(int argc, char **argv)
 				 // turn
 				int q=0;
 				cout<<"check"<<web1_blue_X<<endl;
-				 while(web1_blue_X>0.3 //&& web2_blue_number==0
-										){
+				 while(web1_blue_X>0.3 && web2_blue_number==0){
 					cout<<"check1"<<web1_blue_X<<endl;
 					 cout<<q<<endl;
 					 turn_CW(0.7);
+					 cout<<"turning CW"<<endl;
 					 ros::spinOnce();
-	 				 sleep_count(0.025);
+	 				 sleep_count(t);
 					 q++;
 				 }
 			}
 				else if(web1_blue_X<-1){
-				 while(web1_blue_X<-0.3// && web2_blue_number==0 && web2_red_number==0
-													){
+				 while(web1_blue_X<-0.3 && web2_blue_number==0 && web2_red_number==0){
 					turn_CCW(0.7);
+					cout<<"turning CCW"<<endl;
 					ros::spinOnce();
-					sleep_count(0.025);
-				}
+					sleep_count(t);
+				  }
 				}
 				else{
 				 if(web1_red_Z<0.5){
@@ -481,9 +431,10 @@ int main(int argc, char **argv)
 						//when red ball is on right side
 					  while(web1_red_number != 0){
 						//move left and go forward
+						cout<<"open loop moving left"<<endl;
 						move_left();
 						ros::spinOnce();
- 	 				 sleep_count(0.025);
+ 	 				 sleep_count(t);
 			 }
 			      float k = 0;
 			      while(k<1.5){
@@ -494,8 +445,9 @@ int main(int argc, char **argv)
 							data[5] = 0;
 							suction_check();
 							write(c_socket, data, sizeof(data));
-							sleep_count(0.025);
-							k=k+0.025;
+							cout<<"open loop moving forward"<<endl;
+							sleep_count(t);
+							k=k+t;
 						}
 						//turn CW for a while
 						k=0;
@@ -506,8 +458,9 @@ int main(int argc, char **argv)
 							data[5] = 0;
 							suction_check();
 							write(c_socket, data, sizeof(data));
-							sleep_count(0.025);
-							k=k+0.025;
+							cout<<"open loop turning CW"<<endl;
+							sleep_count(t);
+							k=k+t;
 						}
 					}
 
@@ -515,9 +468,10 @@ int main(int argc, char **argv)
 					 //when red ball is on left side
 					 while(web1_red_number != 0){
 					 //move right and go forward
+					 cout<<"open loop moving right"<<endl;
 					 move_right();
 					 ros::spinOnce();
-	 				 sleep_count(0.025);
+	 				 sleep_count(t);
 			}
 					 float k = 0;
 					 while(k<1.5){
@@ -528,24 +482,25 @@ int main(int argc, char **argv)
 						 data[5] = 0;
 						 suction_check();
 						 write(c_socket, data, sizeof(data));
-						 sleep_count(0.025);
-						 k=k+0.025;
+						 cout<<"open loop moving forward"<<endl;
+						 sleep_count(t);
+						 k=k+t;
 					 }
 			 }
 		  }
 				 else{
-					if(web1_blue_Z>0.5){
+					//if(web1_blue_Z>0.5){
 					 // go forward
 					 move_forward(1);
 
-			 }
+			 //}
 					//else{
 					// if(web1_blue_X<-0.4){
 					//	// go left
 					//	while(web1_blue_X<-0.2 && web2_blue_number==0 && web2_red_number==0){
 					//		turn_CCW(0.7);
 					//		ros::spinOnce();
-	 	 			//	 sleep_count(0.025);
+	 	 			//	 sleep_count(t);
 					//	}
 					// }
 					// else if(web1_blue_X>0.4){
@@ -554,7 +509,7 @@ int main(int argc, char **argv)
 					//	cout<<"check3"<<endl;
 					//	turn_CW(0.7);
 					//	ros::spinOnce();
- 	 				// sleep_count(0.025);
+ 	 				// sleep_count(t);
 					//  }
 					// }
 					// else{
@@ -562,18 +517,18 @@ int main(int argc, char **argv)
 					//	move_forward(0.5);
 					// }
 					//}
-				 }
-				}
+			  	 }
+			 	 }
+	  		}
 			}
-			}
-                    cout<<"MMMM"<<endl;
 		 ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
-                 sleep_count(0.025);
+		 cout<<"end of while loop"<<endl;
+     sleep_count(t);
 
 		}
 		 //ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);  // for exp
      //write(c_socket, data, sizeof(data));
-
+    cout<<"quit while loop"<<endl;
 
     return 0;
 }
