@@ -73,6 +73,8 @@ float web2_red_X = -100;
 int web2_blue_number=0;
 float web2_blue_X_array[20];		// not necessary
 float web2_blue_X = -100;
+float web2_green_X = -100;
+float web2_green_Z = 100;
 // number of collected blue balls
 int collection=0;
 
@@ -197,16 +199,19 @@ void camera2_Callback(const core_msgs::ball_position::ConstPtr& position_modify2
 {
 	  map_mutex.lock();
 		cout<<"callback 2 start"<<endl;
-	web2_red_X = -100;
-	web2_blue_X = -100;
+		web2_red_X = -100;
+		web2_blue_X = -100;
 	  // number assign
 	  int count1 = position_modify2->r_size;
     web2_red_number=count1;
 		int count2 = position_modify2->b_size;
 		web2_blue_number=count2;
+		int count3= position_modify1->g_size;
+		web2_green_number=count3;
+
     cout<<"total number of red balls from webcam2:"<<web2_red_number<<endl;
     cout<<"total number of blue balls from webcam2:"<<web2_blue_number<<endl;
-
+		cout<<"total number of green balls from webcam2:"<<web2_green_number<<endl;
 		// position assign webcam2 red
 
     for(int i = 0; i < count1; i++)
@@ -232,6 +237,21 @@ void camera2_Callback(const core_msgs::ball_position::ConstPtr& position_modify2
 		// ball_distance[i] = ball_X[i]*ball_X[i]+ball_Y[i]*ball_X[i];			//[groupD] we don't use any distance
 		cout<<"web2 blue circle("<<i<<"):x="<<web2_blue_X_array[i]<<endl;			//[groupD] for check
 		}
+
+		for(int i = 0; i < count3; i++)
+		{
+				web2_green_X_array[i] = position_modify2->g_img_x[i];
+				web2_green_Z_array[i] = position_modify2->g_img_z[i];
+				if(web2_green_Z > position_modify2->g_img_z[i]){
+					web2_green_X = position_modify2->g_img_x[i];
+					web2_green_Z = position_modify2->g_img_z[i];
+				}
+				// std::cout << "degree : "<< ball_degree[i];
+				// std::cout << "   distance : "<< ball_distance[i]<<std::endl;
+				cout<<"web2 green circle("<<i<<"):x="<<web2_green_X_array[i]<<", z="<<web2_green_Z_array[i]<<endl;			//[groupD] for check
+		// ball_distance[i] = ball_X[i]*ball_X[i]+ball_Y[i]*ball_X[i];			//[groupD] we don't use any distance
+		}
+
     cout<<"callback 2 end"<<endl;
 		map_mutex.unlock();
 }
@@ -359,56 +379,114 @@ void pick_up(){
 }
 
 float web1_green_Z_min;
+float web1_green_X_closest;
+int leftright = -1; //when left: 0 when right: 1
 
 void release(){
 
+		if (web2_green_number=!0){
+				if(web2_green_Z <0.25){
+						if (leftright == 0){//when green ball was left ball
+							//go right open loop
+							for(float k=0; k<1.5; k=k+t){
+							 move_left();
+							 sleep_count(t);
+						  }
+							//turn servo motor
+						}
+						else{//when green ball was right ball
+							//go left open loop
+							for(float k=0; k<1.5; k=k+t){
+							 move_left();
+							 sleep_count(t);
+						  }
+							//turn servo motor
+						}
+				}
+		}
 
- //  if(web1_green_number <2){
- //    cout<<"looking for 2 green balls"<<endl;
-	// 	turn_CCW();
-	// }
-	// else{
-	// 		web1_green_Z_min = web1_green_Z_array[0];
- //
-	// 		for(int i=1; i<web1_green_Z_array.size(); i++){
-	// 				if(web1_green_Z_min > web1_green_Z_array[i]){
-	// 					web1_green_Z_min = web1_green_Z_array[i]
-	// 				}
-	// 		}
-	// 		float web1_green_X_average = 0;
- //
-	// 		for(int i=0; i<web1_green_X_array.size(); i++){
-	// 				web1_green_X_average = web1_green_X_average + web1_green_X_array[i];
-	// 		}
-	// 		web1_green_X_average = web1_green_X_average/web1_green_X_array.size();
- //
-	// 		if(web1_green_Z_min>1.3){
-	// 				if(web1_green_X_average > 1){
-	// 					while(web1_green_X_average>0.6){
-	// 						turn_CW(0.5);
-	// 						ros::spinOnce();
-	// 						ros::Duration(t).sleep();
-	// 					}
-	// 				}
-	// 				else if(web1_green_X_average < -1){
-	// 					while(web1_green_X_average<-0.6){
-	// 						turn_CCW(0.5);
-	// 						ros::spinOnce();
-	// 						ros::Duration(t).sleep();
-	// 					}
-	// 				}
-	// 				else{
-	// 					move_forward();
- //
-	// 				}
-	// 		}
-	// 		else{
- //
- //
-	// 		}
- //
- //
- // }
+	  if(web1_green_number <2){
+		    cout<<"looking for 2 green balls"<<endl;
+				turn_CCW();
+		}
+		else{//when green ball is 2 in web1
+				web1_green_Z_min = web1_green_Z_array[0];
+				web1_green_X_closest = web1_green_X_array[0];
+
+				for(int i=1; i<web1_green_Z_array.size(); i++){
+						if(web1_green_Z_min > web1_green_Z_array[i]){
+							web1_green_Z_min = web1_green_Z_array[i]
+							web1_green_X_closest = web1_green_X_array[i]
+						}
+				}
+
+				web1_green_X_min = web1_green_X_array[0];
+				for(int i=1; i<web1_green_X_array.size(); i++){ //get smallest X value of green ball position
+						if(web1_green_X_min > web1_green_X_array[i]){
+							web1_green_X_min = web1_green_X_array[i];
+						}
+				}
+
+
+				//finding out whether we are going to left green ball or right green ball
+
+				if(abs(web1_green_X_min-web1_green_X_closest)<0.05){
+						leftright = 0;
+				}
+				else{
+						leftright = 1;
+				}
+
+
+				float web1_green_X_average = 0;
+
+				for(int i=0; i<web1_green_X_array.size(); i++){
+						web1_green_X_average = web1_green_X_average + web1_green_X_array[i];
+				}
+				web1_green_X_average = web1_green_X_average/web1_green_X_array.size();
+
+				if(web1_green_Z_min>1.3){
+						if(web1_green_X_average > 1){
+							while(web1_green_X_average>0.6){
+								turn_CW(0.5);
+								ros::spinOnce();
+								ros::Duration(t).sleep();
+							}
+						}
+						else if(web1_green_X_average < -1){
+							while(web1_green_X_average<-0.6){
+								turn_CCW(0.5);
+								ros::spinOnce();
+								ros::Duration(t).sleep();
+							}
+						}
+						else{
+							move_forward();
+
+						}
+				}
+
+				else{ //when closest green ball is under 1.3 meter
+						if(web1_green_X_closest > 1){ //when closest green ball is on right side
+								while(web1_green_X_closest > 0.6){
+									turn_CW(0.5);
+									ros::spinOnce();
+									ros::Duration(t).sleep();
+								}
+						}
+						else if(web1_green_X_closest < -1){
+								while(web1_green_X_closest <-0.6){
+									turn_CCW(0.5);
+									ros::spinOnce();
+									ros::Duration(t).sleep();
+								}
+						}
+						else{
+								move_forward();
+						}
+				}
+
+	 }
 }
 
 
@@ -488,7 +566,7 @@ int main(int argc, char **argv)
 						ros::spinOnce();
  	 				 sleep_count(t);
 			 }
-			      float k = 0;
+			      k = 0;
 			      while(k<1.5){
 							//go forward for a while
 							data[0] = 0;
@@ -502,7 +580,7 @@ int main(int argc, char **argv)
 							k=k+t;
 						}
 						//turn CW for a while
-						k=0;
+						float k=0;
 						while(k<1){
 							data[0] = 0;
 							data[1] = 0;
@@ -584,3 +662,4 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
