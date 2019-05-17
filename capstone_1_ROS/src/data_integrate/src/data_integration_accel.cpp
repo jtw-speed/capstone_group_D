@@ -151,7 +151,7 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 		web1_red_number=count3;
 		//ROS_INFO("recieved number = %f", web1_blue_number);
     cout<<"total number of blue balls from webcam1:"<<web1_blue_number<<endl;
-    cout<<"total number of green balls from webcam1:"<<web1_green_number<<endl;
+    cout<<"total numbCaper of green balls from webcam1:"<<web1_green_number<<endl;
 
     // position assign webcam1 blue
 
@@ -244,10 +244,10 @@ void find_ball()
 
 void suction_check(){
 	if(suc<=3){
-		data[23]=1;
+		data[21]=1;
 	}
 	else{
-		data[23]=0;
+		data[21]=0;
 	}
 }
 
@@ -255,9 +255,9 @@ void sleep_count(float sleeprate){
 
 	ros::Duration(sleeprate).sleep();
 	suc = suc + sleeprate;
-	cout<<"succ ="<<suc<<endl;
+	cout<<"suc ="<<suc<<endl;
 	cout<<collection<<endl;
-	if(suc == 3){
+	if(2.15<suc && suc<3.05){
 		collection = collection + 1;
 		cout<<"collected a ball!"<<endl;
 	}
@@ -279,7 +279,7 @@ void move_forward(float v){
 	suction_check();
 	write(c_socket, data, sizeof(data));
   cout<<"void move forward"<<endl;
-	ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+	ROS_INFO("%f, %f, %f, %f, %f", data[0], data[1], data[4], data[5],	data[21]);
 }
 
 void turn_CW(float w){
@@ -290,18 +290,21 @@ void turn_CW(float w){
  suction_check();
  write(c_socket, data, sizeof(data));
  cout<<"void turn CW"<<endl;
- ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+ ROS_INFO("%f, %f, %f, %f, %f", data[0], data[1], data[4], data[5],	data[21]);
 }
 
 void turn_CCW(float w){
  data[0] = 0;
- data[1] = 0;
+ data[1] = 0;while(web1_green_X_average>0.6){
+							turn_CW();
+							ros::spinOnce();
+						}
  data[4] = -w;
  data[5] = 0;
  suction_check();
  write(c_socket, data, sizeof(data));
  cout<<"void turn CCW"<<endl;
- ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+ROS_INFO("%f, %f, %f, %f, %f", data[0], data[1], data[4], data[5],	data[21]);
 }
 
 
@@ -315,7 +318,7 @@ void move_left(){
 	 suction_check();
 	write(c_socket, data, sizeof(data));
 	cout<<"void move left"<<endl;
-	ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+	ROS_INFO("%f, %f, %f, %f, %f", data[0], data[1], data[4], data[5],	data[21]);
 }
 
 void move_right(){
@@ -328,7 +331,7 @@ void move_right(){
   suction_check();
 	write(c_socket, data, sizeof(data));
 	cout<<"void move right"<<endl;
-	ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+	ROS_INFO("%f, %f, %f, %f, %f", data[0], data[1], data[4], data[5],	data[21]);
 }
 
 void pick_up(){
@@ -355,9 +358,57 @@ void pick_up(){
 
 }
 
+float web1_green_Z_min;
 
 void release(){
 
+
+ //  if(web1_green_number <2){
+ //    cout<<"looking for 2 green balls"<<endl;
+	// 	turn_CCW();
+	// }
+	// else{
+	// 		web1_green_Z_min = web1_green_Z_array[0];
+ //
+	// 		for(int i=1; i<web1_green_Z_array.size(); i++){
+	// 				if(web1_green_Z_min > web1_green_Z_array[i]){
+	// 					web1_green_Z_min = web1_green_Z_array[i]
+	// 				}
+	// 		}
+	// 		float web1_green_X_average = 0;
+ //
+	// 		for(int i=0; i<web1_green_X_array.size(); i++){
+	// 				web1_green_X_average = web1_green_X_average + web1_green_X_array[i];
+	// 		}
+	// 		web1_green_X_average = web1_green_X_average/web1_green_X_array.size();
+ //
+	// 		if(web1_green_Z_min>1.3){
+	// 				if(web1_green_X_average > 1){
+	// 					while(web1_green_X_average>0.6){
+	// 						turn_CW(0.5);
+	// 						ros::spinOnce();
+	// 						ros::Duration(t).sleep();
+	// 					}
+	// 				}
+	// 				else if(web1_green_X_average < -1){
+	// 					while(web1_green_X_average<-0.6){
+	// 						turn_CCW(0.5);
+	// 						ros::spinOnce();
+	// 						ros::Duration(t).sleep();
+	// 					}
+	// 				}
+	// 				else{
+	// 					move_forward();
+ //
+	// 				}
+	// 		}
+	// 		else{
+ //
+ //
+	// 		}
+ //
+ //
+ // }
 }
 
 
@@ -377,11 +428,11 @@ int main(int argc, char **argv)
     c_addr.sin_family = AF_INET;
     c_addr.sin_port = htons(PORT);
 
-    //  if(connect(c_socket, (struct sockaddr*) &c_addr, sizeof(c_addr)) == -1){
-    //     printf("Failed to connect\n");
-    //     close(c_socket);
-    //      return -1;
-    // }
+     if(connect(c_socket, (struct sockaddr*) &c_addr, sizeof(c_addr)) == -1){
+        printf("Failed to connect\n");
+        close(c_socket);
+         return -1;
+    }
 
 
 		while(ros::ok){
@@ -394,6 +445,7 @@ int main(int argc, char **argv)
 			  data[1] = 0;
 			  data[4] = 0;
 			  data[5] = 0;
+
 			// release
 			//release(ball_position->midpoint, ball_position->distance4)
 			}
@@ -521,12 +573,12 @@ int main(int argc, char **argv)
 			 	 }
 	  		}
 			}
-		 ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);
+		ROS_INFO("%f, %f, %f, %f, %f", data[0], data[1], data[4], data[5],	data[21]);
 		 cout<<"end of while loop"<<endl;
      sleep_count(t);
 
 		}
-		 //ROS_INFO("%f, %f, %f, %f", data[0], data[1], data[4], data[5]);  // for exp
+		 //ROS_INFO("%f, %f, %f, %f, %f", data[0], data[1], data[4], data[5],	data[21]);  // for exp
      //write(c_socket, data, sizeof(data));
     cout<<"quit while loop"<<endl;
 
