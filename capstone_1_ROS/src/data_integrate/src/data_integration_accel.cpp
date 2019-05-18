@@ -439,7 +439,7 @@ void release(){
 									  }
 										//turn servo motor
 										dataInit();
-										ros::Duration(1000).sleep(); ////sleep 1000 seconds after all missions
+										break; //end while looop
 									}
 									else{//when green ball was right ball
 										//go left open loop
@@ -449,14 +449,28 @@ void release(){
 									  }
 										//turn servo motor
 										dataInit();
-										ros::Duration(1000).sleep(); //sleep 1000 seconds after all missions
+										break; //end while loop
 									}
 							}
+
+							else{
+								move_forward(0.6);
+								ros::Duration(t).sleep();
+								continue;
+							}
+
 					}
 
+
 				  if(web1_green_number <2){//when green ball is under 2
-					    cout<<"looking for 2 green balls, current:"<<web1_green_number<<endl;
+						if(web1_green_number ==0)
 							turn_CCW(0.5);
+						else{
+							if(web1_green_Z_min > 1.3){
+						    cout<<"looking for 2 green balls, current:"<<web1_green_number<<endl;
+								turn_CCW(0.5);
+							}
+						}
 					}
 
 					else{//when green ball is 2 in web1
@@ -466,14 +480,14 @@ void release(){
 							if(web1_green_Z_min>1.3){
 									if(web1_green_X_average > 1){
 										while(web1_green_X_average>0.6){
-											turn_CW(0.5);
+											turn_CW(0.6);
 											ros::spinOnce();
 											ros::Duration(t).sleep();
 										}
 									}
 									else if(web1_green_X_average < -1){
 										while(web1_green_X_average<-0.6){
-											turn_CCW(0.5);
+											turn_CCW(0.6);
 											ros::spinOnce();
 											ros::Duration(t).sleep();
 										}
