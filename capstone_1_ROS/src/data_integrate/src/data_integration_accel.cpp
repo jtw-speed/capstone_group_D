@@ -67,6 +67,9 @@ float web1_green_X=-100;
 float web1_green_Z_array[20];
 float web1_green_Z=-100;
 float web1_green_X_average;
+float web1_green_X_min;
+float web1_green_Z_min;
+float web1_green_X_closest;
 // webcam2 global variables
 int web2_red_number=0;
 float web2_red_X_array[20];			// not necessary
@@ -80,6 +83,9 @@ float web2_green_Z = 100;
 
 float web2_green_X_array[20];
 float web2_green_Z_array[20];
+
+int leftright = -1; //when left: 0 when right: 1
+
 // number of collected blue balls
 int collection=3;
 
@@ -196,6 +202,43 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 		cout<<"web1 red circle("<<i<<"):x="<<web1_red_X_array[i]<<", z="<<web1_red_Z_array[i]<<endl;			//[groupD] for check
 		}
 		cout<<"callback 1 end"<<endl;
+
+		web1_green_Z_min = web1_green_Z_array[0];
+		web1_green_X_closest = web1_green_X_array[0];
+
+		for(int i=1; i<web1_green_number; i++){
+				if(web1_green_Z_min > web1_green_Z_array[i]){
+					web1_green_Z_min = web1_green_Z_array[i];
+					web1_green_X_closest = web1_green_X_array[i];
+				}
+		}
+
+
+		web1_green_X_min = web1_green_X_array[0];
+		for(int i=1; i<web1_green_number; i++){ //get smallest X value of green ball position
+				if(web1_green_X_min > web1_green_X_array[i]){
+					web1_green_X_min = web1_green_X_array[i];
+				}
+		}
+
+
+		//finding out whether we are going to left green ball or right green ball
+
+		if(abs(web1_green_X_min-web1_green_X_closest)<0.05){
+				leftright = 0;
+		}
+		else{
+				leftright = 1;
+		}
+
+
+		float web1_green_X_average = 0;
+
+		for(int i=0; i<web1_green_number; i++){
+				web1_green_X_average = web1_green_X_average + web1_green_X_array[i];
+		}
+		web1_green_X_average = web1_green_X_average/web1_green_number;
+
 
     map_mutex.unlock();
 }
@@ -380,13 +423,12 @@ void pick_up(){
 
 }
 
-float web1_green_Z_min;
-float web1_green_X_closest;
-int leftright = -1; //when left: 0 when right: 1
+
 
 void release(){
 
 		if (web2_green_number=!0){
+				cout<<"web2 greenball detected"<<endl;
 				if(web2_green_Z <0.25){
 						if (leftright == 0){//when green ball was left ball
 							//go right open loop
@@ -417,40 +459,8 @@ void release(){
 		}
 
 		else{//when green ball is 2 in web1
-				web1_green_Z_min = web1_green_Z_array[0];
-				web1_green_X_closest = web1_green_X_array[0];
+				cout<<"two green balls detected"<<endl;
 
-				for(int i=1; i<web1_green_number; i++){
-						if(web1_green_Z_min > web1_green_Z_array[i]){
-							web1_green_Z_min = web1_green_Z_array[i];
-							web1_green_X_closest = web1_green_X_array[i];
-						}
-				}
-				float web1_green_X_min;
-				web1_green_X_min = web1_green_X_array[0];
-				for(int i=1; i<web1_green_number; i++){ //get smallest X value of green ball position
-						if(web1_green_X_min > web1_green_X_array[i]){
-							web1_green_X_min = web1_green_X_array[i];
-						}
-				}
-
-
-				//finding out whether we are going to left green ball or right green ball
-
-				if(abs(web1_green_X_min-web1_green_X_closest)<0.05){
-						leftright = 0;
-				}
-				else{
-						leftright = 1;
-				}
-
-
-				float web1_green_X_average = 0;
-
-				for(int i=0; i<web1_green_number; i++){
-						web1_green_X_average = web1_green_X_average + web1_green_X_array[i];
-				}
-				web1_green_X_average = web1_green_X_average/web1_green_number;
 
 				if(web1_green_Z_min>1.3){
 						if(web1_green_X_average > 1){
