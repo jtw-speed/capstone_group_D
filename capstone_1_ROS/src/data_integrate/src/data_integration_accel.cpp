@@ -66,17 +66,22 @@ float web1_green_X_array[20];
 float web1_green_X=-100;
 float web1_green_Z_array[20];
 float web1_green_Z=-100;
+float web1_green_X_average;
 // webcam2 global variables
 int web2_red_number=0;
 float web2_red_X_array[20];			// not necessary
 float web2_red_X = -100;
+int web2_green_number = 0;
 int web2_blue_number=0;
 float web2_blue_X_array[20];		// not necessary
 float web2_blue_X = -100;
 float web2_green_X = -100;
 float web2_green_Z = 100;
+
+float web2_green_X_array[20];
+float web2_green_Z_array[20];
 // number of collected blue balls
-int collection=0;
+int collection=3;
 
 int action;
 
@@ -206,7 +211,7 @@ void camera2_Callback(const core_msgs::ball_position::ConstPtr& position_modify2
     web2_red_number=count1;
 		int count2 = position_modify2->b_size;
 		web2_blue_number=count2;
-		int count3= position_modify1->g_size;
+		int count3= position_modify2->g_size;
 		web2_green_number=count3;
 
     cout<<"total number of red balls from webcam2:"<<web2_red_number<<endl;
@@ -315,10 +320,7 @@ void turn_CW(float w){
 
 void turn_CCW(float w){
  data[0] = 0;
- data[1] = 0;while(web1_green_X_average>0.6){
-							turn_CW();
-							ros::spinOnce();
-						}
+ data[1] = 0;
  data[4] = -w;
  data[5] = 0;
  suction_check();
@@ -407,21 +409,21 @@ void release(){
 
 	  if(web1_green_number <2){
 		    cout<<"looking for 2 green balls"<<endl;
-				turn_CCW();
+				turn_CCW(0.5);
 		}
 		else{//when green ball is 2 in web1
 				web1_green_Z_min = web1_green_Z_array[0];
 				web1_green_X_closest = web1_green_X_array[0];
 
-				for(int i=1; i<web1_green_Z_array.size(); i++){
+				for(int i=1; i<web1_green_number; i++){
 						if(web1_green_Z_min > web1_green_Z_array[i]){
-							web1_green_Z_min = web1_green_Z_array[i]
-							web1_green_X_closest = web1_green_X_array[i]
+							web1_green_Z_min = web1_green_Z_array[i];
+							web1_green_X_closest = web1_green_X_array[i];
 						}
 				}
-
+				float web1_green_X_min;
 				web1_green_X_min = web1_green_X_array[0];
-				for(int i=1; i<web1_green_X_array.size(); i++){ //get smallest X value of green ball position
+				for(int i=1; i<web1_green_number; i++){ //get smallest X value of green ball position
 						if(web1_green_X_min > web1_green_X_array[i]){
 							web1_green_X_min = web1_green_X_array[i];
 						}
@@ -440,10 +442,10 @@ void release(){
 
 				float web1_green_X_average = 0;
 
-				for(int i=0; i<web1_green_X_array.size(); i++){
+				for(int i=0; i<web1_green_number; i++){
 						web1_green_X_average = web1_green_X_average + web1_green_X_array[i];
 				}
-				web1_green_X_average = web1_green_X_average/web1_green_X_array.size();
+				web1_green_X_average = web1_green_X_average/web1_green_number;
 
 				if(web1_green_Z_min>1.3){
 						if(web1_green_X_average > 1){
@@ -461,7 +463,7 @@ void release(){
 							}
 						}
 						else{
-							move_forward();
+							move_forward(1);
 
 						}
 				}
@@ -482,7 +484,7 @@ void release(){
 								}
 						}
 						else{
-								move_forward();
+								move_forward(1);
 						}
 				}
 
@@ -523,7 +525,7 @@ int main(int argc, char **argv)
 			  data[1] = 0;
 			  data[4] = 0;
 			  data[5] = 0;
-
+				release();
 			// release
 			//release(ball_position->midpoint, ball_position->distance4)
 			}
@@ -566,7 +568,7 @@ int main(int argc, char **argv)
 						ros::spinOnce();
  	 				 sleep_count(t);
 			 }
-			      k = 0;
+			      float k = 0;
 			      while(k<1.5){
 							//go forward for a while
 							data[0] = 0;
@@ -580,7 +582,7 @@ int main(int argc, char **argv)
 							k=k+t;
 						}
 						//turn CW for a while
-						float k=0;
+						k=0;
 						while(k<1){
 							data[0] = 0;
 							data[1] = 0;
@@ -662,4 +664,3 @@ int main(int argc, char **argv)
 
     return 0;
 }
-
