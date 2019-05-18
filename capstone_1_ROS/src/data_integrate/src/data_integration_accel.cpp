@@ -426,84 +426,87 @@ void pick_up(){
 
 
 void release(){
-
-		if (web2_green_number=!0){
-				cout<<"web2 greenball detected"<<endl;
-				if(web2_green_Z <0.25){
-						if (leftright == 0){//when green ball was left ball
-							//go right open loop
-							for(float k=0; k<1.5; k=k+t){
-							 move_left();
-							 sleep_count(t);
-						  }
-							//turn servo motor
-							dataInit();
-							ros::Duration(1000).sleep(); ////sleep 1000 seconds after all missions
-						}
-						else{//when green ball was right ball
-							//go left open loop
-							for(float k=0; k<1.5; k=k+t){
-							 move_left();
-							 sleep_count(t);
-						  }
-							//turn servo motor
-							dataInit();
-							ros::Duration(1000).sleep(); //sleep 1000 seconds after all missions
-						}
-				}
-		}
-
-	  if(web1_green_number <2){//when green ball is under 2
-		    cout<<"looking for 2 green balls, current:"<<web1_green_number<<endl;
-				turn_CCW(0.5);
-		}
-
-		else{//when green ball is 2 in web1
-				cout<<"two green balls detected"<<endl;
-
-
-				if(web1_green_Z_min>1.3){
-						if(web1_green_X_average > 1){
-							while(web1_green_X_average>0.6){
-								turn_CW(0.5);
-								ros::spinOnce();
-								ros::Duration(t).sleep();
+		while(ros::ok){
+					ros::spinOnce();
+					if (web2_green_number=!0){
+							cout<<"web2 greenball detected"<<endl;
+							if(web2_green_Z <0.25){
+									if (leftright == 0){//when green ball was left ball
+										//go right open loop
+										for(float k=0; k<1.5; k=k+t){
+										 move_left();
+										 sleep_count(t);
+									  }
+										//turn servo motor
+										dataInit();
+										ros::Duration(1000).sleep(); ////sleep 1000 seconds after all missions
+									}
+									else{//when green ball was right ball
+										//go left open loop
+										for(float k=0; k<1.5; k=k+t){
+										 move_left();
+										 sleep_count(t);
+									  }
+										//turn servo motor
+										dataInit();
+										ros::Duration(1000).sleep(); //sleep 1000 seconds after all missions
+									}
 							}
-						}
-						else if(web1_green_X_average < -1){
-							while(web1_green_X_average<-0.6){
-								turn_CCW(0.5);
-								ros::spinOnce();
-								ros::Duration(t).sleep();
+					}
+
+				  if(web1_green_number <2){//when green ball is under 2
+					    cout<<"looking for 2 green balls, current:"<<web1_green_number<<endl;
+							turn_CCW(0.5);
+					}
+
+					else{//when green ball is 2 in web1
+							cout<<"two green balls detected"<<endl;
+
+
+							if(web1_green_Z_min>1.3){
+									if(web1_green_X_average > 1){
+										while(web1_green_X_average>0.6){
+											turn_CW(0.5);
+											ros::spinOnce();
+											ros::Duration(t).sleep();
+										}
+									}
+									else if(web1_green_X_average < -1){
+										while(web1_green_X_average<-0.6){
+											turn_CCW(0.5);
+											ros::spinOnce();
+											ros::Duration(t).sleep();
+										}
+									}
+									else{
+										move_forward(1);
+
+									}
 							}
-						}
-						else{
-							move_forward(1);
 
-						}
-				}
+							else{ //when closest green ball is under 1.3 meter
+									if(web1_green_X_closest > 1){ //when closest green ball is on right side
+											while(web1_green_X_closest > 0.6){
+												turn_CW(0.5);
+												ros::spinOnce();
+												ros::Duration(t).sleep();
+											}
+									}
+									else if(web1_green_X_closest < -1){
+											while(web1_green_X_closest <-0.6){
+												turn_CCW(0.5);
+												ros::spinOnce();
+												ros::Duration(t).sleep();
+											}
+									}
+									else{
+											move_forward(1);
+									}
+							}
 
-				else{ //when closest green ball is under 1.3 meter
-						if(web1_green_X_closest > 1){ //when closest green ball is on right side
-								while(web1_green_X_closest > 0.6){
-									turn_CW(0.5);
-									ros::spinOnce();
-									ros::Duration(t).sleep();
-								}
-						}
-						else if(web1_green_X_closest < -1){
-								while(web1_green_X_closest <-0.6){
-									turn_CCW(0.5);
-									ros::spinOnce();
-									ros::Duration(t).sleep();
-								}
-						}
-						else{
-								move_forward(1);
-						}
-				}
-
-	 }
+				 }
+				 ros::Duration(t).sleep();
+		 }
 }
 
 
@@ -541,6 +544,7 @@ int main(int argc, char **argv)
 			  data[4] = 0;
 			  data[5] = 0;
 				release();
+				break;
 			// release
 			//release(ball_position->midpoint, ball_position->distance4)
 			}
