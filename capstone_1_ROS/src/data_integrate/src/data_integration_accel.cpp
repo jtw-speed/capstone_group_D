@@ -432,6 +432,7 @@ void pick_up(){
 void release(){
 		while(ros::ok){
 					ros::spinOnce();
+					ros::Duration(t).sleep();
 					cout<<"web2 greenball detected before"<<web2_green_number<<endl;
 					if (web2_green_number=!0){
 							cout<<"web2 greenball detected"<<web2_green_number<<endl;
@@ -439,7 +440,7 @@ void release(){
 									if (leftright == 0){//when green ball was left ball
 										//go right open loop
 										for(float k=0; k<1.5; k=k+t){
-										 move_left();
+										 move_right();
 										 sleep_count(t);
 									  }
 										//turn servo motor
@@ -457,32 +458,21 @@ void release(){
 										break; //end while loop
 									}
 							}
-
 							else{
 								move_forward(0.6);
 								ros::Duration(t).sleep();
-
 							}
-
 					}
-
-
-				  if(web1_green_number <2){//when green ball is under 2
-						if(web1_green_number ==0)
+					else{	// web2_green_number=0
+						if(web1_green_number ==0){
 							turn_CCW(0.5);
-						else{
-							if(web1_green_Z_min > 1.3){
-						    cout<<"looking for 2 green balls, current:"<<web1_green_number<<endl;
-								turn_CCW(0.5);
-							}
 						}
-					}
-
-					else{//when green ball is 2 in web1
-							cout<<"two green balls detected"<<endl;
-
-
+						else{ //web1_green_number!=0
 							if(web1_green_Z_min>1.3){
+								if(web1_green_number == 1){
+									turn_CCW(0.5);
+								}
+								else{ // web2_green_number == 2(3,4,5... noise)
 									if(web1_green_X_average > 1){
 										while(web1_green_X_average>0.6){
 											turn_CW(0.6);
@@ -499,10 +489,9 @@ void release(){
 									}
 									else{
 										move_forward(1);
-
 									}
 							}
-
+						}
 							else{ //when closest green ball is under 1.3 meter
 									if(web1_green_X_closest > 1){ //when closest green ball is on right side
 											while(web1_green_X_closest > 0.6){
@@ -524,8 +513,9 @@ void release(){
 							}
 
 				 }
-				 ros::Duration(t).sleep();
+
 		 }
+}
 }
 
 
