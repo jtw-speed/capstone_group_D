@@ -87,7 +87,7 @@ float web2_green_Z_array[20];
 int leftright = -1; //when left: 0 when right: 1
 
 // number of collected blue balls
-int collection=3;
+int collection=0;
 
 int action;
 
@@ -100,6 +100,7 @@ struct sockaddr_in c_addr;
 int len;
 int n;
 float data[24];
+int suction_switch=0;
 
 void dataInit()
 {
@@ -325,8 +326,11 @@ void sleep_count(float sleeprate){
 	suc = suc + sleeprate;
 	cout<<"suc ="<<suc<<endl;
 	cout<<collection<<endl;
-	if(2.15<suc && suc<3.05){
+	cout<<collection<<endl;
+	cout<<collection<<endl;
+	if(3<=suc && suction_switch ==1){
 		collection = collection + 1;
+		suction_switch = 0;
 		cout<<"collected a ball!"<<endl;
 	}
 }
@@ -400,7 +404,7 @@ void move_right(){
 }
 
 void pick_up(){
-
+	suction_switch =1;
   suc = 0;
   cout<<"void starting pikcup"<<endl;
 	if(web2_blue_X>1){
@@ -428,9 +432,10 @@ void pick_up(){
 void release(){
 		while(ros::ok){
 					ros::spinOnce();
+					cout<<"web2 greenball detected before"<<web2_green_number<<endl;
 					if (web2_green_number=!0){
-							cout<<"web2 greenball detected"<<endl;
-							if(web2_green_Z <0.25){
+							cout<<"web2 greenball detected"<<web2_green_number<<endl;
+							if(web2_green_Z <0.22){
 									if (leftright == 0){//when green ball was left ball
 										//go right open loop
 										for(float k=0; k<1.5; k=k+t){
@@ -456,7 +461,7 @@ void release(){
 							else{
 								move_forward(0.6);
 								ros::Duration(t).sleep();
-								continue;
+
 							}
 
 					}
