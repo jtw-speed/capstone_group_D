@@ -19,7 +19,17 @@
 #include "opencv2/opencv.hpp"
 using namespace std;
 
-float acceptable_distance = 0.05; //change this parameter to choose acceptable distance of deleting 중복된 ball data
+float prev_b_pos_x_modify[20];
+float prev_b_pos_y_modify[20];
+float prev_b_pos_z_modify[20];
+float prev_r_pos_x_modify[20];
+float prev_r_pos_y_modify[20];
+float prev_r_pos_z_modify[20];
+float prev_g_pos_x_modify[20];
+float prev_g_pos_y_modify[20];
+float prev_g_pos_z_modify[20];
+
+float acceptable_distance = 0.02; //change this parameter to choose acceptable distance of deleting 중복된 ball data
 ros::Publisher pub;
 
 void imageCallback(const core_msgs::ball_position::ConstPtr& position1)
@@ -46,6 +56,11 @@ void imageCallback(const core_msgs::ball_position::ConstPtr& position1)
   float g_pos_x_original[20];
   float g_pos_y_original[20];
   float g_pos_z_original[20];
+
+  float b_radius_original[20];
+  float r_radius_original[20];
+  float g_radius_original[20];
+
   int b_data_reduction = 0, r_data_reduction = 0, g_data_reduction = 0; //number of reduction of data array
 
   cout << "checkpoint 1" <<endl;
@@ -54,6 +69,7 @@ void imageCallback(const core_msgs::ball_position::ConstPtr& position1)
       b_pos_x_original[i] = position1 -> b_img_x[i];
       b_pos_y_original[i] = position1 -> b_img_y[i];
       b_pos_z_original[i] = position1 -> b_img_z[i];
+      b_radius_original[i] = position1 -> b_radius[i];
     }
   }
   if (r_size_original != 0){
@@ -61,6 +77,7 @@ void imageCallback(const core_msgs::ball_position::ConstPtr& position1)
       r_pos_x_original[i] = position1 -> r_img_x[i];
       r_pos_y_original[i] = position1 -> r_img_y[i];
       r_pos_z_original[i] = position1 -> r_img_z[i];
+      r_radius_original[i] = position1 -> r_radius[i];
     }
   }
   if (g_size_original != 0){
@@ -68,11 +85,11 @@ void imageCallback(const core_msgs::ball_position::ConstPtr& position1)
       g_pos_x_original[i] = position1 -> g_img_x[i];
       g_pos_y_original[i] = position1 -> g_img_y[i];
       g_pos_z_original[i] = position1 -> g_img_z[i];
+      g_radius_original[i] = position1 -> g_radius[i];
     }
 
   }
-  for( int x = 0; x < g_size_original; x++ ){
-      cout << g_pos_x_original[x] << endl;}
+
 
   cout << "checkpoint 2" <<endl;
 
@@ -83,18 +100,37 @@ void imageCallback(const core_msgs::ball_position::ConstPtr& position1)
         if(i < j){
           float x_distance = b_pos_x_original[i]-b_pos_x_original[j]; //get distance from two data point
           float y_distance = b_pos_y_original[i]-b_pos_y_original[j];
+          float larger_radius;
+          int noise_node;
+          if(b_radius_original[i]>=b_radius_original[j]){
+            larger_radius = b_radius_original[i];
+            noise_node = j;
+          }
+          else{
+            larger_radius = b_radius_original[j];
+            noise_node = i;
+          }
           // if x_distance and y_distance is small enough, eliminate one data
-          if(abs(x_distance)<acceptable_distance && abs(y_distance)<acceptable_distance){
-            //put 100 in uneeded data
-            b_pos_x_original[j] = 100+j;
-            b_pos_y_original[j] = 100+j;
-            b_pos_z_original[j] = 100+j;
-            ++b_data_reduction;
+          if(pow(x_distance,2) + pow(y_distance,2) < pow(larger_radius,2)){
+            if (noise_node == j){
+                //put 100 in uneeded data
+                b_pos_x_original[j] = 100+1000*j;
+                b_pos_y_original[j] = 100+1000*j;
+                b_pos_z_original[j] = 100+1000*j;
+                ++b_data_reduction;
+            }
+            if (noise_node == i){
+                b_pos_x_original[i] = 100+1000*i;
+                b_pos_y_original[i] = 100+1000*i;
+                b_pos_z_original[i] = 100+1000*i;
+                ++b_data_reduction;
+            }
           }
         }
       }
     }
   }
+
 
 //check redball data
   if(r_size_original > 1){
@@ -103,45 +139,74 @@ void imageCallback(const core_msgs::ball_position::ConstPtr& position1)
         if(i < j){
           float x_distance = r_pos_x_original[i]-r_pos_x_original[j]; //get distance from two data point
           float y_distance = r_pos_y_original[i]-r_pos_y_original[j];
+          float larger_radius;
+          int noise_node;
+          if(r_radius_original[i]>=r_radius_original[j]){
+            larger_radius = r_radius_original[i];
+            noise_node = j;
+          }
+          else{
+            larger_radius = r_radius_original[j];
+            noise_node = i;
+          }
           // if x_distance and y_distance is small enough, eliminate one data
-          if(abs(x_distance)<acceptable_distance && abs(y_distance)<acceptable_distance){
-            //put 100 in uneeded data
-            r_pos_x_original[j] = 100+j;
-            r_pos_y_original[j] = 100+j;
-            r_pos_z_original[j] = 100+j;
-            ++r_data_reduction;
+          if(pow(x_distance,2) + pow(y_distance,2) < pow(larger_radius,2)){
+            if (noise_node == j){
+                //put 100 in uneeded data
+                r_pos_x_original[j] = 100+1000*j;
+                r_pos_y_original[j] = 100+1000*j;
+                r_pos_z_original[j] = 100+1000*j;
+                ++r_data_reduction;
+            }
+            if (noise_node == i){
+                r_pos_x_original[i] = 100+1000*i;
+                r_pos_y_original[i] = 100+1000*i;
+                r_pos_z_original[i] = 100+1000*i;
+                ++r_data_reduction;
+            }
           }
         }
       }
     }
   }
 
-
 //check greenball data
-  if(g_size_original > 1){
-    for( size_t i = 0; i< g_size_original; i++ ){
-        for( size_t j = 0; j< g_size_original; j++ ){
-          if(i < j){
-            float x_distance = g_pos_x_original[i]-g_pos_x_original[j]; //get distance from two data point
-            float y_distance = g_pos_y_original[i]-g_pos_y_original[j];
-            // if x_distance and y_distance is small enough, eliminate one data
-            if(abs(x_distance)<acceptable_distance && abs(y_distance)<acceptable_distance){
+if(g_size_original > 1){
+  for( size_t i = 0; i< g_size_original; i++ ){
+    for( size_t j = 0; j< g_size_original; j++ ){
+      if(i < j){
+        float x_distance = g_pos_x_original[i]-g_pos_x_original[j]; //get distance from two data point
+        float y_distance = g_pos_y_original[i]-g_pos_y_original[j];
+        float larger_radius;
+        int noise_node;
+        if(g_radius_original[i]>=g_radius_original[j]){
+          larger_radius = g_radius_original[i];
+          noise_node = j;
+        }
+        else{
+          larger_radius = g_radius_original[j];
+          noise_node = i;
+        }
+        // if x_distance and y_distance is small enough, eliminate one data
+        if(pow(x_distance,2) + pow(y_distance,2) < pow(larger_radius,2)){
+          if (noise_node == j){
               //put 100 in uneeded data
-              g_pos_x_original[j] = 100+j;
-              g_pos_y_original[j] = 100+j;
-              g_pos_z_original[j] = 100+j;
+              g_pos_x_original[j] = 100+1000*j;
+              g_pos_y_original[j] = 100+1000*j;
+              g_pos_z_original[j] = 100+1000*j;
               ++g_data_reduction;
-            }
+          }
+          if (noise_node == i){
+              g_pos_x_original[i] = 100+1000*i;
+              g_pos_y_original[i] = 100+1000*i;
+              g_pos_z_original[i] = 100+1000*i;
+              ++g_data_reduction;
           }
         }
       }
+    }
   }
-  for( int x = 0; x < b_size_original; x++ ){
-      cout <<"b"<< b_pos_x_original[x] << endl;}
-      for( int x = 0; x < r_size_original; x++ ){
-          cout <<"r"<< r_pos_x_original[x] << endl;}
-          for( int x = 0; x < g_size_original; x++ ){
-              cout <<"g"<< g_pos_x_original[x] << endl;}
+}
   cout << "checkpoint 3" <<endl;
 
 //define modified position
@@ -157,30 +222,6 @@ core_msgs::ball_position mmsg;  //create a message for ball positions
   mmsg.g_img_y.resize(g_size_original-g_data_reduction);
   mmsg.g_img_z.resize(g_size_original-g_data_reduction);
 
-/* wrong codes
-  float b_pos_x_mod[1];
-  float b_pos_y_mod[1];
-  float b_pos_z_mod[1];
-  float r_pos_x_mod[1];
-  float r_pos_y_mod[1];
-  float r_pos_z_mod[1];
-  float g_pos_x_mod[1];
-  float g_pos_y_mod[1];
-
- //resize arrays
- float g_pos_z_mod[1];
-  b_pos_x_mod.resize(b_size_original-b_data_reduction);
-  b_pos_y_mod.resize(b_size_original-b_data_reduction);
-  b_pos_z_mod.resize(b_size_original-b_data_reduction);
-
-  r_pos_x_mod.resize(r_size_original-r_data_reduction);
-  r_pos_y_mod.resize(r_size_original-r_data_reduction);
-  r_pos_z_mod.resize(r_size_original-r_data_reduction);
-
-  g_pos_x_mod.resize(g_size_original-g_data_reduction);
-  g_pos_y_mod.resize(g_size_original-g_data_reduction);
-  g_pos_z_mod.resize(g_size_original-g_data_reduction);
-*/
 
   cout << "checkpoint 4" <<endl;
 
@@ -199,7 +240,6 @@ core_msgs::ball_position mmsg;  //create a message for ball positions
   //save useful data in array
   int j = 0;
   for( size_t i = 0; i< b_size_original; i++ ){
-
     if(b_pos_x_original[i] < 99){
       mmsg.b_img_x[j] = b_pos_x_original[i];
       mmsg.b_img_y[j] = b_pos_y_original[i];
@@ -225,12 +265,9 @@ core_msgs::ball_position mmsg;  //create a message for ball positions
       mmsg.g_img_z[j] = g_pos_z_original[i];
       j++;
     }
-
-
-
   }
-  pub.publish(mmsg);
 
+  pub.publish(mmsg);
 
 
 }
