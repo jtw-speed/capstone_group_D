@@ -28,7 +28,7 @@ void on_high_s_thresh_trackbar_red(int, void *);
 void on_low_v_thresh_trackbar_red(int, void *);
 void on_high_v_thresh_trackbar_red(int, void *);
 int low_h2_r=160, high_h2_r=180;
-int low_h_r=0, low_s_r=100, low_v_r=100;
+int low_h_r=0, low_s_r=197, low_v_r=100;
 int high_h_r=10, high_s_r=255, high_v_r=255;
 
 
@@ -48,9 +48,8 @@ void on_low_s_thresh_trackbar_green(int, void *);
 void on_high_s_thresh_trackbar_green(int, void *);
 void on_low_v_thresh_trackbar_green(int, void *);
 void on_high_v_thresh_trackbar_green(int, void *);
-int low_h_g=50, low_s_g=84, low_v_g=100;
-int high_h_g=100, high_s_g=255, high_v_g=255;
-
+int low_h_g=50, low_s_g=74, low_v_g=100;
+int high_h_g=80, high_s_g=255, high_v_g=255;
 
 // Declaration of functions that changes data types
 string intToString(int n);
@@ -235,20 +234,25 @@ int main(int argc, char **argv)
      vector<float>radius_g( contours_g.size() );
 
 
+
+
      msg.r_size = contours_r.size(); //adjust the size of message. (*the size of message is varying depending on how many circles are detected)
      msg.r_img_x.resize(contours_r.size());  //adjust the size of array
      msg.r_img_y.resize(contours_r.size());  //adjust the size of array
      msg.r_img_z.resize(contours_r.size());
+     msg.r_radius.resize(contours_r.size());
 
      msg.b_size =contours_b.size(); //adjust the size of message. (*the size of message is varying depending on how many circles are detected)
      msg.b_img_x.resize(contours_b.size());  //adjust the size of array
      msg.b_img_y.resize(contours_b.size());  //adjust the size of array
      msg.b_img_z.resize(contours_b.size());
+     msg.b_radius.resize(contours_b.size());
 
      msg.g_size =contours_g.size(); //adjust the size of message. (*the size of message is varying depending on how many circles are detected)
      msg.g_img_x.resize(contours_g.size());  //adjust the size of array
      msg.g_img_y.resize(contours_g.size());  //adjust the size of array
      msg.g_img_z.resize(contours_g.size());
+     msg.g_radius.resize(contours_g.size());
 
 
      for( size_t i = 0; i < contours_r.size(); i++ ){
@@ -281,6 +285,7 @@ int main(int argc, char **argv)
              msg.r_img_x[i] = isx;
              msg.r_img_y[i] = isy;
              msg.r_img_z[i] = isz;
+            msg.r_radius[i] = radius_r[i]/100;
 
              string sx = floatToString(isx);
              string sy = floatToString(isy);
@@ -305,7 +310,7 @@ int main(int argc, char **argv)
              msg.b_img_x[i] = isx;
              msg.b_img_y[i] = isy;
              msg.b_img_z[i] = isz;
-
+             msg.b_radius[i] = radius_b[i]/100;
 
              string sx = floatToString(isx);
              string sy = floatToString(isy);
@@ -331,7 +336,7 @@ int main(int argc, char **argv)
             msg.g_img_x[i] = isx;
             msg.g_img_y[i] = isy;
             msg.g_img_z[i] = isz;
-
+           msg.g_radius[i] = radius_g[i]/100;
 
             string sx = floatToString(isx);
             string sy = floatToString(isy);
