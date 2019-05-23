@@ -80,6 +80,8 @@ float web2_blue_X_array[20];		// not necessary
 float web2_blue_X = -100;
 float web2_green_X = -100;
 float web2_green_Z = 100;
+float web2_green_X_max;
+float web2_green_X_min;
 
 float web2_green_X_array[20];
 float web2_green_Z_array[20];
@@ -303,6 +305,19 @@ void camera2_Callback(const core_msgs::ball_position::ConstPtr& position_modify2
 		// ball_distance[i] = ball_X[i]*ball_X[i]+ball_Y[i]*ball_X[i];			//[groupD] we don't use any distance
 		}
 
+		// find max and min of web2_green_x when web2 green number > 2.
+		web2_green_X_max = web2_green_X_array[0];
+		web2_green_X_min = web2_green_X_array[0];
+		for(int i = 0; i < count3; i++)
+		{
+				if(web2_green_X_max < position_modify2->g_img_x[i]){
+					web2_green_X_max = position_modify2->g_img_x[i];
+				}
+				if(web2_green_X_min > position_modify2->g_img_x[i]){
+					web2_green_X_min = position_modify2->g_img_x[i];
+				}
+		}
+
     cout<<"callback 2 end"<<endl;
 		map_mutex.unlock();
 }
@@ -469,7 +484,7 @@ void release(){
 							cout<<"value of leftright="<<leftright<<endl;
 							if(web2_green_Z <0.25){
 									if (leftright == 0){//when green ball was left ball
-										while(web2_green_number != 0){
+										while(web2_green_number != 0 && web2_green_X_max-web2_green_X_min<400){
 											move_right();
 											ros::spinOnce();
 											ros::Duration(0.025).sleep();
@@ -493,7 +508,7 @@ void release(){
 										break; //end while looop
 									}
 									else if(leftright ==1){//when green ball was right ball
-										while(web2_green_number != 0){
+										while(web2_green_number != 0 && web2_green_X_max-web2_green_X_min<400){
 											move_left();
 											ros::spinOnce();
 											ros::Duration(0.025).sleep();
