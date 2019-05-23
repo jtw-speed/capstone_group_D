@@ -314,7 +314,7 @@ void find_ball()
 
 
 void suction_check(){
-	if(suc<=3){
+	if(suc<=1.5){
 		data[21]=1;
 	}
 	else{
@@ -330,12 +330,12 @@ void sleep_count(float sleeprate){
 	cout<<collection<<endl;
 	cout<<collection<<endl;
 	cout<<collection<<endl;
-	if(3<=suc && suction_switch ==1){
+	if(0.5<=suc && suction_switch ==1){
 		collection = collection + 1;
 		suction_switch = 0;
 		cout<<"collected a ball!"<<endl;
 	}
-}
+ }
 
 void move_forward(float v){
 	if(web1_red_Z <1){
@@ -370,7 +370,7 @@ void move_forward(float v){
 	write(c_socket, data, sizeof(data));
   cout<<"void move forward"<<endl;
 	ROS_INFO("%f, %f, %f, %f, %f", data[0], data[1], data[4], data[5],	data[21]);
-}
+ }
 
 void turn_CW(float w){
  data[0] = 0;
@@ -492,7 +492,7 @@ void release(){
 										dataInit();
 										break; //end while looop
 									}
-									else{//when green ball was right ball
+									else if(leftright ==1){//when green ball was right ball
 										while(web2_green_number != 0){
 											move_left();
 											ros::spinOnce();
@@ -517,13 +517,17 @@ void release(){
 										dataInit();
 										break; //end while loop
 									}
+									else{
+										cout<<"leftright is -1"<<endl;
+										break;
+									}
 							}
-							else{
+							else{//web2_green_Z > 0.25
 								move_forward(0.3);
 								ros::Duration(t).sleep();
 							}
 					}
-					else{	// web2_green_number=0
+					else{//web2_green_number=0
 						if(web1_green_number ==0){
 							turn_CCW(0.5);
 						}
@@ -532,23 +536,23 @@ void release(){
 								if(web1_green_number == 1){
 									turn_CCW(0.5);
 								}
-								else{ // web2_green_number == 2(3,4,5... noise)
+								else{ // web1_green_number == 2(3,4,5... noise)
 									cout<<"value of leftright="<<leftright<<endl;
-									if(web1_green_X_average > 1){
-										while(web1_green_X_average>0.6){
+									if(web1_green_X_average > 1.3){
+										while(web1_green_X_average>0.6 && web1_green_number>1 && web2_green_number ==0){
 											turn_CW(0.3);
 											ros::spinOnce();
 											ros::Duration(t).sleep();
 										}
 									}
-									else if(web1_green_X_average < -1){
-										while(web1_green_X_average<-0.6){
+									else if(web1_green_X_average < -1.3){
+										while(web1_green_X_average<-0.6 && web1_green_number == 2 && web2_green_number ==0){
 											turn_CCW(0.3);
 											ros::spinOnce();
 											ros::Duration(t).sleep();
 										}
 									}
-									else{
+									else{//when web1_green_X is in the middle
 										cout<<"value of leftright="<<leftright<<endl;
 										move_forward(1);
 									}
@@ -557,20 +561,20 @@ void release(){
 							else{ //when closest green ball is under 1.3 meter
 								  cout<<"value of leftright="<<leftright<<endl;
 									if(web1_green_X_closest > 1){ //when closest green ball is on right side
-											while(web1_green_X_closest > 0.6){
+											while(web1_green_X_closest > 0.6 && web1_green_number != 0 && web2_green_number ==0){
 												turn_CW(0.5);
 												ros::spinOnce();
 												ros::Duration(t).sleep();
 											}
 									}
 									else if(web1_green_X_closest < -1){
-											while(web1_green_X_closest <-0.6){
+											while(web1_green_X_closest <-0.6 && web1_green_number != 0 && web2_green_number ==0){
 												turn_CCW(0.5);
 												ros::spinOnce();
 												ros::Duration(t).sleep();
 											}
 									}
-									else{
+									else{//when web1_green_closest in middle
 										  cout<<"value of leftright="<<leftright<<endl;
 											move_forward(1);
 									}
@@ -620,15 +624,15 @@ int main(int argc, char **argv)
 				break;
 			// release
 			//release(ball_position->midpoint, ball_position->distance4)
-			}
-			else{
+			 }
+			else{//collection!=0
 			 if(web2_blue_number!=0){
 				pick_up();
 			 }
-			 else{
+			 else{//web2_blue_number==0
 				if(web1_blue_X>1.3){
 				 // turn
-				 while(web1_blue_X>0.8 && web2_blue_number==0){
+				 while(web1_blue_X>0.8 && web2_blue_number==0 && web2_red_number==0 && collection != 3){
 					 turn_CW(0.3);
 					 cout<<"turning CW"<<endl;
 					 ros::spinOnce();
@@ -636,19 +640,19 @@ int main(int argc, char **argv)
 				 }
 			}
 				else if(web1_blue_X<-1.3){
-				 while(web1_blue_X<-0.8 && web2_blue_number==0 && web2_red_number==0){
+				 while(web1_blue_X<-0.8 && web2_blue_number==0 && web2_red_number==0 && collection != 3){
 					turn_CCW(0.3);
 					cout<<"turning CCW"<<endl;
 					ros::spinOnce();
 					sleep_count(t);
 				  }
 				}
-				else{
+				else{//web1_blue_X at middle
 					 if(web1_red_Z<0.5){
 						// avoid start
 							if(web1_red_X>0){
 								//when red ball is on right side
-							  while(web1_red_number != 0){
+							  while(web1_red_number!=0 && web1_red_Z<0.5 && web2_blue_number=0 && collection !=3){
 								//move left and go forward
 								cout<<"open loop moving left"<<endl;
 								move_left();
@@ -656,10 +660,10 @@ int main(int argc, char **argv)
 		 	 				  sleep_count(t);
 					 			 }
 					      float k = 0;
-					      while(k<0.8){
+					      while(k<1){
 									//go forward for a while
 									data[0] = 0;
-							    data[1] = 1;
+							    data[1] = 0.7;
 									data[4] = 0;
 									data[5] = 0;
 									suction_check();
@@ -670,10 +674,10 @@ int main(int argc, char **argv)
 								}
 								//turn CW for a while
 								k=0;
-								while(k<1){
+								while(k<0.5){
 									data[0] = 0;
 									data[1] = 0;
-									data[4] = 1;
+									data[4] = 0.3;
 									data[5] = 0;
 									suction_check();
 									write(c_socket, data, sizeof(data));
@@ -685,7 +689,7 @@ int main(int argc, char **argv)
 
 						 else{
 							 //when red ball is on left side
-							 while(web1_red_number != 0){
+							 while(web1_red_number != 0 && web1_red_Z<0.5 && web2_blue_number=0 && collection !=3){
 							 //move right and go forward
 							 cout<<"open loop moving right"<<endl;
 							 move_right();
@@ -693,10 +697,10 @@ int main(int argc, char **argv)
 			 				 sleep_count(t);
 					}
 							 float k = 0;
-							 while(k<0.8){
+							 while(k<1){
 								 //go forward for a while
 								 data[0] = 0;
-								 data[1] = 1;
+								 data[1] = 0.7;
 								 data[4] = 0;
 								 data[5] = 0;
 								 suction_check();
