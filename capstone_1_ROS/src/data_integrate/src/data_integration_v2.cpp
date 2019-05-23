@@ -484,7 +484,7 @@ void release(){
           bool a = true;
           while(web2_green_number==0 && a){
             ros::spinOnce();
-            ros::Duration(0.025).sleep();
+            sleep_count(t);
             if(web1_green_number <2){
               turn_CCW(0.25);
             }
@@ -493,14 +493,14 @@ void release(){
                 while(web1_green_X_average>0.6 && web1_green_number>=2 && web2_green_number ==0){
                   turn_CW(0.25);
                   ros::spinOnce();
-                  ros::Duration(t).sleep();
+                  sleep_count(t);
                 }
               }
              else if(web1_green_X_average < -1.3){
                while(web1_green_X_average<-0.6 && web1_green_number>=2 && web2_green_number ==0){
                  turn_CCW(0.25);
                  ros::spinOnce();
-                 ros::Duration(t).sleep();
+                 sleep_count(t);
                }
              }
              else{
@@ -518,7 +518,7 @@ void release(){
          // go to closest
          while(ros::ok()){
            ros::spinOnce();
-           ros::Duration(0.025).sleep();
+           sleep_count(t);
            if (web2_green_number!=0){
                cout<<"web2 greenball detected"<<web2_green_number<<endl;
                cout<<"value of leftright="<<leftright<<endl;
