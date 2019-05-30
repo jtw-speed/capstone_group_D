@@ -62,12 +62,16 @@ float web1_green_Z_array[20];//z position array of green balls
 float web1_green_Z=-100;//z position of green ball
 float web1_green_X_min;//x value of green ball at the very left
 float web1_green_X_max;//x value of green ball at the very right
-float web1_green_Z_min;//z  value of closest green ball
+float web1_green_Y_closest;//y value of closest green ball
 float web1_green_X_closest;//x value of closest green ball
+float web1_green_Z_closest;
 float web1_green_X_target;//x value of targeted green ball - one that robot should follow
 float web1_green_X_average;//average x value of green balls
 float web1_green_Y_left;
 float web1_green_Y_right;
+//float web1_center=0.18;
+float web1_center=0;
+
 
 // webcam2 global variables
 int web2_red_number=0; //number of red balls
@@ -85,6 +89,12 @@ float web2_green_X_max;//x position of green ball at the very right
 float web2_green_X_min;//x position of green ball at the very left
 float web2_green_X_array[20];//x position array of green balls
 float web2_green_Z_array[20];//z positon array of green balls
+//float web2_center=0.1;
+float web2_center=0;
+
+float insurance =0;
+
+bool insurance_tf = false;
 
 int leftright = -1; //when left: 0 when right: 1 - value to decide whether the closest green ball is left or right at releasing part
 
@@ -148,7 +158,8 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 		web1_red_Y = -100;
 	  web1_red_Z = 100;
 	  web1_green_X = -100;
-	  web1_green_Z = -100;
+	  web1_green_Y = -100;
+		web1_green_Z = 100;
 
 	  // assigning number of balls
     web1_blue_number = position_modify1->b_size;
@@ -176,8 +187,9 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 		for(int i = 0; i < web1_green_number; i++)
 		{
 				web1_green_X_array[i] = position_modify1->g_img_x[i];
+				web1_green_Y_array[i] = position_modify1->g_img_y[i];
 				web1_green_Z_array[i] = position_modify1->g_img_z[i];
-		cout<<"web1 green circle("<<i<<"):x="<<web1_green_X_array[i]<<", z="<<web1_green_Z_array[i]<<endl;			//[groupD] for check
+		cout<<"web1 green circle("<<i<<"):x="<<web1_green_X_array[i]<<", y="<<web1_green_Y_array[i]<<", z="<<web1_green_Z_array[i]<<endl;			//[groupD] for check
 		}
 
 		//assigning x, y, z position of closest red ball
@@ -196,13 +208,19 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 		cout<<"callback 1 end"<<endl;
 
 		//assigning x, z position of green ball when only 1 green ball detected
-		web1_green_Z_min = web1_green_Z_array[0];
+		web1_green_Y_closest = web1_green_Y_array[0];
 		web1_green_X_closest = web1_green_X_array[0];
+		web1_green_Z_closest = web1_green_Z_array[0];
 
-    //assigning x, z position of closest green ball when more than 1 green balls detected
+    //assigning x, y position of closest green ball when more than 1 green balls detected
 		for(int i=1; i<web1_green_number; i++){
-				if(web1_green_Z_min > web1_green_Z_array[i]){
-					web1_green_Z_min = web1_green_Z_array[i];
+				if(web1_green_Y_closest < web1_green_Y_array[i]){
+					web1_green_Y_closest = web1_green_Y_array[i];
+				}
+		}
+		for(int i=1; i<web1_green_number; i++){
+				if(web1_green_Z_closest > web1_green_Z_array[i]){
+					web1_green_Z_closest = web1_green_Z_array[i];
 					web1_green_X_closest = web1_green_X_array[i];
 				}
 		}
@@ -210,8 +228,6 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
    //assigning same x position as left and right green ball  when only 1 green ball detected
 		web1_green_X_min = web1_green_X_array[0];
 		web1_green_X_max = web1_green_X_array[0];
-
-
 
   //assigning x value of green ball at the very left and very right
 		for(int i=1; i<web1_green_number; i++){
@@ -346,7 +362,6 @@ void suction_check(){
 }
 
 void sleep_count(float sleeprate){
-
 	ros::Duration(sleeprate).sleep();
 	suc = suc + sleeprate;
 	cout<<"suc ="<<suc<<endl;
@@ -355,14 +370,20 @@ void sleep_count(float sleeprate){
 
   //recognize a ball collected, 0.5sec after blue ball disappears from webcam2 with suction_switch on
 	if(collection<2){
-		if(0.7<=suc && suction_switch ==1){
-			collection = collection + 1;
-			suction_switch = 0;
-			cout<<"collected a ball!"<<endl;
-	}
- }
+		if(0.6<=suc && suction_switch ==1){
+				collection = collection + 1;
+				suction_switch =0;
+				cout <<"collected 2 balls"<<endl;
+			// }
+			// else{
+			// 	collection = collection + 1;
+			// 	suction_switch = 0;
+			// 	cout<<"collected a ball!"<<endl;
+			// }
+				}
+			 }
   else{
-		if(0.3<=suc && suction_switch ==1){
+		if(0.1<=suc && suction_switch ==1){
 			collection = collection + 1;
 			suction_switch = 0;
 			cout<<"collected a ball!"<<endl;
@@ -464,22 +485,22 @@ void move_right(float v){
 }
 
 void pick_up(){
-	suction_switch =1;//turn on suction_switch when entering pick_up step - in order to count ball collected
+	suction_switch = 1;//turn on suction_switch when entering pick_up step - in order to count ball collected
   suc = 0;//initializing suc in order to turn on suction motor
 
   cout<<"void starting pikcup"<<endl;
 
 	//adjusting direction towards blue ball
-	if(web2_blue_X>0.8){//if x position of blue ball is over 1
-	 while(web2_blue_X>0.5 && web2_blue_number != 0){//turn CW until x positoin of blue ball is less than 0.6
-		 turn_CW(0.3);
+	if(web2_blue_X>0.8+web2_center){//if x position of blue ball is over 1
+	 while(web2_blue_X>0.5+web2_center && web2_blue_number != 0){//turn CW until x positoin of blue ball is less than 0.6
+		 turn_CW(0.28);
 		 ros::spinOnce();
 		 ros::Duration(t).sleep();
 	 }
  }
-	else if(web2_blue_X<-0.8){//if x position of blue ball is less than -1
-	 while(web2_blue_X<-0.5 && web2_blue_number != 0){//turn CCW until x position of blue ball is over -0.6
-		turn_CCW(0.3);
+	else if(web2_blue_X<-0.8+web2_center){//if x position of blue ball is less than -1
+	 while(web2_blue_X<-0.5+web2_center && web2_blue_number != 0){//turn CCW until x position of blue ball is over -0.6
+		turn_CCW(0.28);
 		ros::spinOnce();
 		ros::Duration(t).sleep();
 		}
@@ -502,23 +523,23 @@ void release(){
             sleep_count(t);
             if(web1_green_number <2){//when less then 2 green balls are detected in webcam1
 							if(release_direction == 0){//turn CCW when green ball is detected while looking for last blue ball
-								turn_CCW(0.5);
+								turn_CCW(0.4);
 							}
               else{//turn CW when green ball is not detected
-								turn_CW(0.5);
+								turn_CW(0.4);
 							}
             }
             else{ //when 2 green balls are detected in webcam1
-              if(web1_green_X_average > 1.3){//when average x position of 2 green balls is over 1.3
+              if(web1_green_X_average > 1.3+web1_center){//when average x position of 2 green balls is over 1.3
 								//
-                while(web1_green_X_average>0.6 && web1_green_number>=2 && web2_green_number ==0){
+                while(web1_green_X_average>0.6+web1_center && web1_green_number>=2 && web2_green_number ==0){
                   turn_CW(0.35);
                   ros::spinOnce();
                   sleep_count(t);
                 }
               }
-             else if(web1_green_X_average < -1.3){
-               while(web1_green_X_average <-0.6 && web1_green_number>=2 && web2_green_number ==0){
+             else if(web1_green_X_average < -1.3+web1_center){
+               while(web1_green_X_average <-0.6+web1_center && web1_green_number>=2 && web2_green_number ==0){
                  turn_CCW(0.35);
                  ros::spinOnce();
                  sleep_count(t);
@@ -529,6 +550,8 @@ void release(){
              }
            }
          }
+
+
          // decide closest ball (left? right?)
          if(abs(web1_green_X_min-web1_green_X_closest)<0.05){
              leftright = 0;   // left = closest.
@@ -536,10 +559,36 @@ void release(){
          else{
              leftright = 1;   // right = closest.
          }
+
+				 bool b = true;
          // go to closest
          while(ros::ok()){
            ros::spinOnce();
            sleep_count(t);
+					 cout<<"leftright is"<<leftright<<endl;
+					 cout<<"leftright is"<<leftright<<endl;
+					 cout<<"leftright is"<<leftright<<endl;
+					 cout<<"leftright is"<<leftright<<endl;
+					 cout<<"leftright is"<<leftright<<endl;
+           cout<<"web1_green_Y_closest is "<<web1_green_Y_closest<<endl;
+					 cout<<"web1_green_Y_closest is "<<web1_green_Y_closest<<endl;
+					 cout<<"web1_green_Y_closest is "<<web1_green_Y_closest<<endl;
+					 cout<<"web1_green_Y_closest is "<<web1_green_Y_closest<<endl;
+					 cout<<"web1_green_Y_closest is "<<web1_green_Y_closest<<endl;
+					 if (web1_green_Y_closest>1.3 && b){
+						 if(abs(web1_green_X_min-web1_green_X_closest)<0.05){
+		             leftright = 0;   // left = closest.
+		         }
+		         else{
+		             leftright = 1;   // right = closest.
+		         }
+						 // int p=0;
+						 // while(p < 20){
+							//  cout<<p<<endl;
+							//  p++;
+						 // }
+					 }
+					 b = false;
            if (web2_green_number!=0){
                cout<<"web2 greenball detected"<<web2_green_number<<endl;
                cout<<"value of leftright="<<leftright<<endl;
@@ -547,11 +596,11 @@ void release(){
                if(web2_green_Y > 2.7){
                    if (leftright == 0){//when green ball was left ball
                      while(web2_green_number != 0 && web2_green_X_max-web2_green_X_min<400){
-                       move_right(0.6);
+                       move_right(0.4);
                        ros::spinOnce();
                        sleep_count(t);
                      }
-                     for(float k=0; k<0.8; k=k+t){
+                     for(float k=0; k<2; k=k+t){
                       data[20]=1;
                       data[0]=0;
                       data[1]=0;
@@ -566,12 +615,12 @@ void release(){
                    }
                    else if(leftright ==1){//when green ball was right ball
                      while(web2_green_number != 0 && web2_green_X_max-web2_green_X_min<400){
-                       move_left(0.6);
+                       move_left(0.35);
                        ros::spinOnce();
                        sleep_count(t);
                      }
-                     for(float k=0; k<0.8; k=k+t){
-                      data[20]=1;
+                     for(float k=0; k<2; k=k+t){
+                        data[20]=1;
                         data[0]=0;
                         data[1]=0;
                         data[4]=0;
@@ -594,15 +643,15 @@ void release(){
            }
 
            else{//web2_green_number=0
-             if(web1_green_X_target > 1.3){ //when closest green ball is on right side
-                 while(web1_green_X_target > 0.8 && web1_green_number != 0 && web2_green_number ==0){
+             if(web1_green_X_target+web1_center > 1){ //when closest green ball is on right side
+                 while(web1_green_X_target+web1_center > 0.7 && web1_green_number != 0 && web2_green_number ==0){
                    turn_CW(0.35);
                    ros::spinOnce();
                    sleep_count(t);
                  }
              }
-             else if(web1_green_X_target < -1.3){
-                 while(web1_green_X_target <-0.8 && web1_green_number != 0 && web2_green_number ==0){
+             else if(web1_green_X_target < -1+web1_center){
+                 while(web1_green_X_target <-0.7+web1_center && web1_green_number != 0 && web2_green_number ==0){
                    turn_CCW(0.35);
                    ros::spinOnce();
                    sleep_count(t);
@@ -659,22 +708,31 @@ int main(int argc, char **argv)
 				pick_up();
 			 }
 			 else{//web2_blue_number==0
-				if(web1_blue_X>1.3){
+				if(web1_blue_X>1.3+web1_center){
 				 // turn
-				 while(web1_blue_X>0.9 && web2_blue_number==0 && collection < 3){
+				 while(web1_blue_X>1.1+web1_center && web2_blue_number==0 && collection < 3){
 					 turn_CW(0.7);
 					 cout<<"turning CW"<<endl;
 					 ros::spinOnce();
 	 				 sleep_count(t);
 				 }
 			}
-				else if(web1_blue_X<-1.3){
-				 while(web1_blue_X<-0.9 && web2_blue_number==0 && collection < 3){
+				else if(web1_blue_X<-1.3+web1_center){
+					insurance = 0;
+				 while(web1_blue_X<-1.1+web1_center && web2_blue_number==0 && collection < 3){
 					if(collection == 2 && web1_green_number != 0 && web1_blue_X == -100){
 						release_direction = 1;
 					}
 					if(web1_blue_number == 0){
 						turn_CCW(1);
+						insurance = insurance+t;
+						cout<<"insurance is "<<insurance<<endl;
+						cout<<"insurance is "<<insurance<<endl;
+						cout<<"insurance is "<<insurance<<endl;
+						cout<<"insurance is "<<insurance<<endl;
+						if(insurance > 4){
+							suction_switch=1;
+						}
 					}
 					else{
 						turn_CCW(0.7);
@@ -687,7 +745,7 @@ int main(int argc, char **argv)
 				else{//web1_blue_X at middle
 					 if(web1_red_Y > 3.5){
 						// avoid start
-							if(web1_red_X>0){
+							if(web1_red_X>0+web1_center){
 								//when red ball is on right sideu
 							  while(web1_red_number!=0 && web1_red_Y > 3 && web2_blue_number==0 && collection < 3){
 								//move left and go forward
@@ -697,16 +755,22 @@ int main(int argc, char **argv)
 		 	 				  sleep_count(t);
 					 			 }
 					      float k = 0;
-					      while(k<0.8){
+					      // while(k<0.8 && web1_red_Y < 3.5){
+								// 	//go forward for a while
+								// 	move_forward(1);
+								// 	ros::spinOnce();
+								// 	sleep_count(t);
+								// 	k=k+t;
+								// }
+								while(k<0.8){
 									//go forward for a while
 									data[0] = 0;
-							    data[1] = 1;
-									data[4] = 0;
-									data[5] = 0;
+						 	 	  data[1] = 1;
+						 	 	  data[4] = 0;
+						 	 	  data[5] = 0;
+									sleep_count(t);
 									suction_check();
 									write(c_socket, data, sizeof(data));
-									cout<<"open loop moving forward"<<endl;
-									sleep_count(t);
 									k=k+t;
 								}
 								//turn CW for a while
@@ -734,16 +798,22 @@ int main(int argc, char **argv)
 			 				 sleep_count(t);
 					}
 							 float k = 0;
+							 // while(k<0.8 && web1_red_Y < 3.5){
+								//  //go forward for a while
+								//  move_forward(1);
+								//  ros::spinOnce();
+								//  sleep_count(t);
+								//  k=k+t;
+							 // }
 							 while(k<0.8){
 								 //go forward for a while
 								 data[0] = 0;
 								 data[1] = 1;
 								 data[4] = 0;
 								 data[5] = 0;
+								 sleep_count(t);
 								 suction_check();
 								 write(c_socket, data, sizeof(data));
-								 cout<<"open loop moving forward"<<endl;
-								 sleep_count(t);
 								 k=k+t;
 							 }
 					 }
