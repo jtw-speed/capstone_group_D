@@ -37,9 +37,6 @@ using namespace std;
 
 boost::mutex map_mutex;
 
-
-float t = 0.025;//duration time
-
 // webcam1 global variables
 int web1_blue_number=0;//number of blue balls detected
 int web1_red_number=0;//number of red balls detected
@@ -88,8 +85,11 @@ float web2_green_X_max;//x position of green ball at the very right
 float web2_green_X_min;//x position of green ball at the very left
 float web2_green_X_array[20];//x position array of green balls
 float web2_green_Z_array[20];//z positon array of green balls
-
 float web2_center=0;//x position of center of webcam2 - for calibration
+
+
+// etc 	variables
+float t = 0.025;//duration time
 
 float insurance =0;//variable needed to move to release mode when no blue ball found
 
