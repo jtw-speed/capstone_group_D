@@ -48,7 +48,7 @@ void on_low_s_thresh_trackbar_green(int, void *);
 void on_high_s_thresh_trackbar_green(int, void *);
 void on_low_v_thresh_trackbar_green(int, void *);
 void on_high_v_thresh_trackbar_green(int, void *);
-int low_h_g=50, low_s_g=84, low_v_g=100;
+int low_h_g=50, low_s_g=94, low_v_g=100;
 int high_h_g=100, high_s_g=255, high_v_g=255;
 
 
@@ -146,7 +146,7 @@ int main(int argc, char **argv)
 //   moveWindow("Canny Edge for Blue Ball", 500,730);
 //   moveWindow("Canny Edge for Green Ball", 1000,730);
 
-   moveWindow("Result", 1000, 0);
+   moveWindow("Result", 500, 0);
 
 
    // Trackbars to set thresholds for HSV values : Red ball
@@ -192,8 +192,22 @@ int main(int argc, char **argv)
        {
        frame.at<Vec3b>(i, j) = Vec3b(0,0,0);
         }
-    }
+     }
 
+    for (int i =100 ; i<470 ;i++)
+    {
+      for (int j=0 ; j<50 ; j++)
+      {
+      frame.at<Vec3b>(i, j) = Vec3b(0,0,0);
+       }
+   }
+   for (int i = 100 ; i<470 ;i++)
+   {
+     for (int j=590 ; j<640 ; j++)
+     {
+     frame.at<Vec3b>(i, j) = Vec3b(0,0,0);
+      }
+  }
 
      if(frame.empty())
         break;
@@ -242,112 +256,121 @@ int main(int argc, char **argv)
      vector<float>radius_g( contours_g.size() );
 
 
-     msg.r_size = contours_r.size(); //adjust the size of message. (*the size of message is varying depending on how many circles are detected)
-     msg.r_img_x.resize(contours_r.size());  //adjust the size of array
-     msg.r_img_y.resize(contours_r.size());  //adjust the size of array
-     msg.r_img_z.resize(contours_r.size());
-
-     msg.b_size =contours_b.size(); //adjust the size of message. (*the size of message is varying depending on how many circles are detected)
-     msg.b_img_x.resize(contours_b.size());  //adjust the size of array
-     msg.b_img_y.resize(contours_b.size());  //adjust the size of array
-     msg.b_img_z.resize(contours_b.size());
-
-     msg.g_size =contours_g.size(); //adjust the size of message. (*the size of message is varying depending on how many circles are detected)
-     msg.g_img_x.resize(contours_g.size());  //adjust the size of array
-     msg.g_img_y.resize(contours_g.size());  //adjust the size of array
-     msg.g_img_z.resize(contours_g.size());
-
-
-     for( size_t i = 0; i < contours_r.size(); i++ ){
-           approxPolyDP( contours_r[i], contours_r_poly[i], 3, true );
-           minEnclosingCircle( contours_r_poly[i], center_r[i], radius_r[i] );
-     }
-     for( size_t i = 0; i < contours_b.size(); i++ ){
-           approxPolyDP( contours_b[i], contours_b_poly[i], 3, true );
-           minEnclosingCircle( contours_b_poly[i], center_b[i], radius_b[i] );
-     }
-     for( size_t i = 0; i < contours_g.size(); i++ ){
-           approxPolyDP( contours_g[i], contours_g_poly[i], 3, true );
-           minEnclosingCircle( contours_g_poly[i], center_g[i], radius_g[i] );
-     }
 
 
 
-     for( size_t i = 0; i< contours_r.size(); i++ ){
-         if (radius_r[i] > iMin_tracking_ball_size){
-             Scalar color = Scalar( 0, 0, 255);
-            drawContours( hsv_frame_red_canny, contours_r_poly, (int)i, color, 1, 8, vector<Vec4i>(), 0, Point() );
-             vector<float> ball_position_r;
-             ball_position_r = pixel2point(center_r[i], radius_r[i]);
-             float isx = ball_position_r[0];
-             float isy = ball_position_r[1];
-             float isz = ball_position_r[2];
+          msg.r_size = contours_r.size(); //adjust the size of message. (*the size of message is varying depending on how many circles are detected)
+          msg.r_img_x.resize(contours_r.size());  //adjust the size of array
+          msg.r_img_y.resize(contours_r.size());  //adjust the size of array
+          msg.r_img_z.resize(contours_r.size());
+          msg.r_radius.resize(contours_r.size());
+
+          msg.b_size =contours_b.size(); //adjust the size of message. (*the size of message is varying depending on how many circles are detected)
+          msg.b_img_x.resize(contours_b.size());  //adjust the size of array
+          msg.b_img_y.resize(contours_b.size());  //adjust the size of array
+          msg.b_img_z.resize(contours_b.size());
+          msg.b_radius.resize(contours_b.size());
+
+          msg.g_size =contours_g.size(); //adjust the size of message. (*the size of message is varying depending on how many circles are detected)
+          msg.g_img_x.resize(contours_g.size());  //adjust the size of array
+          msg.g_img_y.resize(contours_g.size());  //adjust the size of array
+          msg.g_img_z.resize(contours_g.size());
+          msg.g_radius.resize(contours_g.size());
 
 
-             // isx isy isz: ball's position
-             msg.r_img_x[i] = isx;
-             msg.r_img_y[i] = isy;
-             msg.r_img_z[i] = isz;
-
-             string sx = floatToString(isx);
-             string sy = floatToString(isy);
-             string sz = floatToString(isz);
-             text = "Red ball:" + sx + "," + sy + "," + sz;
-             putText(result, text, center_r[i],2,1,Scalar(0,255,0),fontScale);
-             circle( result, center_r[i], (int)radius_r[i], color, 2, 8, 0 );
+          for( size_t i = 0; i < contours_r.size(); i++ ){
+                approxPolyDP( contours_r[i], contours_r_poly[i], 3, true );
+                minEnclosingCircle( contours_r_poly[i], center_r[i], radius_r[i] );
           }
-      }
-      for( size_t i = 0; i< contours_b.size(); i++ ){
-         if(radius_b[i] > iMin_tracking_ball_size){
-             Scalar color = Scalar( 255, 0, 0);
-             drawContours( hsv_frame_blue_canny, contours_b_poly, (int)i, color, 1, 8, vector<Vec4i>(), 0, Point() );
-             vector<float> ball_position_b;
-             ball_position_b = pixel2point(center_b[i], radius_b[i]);
-             float isx = ball_position_b[0];
-             float isy = ball_position_b[1];
-             float isz = ball_position_b[2];
+          for( size_t i = 0; i < contours_b.size(); i++ ){
+                approxPolyDP( contours_b[i], contours_b_poly[i], 3, true );
+                minEnclosingCircle( contours_b_poly[i], center_b[i], radius_b[i] );
+          }
+          for( size_t i = 0; i < contours_g.size(); i++ ){
+                approxPolyDP( contours_g[i], contours_g_poly[i], 3, true );
+                minEnclosingCircle( contours_g_poly[i], center_g[i], radius_g[i] );
+          }
 
 
-            // isx isy isz: ball's position
-             msg.b_img_x[i] = isx;
-             msg.b_img_y[i] = isy;
-             msg.b_img_z[i] = isz;
+
+          for( size_t i = 0; i< contours_r.size(); i++ ){
+              if (radius_r[i] > iMin_tracking_ball_size){
+                  Scalar color = Scalar( 0, 0, 255);
+                 drawContours( hsv_frame_red_canny, contours_r_poly, (int)i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+                  vector<float> ball_position_r;
+                  ball_position_r = pixel2point(center_r[i], radius_r[i]);
+                  float isx = ball_position_r[0];
+                  float isy = ball_position_r[1];
+                  float isz = ball_position_r[2];
 
 
-             string sx = floatToString(isx);
-             string sy = floatToString(isy);
-             string sz = floatToString(isz);
-             //text = "Blue ball:" + sx + "," + sy + "," + sz;
-             text = "Blue ball:" + sz;
-             putText(result, text, center_b[i],2,1,Scalar(0,255,0),fontScale);
-             circle( result, center_b[i], (int)radius_b[i], color, 2, 8, 0 );
-         }
-     }
-     for( size_t i = 0; i< contours_g.size(); i++ ){
-        if(radius_g[i] > iMin_tracking_ball_size){
-            Scalar color = Scalar( 0, 255, 0);
-            drawContours( hsv_frame_green_canny, contours_g_poly, (int)i, color, 1, 8, vector<Vec4i>(), 0, Point() );
-            vector<float> ball_position_g;
-            ball_position_g = pixel2point(center_g[i], radius_g[i]);
-            float isx = ball_position_g[0];
-            float isy = ball_position_g[1];
-            float isz = ball_position_g[2];
+                  // isx isy isz: ball's position
+                  msg.r_img_x[i] = isx;
+                  msg.r_img_y[i] = isy;
+                  msg.r_img_z[i] = isz;
+                 msg.r_radius[i] = radius_r[i]/100;
+
+                  string sx = floatToString(isx);
+                  string sy = floatToString(isy);
+                  string sz = floatToString(isz);
+                  text = "Red ball:" + sx + "," + sy + "," + sz;
+                  putText(result, text, center_r[i],2,1,Scalar(0,255,0),fontScale);
+                  circle( result, center_r[i], (int)radius_r[i], color, 2, 8, 0 );
+               }
+           }
+           for( size_t i = 0; i< contours_b.size(); i++ ){
+              if(radius_b[i] > iMin_tracking_ball_size){
+                  Scalar color = Scalar( 255, 0, 0);
+                  drawContours( hsv_frame_blue_canny, contours_b_poly, (int)i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+                  vector<float> ball_position_b;
+                  ball_position_b = pixel2point(center_b[i], radius_b[i]);
+                  float isx = ball_position_b[0];
+                  float isy = ball_position_b[1];
+                  float isz = ball_position_b[2];
 
 
-           // isx isy isz: ball's position
-            msg.g_img_x[i] = isx;
-            msg.g_img_y[i] = isy;
-            msg.g_img_z[i] = isz;
+                 // isx isy isz: ball's position
+                  msg.b_img_x[i] = isx;
+                  msg.b_img_y[i] = isy;
+                  msg.b_img_z[i] = isz;
+                  msg.b_radius[i] = radius_b[i]/100;
+
+                  string sx = floatToString(isx);
+                  string sy = floatToString(isy);
+                  string sz = floatToString(isz);
+                  //text = "Blue ball:" + sx + "," + sy + "," + sz;
+                  text = "Blue ball:" + sz;
+                  putText(result, text, center_b[i],2,1,Scalar(0,255,0),fontScale);
+                  circle( result, center_b[i], (int)radius_b[i], color, 2, 8, 0 );
+              }
+          }
+          for( size_t i = 0; i< contours_g.size(); i++ ){
+             if(radius_g[i] > iMin_tracking_ball_size){
+                 Scalar color = Scalar( 0, 255, 0);
+                 drawContours( hsv_frame_green_canny, contours_g_poly, (int)i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+                 vector<float> ball_position_g;
+                 ball_position_g = pixel2point(center_g[i], radius_g[i]);
+                 float isx = ball_position_g[0];
+                 float isy = ball_position_g[1];
+                 float isz = ball_position_g[2];
 
 
-            string sx = floatToString(isx);
-            string sy = floatToString(isy);
-            string sz = floatToString(isz);
-            text = "Green ball:" + sx + "," + sy + "," + sz;
-            putText(result, text, center_g[i],2,1,Scalar(0,255,0),fontScale);
-            circle( result, center_g[i], (int)radius_g[i], color, 2, 8, 0 );
-        }
-     }
+                // isx isy isz: ball's position
+                 msg.g_img_x[i] = isx;
+                 msg.g_img_y[i] = isy;
+                 msg.g_img_z[i] = isz;
+                msg.g_radius[i] = radius_g[i]/100;
+
+                 string sx = floatToString(isx);
+                 string sy = floatToString(isy);
+                 string sz = floatToString(isz);
+                 text = "Green ball:" + sx + "," + sy + "," + sz;
+                 putText(result, text, center_g[i],2,1,Scalar(0,255,0),fontScale);
+                 circle( result, center_g[i], (int)radius_g[i], color, 2, 8, 0 );
+             }
+          }
+
+
 
 
      // Show the frames
