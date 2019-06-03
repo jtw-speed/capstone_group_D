@@ -48,7 +48,7 @@ void on_low_s_thresh_trackbar_green(int, void *);
 void on_high_s_thresh_trackbar_green(int, void *);
 void on_low_v_thresh_trackbar_green(int, void *);
 void on_high_v_thresh_trackbar_green(int, void *);
-int low_h_g=50, low_s_g=74, low_v_g=100;
+int low_h_g=50, low_s_g=64, low_v_g=80;
 int high_h_g=80, high_s_g=255, high_v_g=255;
 
 // Declaration of functions that changes data types
@@ -84,7 +84,7 @@ float distortion_data[5] = {0.084217, -0.120368, 0.001346, -0.002229, 0};
 double fontScale = 0.3;
 int thickness = 3;
 String text ;
-int iMin_tracking_ball_size = 7;
+int iMin_tracking_ball_size = 5;
 
 Mat buffer(320,240,CV_8UC1);
 // Declare publsiher
@@ -270,31 +270,31 @@ int main(int argc, char **argv)
 
 
 
-     for( size_t i = 0; i< contours_r.size(); i++ ){
-         if (radius_r[i] > iMin_tracking_ball_size){
-             Scalar color = Scalar( 0, 0, 255);
-            drawContours( hsv_frame_red_canny, contours_r_poly, (int)i, color, 1, 8, vector<Vec4i>(), 0, Point() );
-             vector<float> ball_position_r;
-             ball_position_r = pixel2point(center_r[i], radius_r[i]);
-             float isx = ball_position_r[0];
-             float isy = ball_position_r[1];
-             float isz = ball_position_r[2];
-
-
-             // isx isy isz: ball's position
-             msg.r_img_x[i] = isx;
-             msg.r_img_y[i] = isy;
-             msg.r_img_z[i] = isz;
-            msg.r_radius[i] = radius_r[i]/100;
-
-             string sx = floatToString(isx);
-             string sy = floatToString(isy);
-             string sz = floatToString(isz);
-             text = "Red ball:" + sx + "," + sy + "," + sz;
-             putText(result, text, center_r[i],2,1,Scalar(0,255,0),fontScale);
-             circle( result, center_r[i], (int)radius_r[i], color, 2, 8, 0 );
-          }
-      }
+     // for( size_t i = 0; i< contours_r.size(); i++ ){
+     //     if (radius_r[i] > iMin_tracking_ball_size){
+     //         Scalar color = Scalar( 0, 0, 255);
+     //        drawContours( hsv_frame_red_canny, contours_r_poly, (int)i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+     //         vector<float> ball_position_r;
+     //         ball_position_r = pixel2point(center_r[i], radius_r[i]);
+     //         float isx = ball_position_r[0];
+     //         float isy = ball_position_r[1];
+     //         float isz = ball_position_r[2];
+     //
+     //
+     //         // isx isy isz: ball's position
+     //         msg.r_img_x[i] = isx;
+     //         msg.r_img_y[i] = isy;
+     //         msg.r_img_z[i] = isz;
+     //        msg.r_radius[i] = radius_r[i]/100;
+     //
+     //         string sx = floatToString(isx);
+     //         string sy = floatToString(isy);
+     //         string sz = floatToString(isz);
+     //         text = "Red ball:" + sx + "," + sy + "," + sz;
+     //         putText(result, text, center_r[i],2,1,Scalar(0,255,0),fontScale);
+     //         circle( result, center_r[i], (int)radius_r[i], color, 2, 8, 0 );
+     //      }
+     //  }
       for( size_t i = 0; i< contours_b.size(); i++ ){
          if(radius_b[i] > iMin_tracking_ball_size){
              Scalar color = Scalar( 255, 0, 0);
