@@ -145,8 +145,6 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 {
 	  map_mutex.lock();//do nothing else until camera1_Callback finishes
 
-    cout<<"callback 1 start"<<endl;
-
 		//initializing position value of balls
 	  web1_blue_X = -100;
     web1_blue_Z = -100;
@@ -173,14 +171,6 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 				}
     }
 
-		// assigning x,z position of green balls
-		for(int i = 0; i < web1_green_number; i++)
-		{
-				web1_green_X_array[i] = position_modify1->g_img_x[i];
-				web1_green_Y_array[i] = position_modify1->g_img_y[i];
-				web1_green_Z_array[i] = position_modify1->g_img_z[i];
-		}
-
 		//assigning x, y, z position of closest red ball
 		for(int i = 0; i < web1_red_number; i++)
 		{
@@ -192,6 +182,14 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 					web1_red_Z = position_modify1->r_img_z[i];
 					web1_red_Y = position_modify1->r_img_y[i];
 				}
+		}
+
+		// assigning x,y,z positions of green balls
+		for(int i = 0; i < web1_green_number; i++)
+		{
+				web1_green_X_array[i] = position_modify1->g_img_x[i];
+				web1_green_Y_array[i] = position_modify1->g_img_y[i];
+				web1_green_Z_array[i] = position_modify1->g_img_z[i];
 		}
 
 		//assigning x, z position of green ball when only 1 green ball detected
@@ -258,8 +256,6 @@ void camera2_Callback(const core_msgs::ball_position::ConstPtr& position_modify2
 {
 	  map_mutex.lock();//do nothing until camear2_Callback finishes
 
-		cout<<"callback 2 start"<<endl;
-
 		//initializing position values of balls
 		web2_red_X = -100;
 		web2_blue_X = -100;
@@ -315,7 +311,6 @@ void camera2_Callback(const core_msgs::ball_position::ConstPtr& position_modify2
 				}
 		}
 
-    cout<<"callback 2 end"<<endl;
 
 		map_mutex.unlock();
 }
@@ -520,8 +515,8 @@ void release(){
            sleep_count(t);
 
 					 //adjusting direction towards green ball
-					 if (web1_green_Y_closest>1.8 && b){
-						 if(abs(web1_green_X_min-web1_green_X_closest)<0.05){
+					 if (web1_green_Y_closest>1.8 && b){//when green ball is close enough in webcam1
+						 if(abs(web1_green_X_min-web1_green_X_closest)<0.05){//decide whether the ball following right now is left or right ball
 		             leftright = 0;   // left = closest.
 		         }
 		         else{
