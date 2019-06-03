@@ -62,14 +62,13 @@ float web1_green_Z_array[20];//z position array of green balls
 float web1_green_Z=-100;//z position of green ball
 float web1_green_X_min;//x value of green ball at the very left
 float web1_green_X_max;//x value of green ball at the very right
-float web1_green_Y_closest;//y value of closest green ball
 float web1_green_X_closest;//x value of closest green ball
-float web1_green_Z_closest;
+float web1_green_Y_closest;//y value of closest green ball
+float web1_green_Z_closest;//z value of closest green ball
 float web1_green_X_target;//x value of targeted green ball - one that robot should follow
 float web1_green_X_average;//average x value of green balls
-float web1_green_Y_left;
-float web1_green_Y_right;
-//float web1_center=0.18;
+float web1_green_Y_left;//y value of left green ball
+float web1_green_Y_right;//y value of right green ball
 float web1_center=0; // x position of center of webcam1 - for calibration
 
 
@@ -249,7 +248,6 @@ void camera1_Callback(const core_msgs::ball_position::ConstPtr& position_modify1
 		//if not yet decided about leftright, do nothing
 		else{
 		}
-
 
     map_mutex.unlock();
 }
