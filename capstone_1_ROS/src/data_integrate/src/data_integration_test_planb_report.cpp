@@ -53,8 +53,8 @@ float web1_red_Z = 100;//z position of red ball
 int web1_green_number=0;//number of green balls
 float web1_green_X_array[20];//x position array of green balls
 float web1_green_X=-100;//x position of green ball
-float web1_green_Y_array[20];
-float web1_green_Y=100;
+float web1_green_Y_array[20];//y position array of green balls
+float web1_green_Y=100;//y position of green ball
 float web1_green_Z_array[20];//z position array of green balls
 float web1_green_Z=-100;//z position of green ball
 float web1_green_X_min;//x value of green ball at the very left
